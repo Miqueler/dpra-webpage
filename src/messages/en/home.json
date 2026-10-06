@@ -1,15 +1,15 @@
 {
   "hero": {
     "eyebrow": "Democratic Popular Republic of Abril",
-    "title": "ETERNAL GLORY TO ABRIL",
-    "subtitle": "One people. One syllabus. One Abril.",
-    "tagline": "The DPRA ensures every integral is solved in the correct spirit. Enlist, or stand still: the Party watches both options with equal fondness.",
+    "title": "ETERNAL GLORY TO THE DPRA",
+    "subtitle": "One people. One syllabus. One Republic.",
+    "tagline": "The DPRA ensures every integral is solved in the correct spirit. Enlist, or stand still: CASA watches both options with equal fondness.",
     "ctaPrimary": "Enlist",
     "ctaSecondary": "Read the Program"
   },
   "lore": {
     "eyebrow": "A Brief Official History",
-    "paragraph1": "Abril has reigned over the DPRA since before memory, though no one quite recalls when her mandate began, since asking is considered poor taste. Her wisdom extends over every problem set, every Python practical, and every photocopier queue.",
+    "paragraph1": "The Regime has ruled the DPRA since before memory, though no one quite recalls when its mandate began, since asking is considered poor taste. Its wisdom extends over every problem set, every Python practical, and every photocopier queue.",
     "paragraph2": "Officially, the DPRA is nothing more than a modest subsection of CFIS, the programme CASA supervises closely to decide who stays and who returns to an ordinary degree. Unofficially, the DPRA has spent years quietly expanding into the rest of the Mathematics department, one seminar at a time.",
     "paragraph3": "The plan, which no one has seen in writing because none is needed, is simple: first the department, then the faculty, then the world. Until then, every citizen's mission is to study, smile, and not ask questions about what happens in the third-floor meeting room."
   },
@@ -33,6 +33,6 @@
     }
   },
   "closing": {
-    "slogan": "ABRIL IS WATCHING"
+    "slogan": "CASA IS WATCHING"
   }
 }
