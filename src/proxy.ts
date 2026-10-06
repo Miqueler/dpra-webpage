@@ -32,6 +32,9 @@ export default async function middleware(request: NextRequest) {
   return response;
 }
 
+// `auth` is excluded along with `api`: the /auth/* route handlers live outside
+// the [locale] segment, and the locale middleware would otherwise redirect
+// them to /<locale>/auth/*, which does not exist.
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api|auth|_next|_vercel|.*\\..*).*)"],
 };

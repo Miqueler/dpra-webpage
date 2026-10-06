@@ -2,8 +2,8 @@
 
 import { useState, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { hardNavigate } from "@/lib/redirects";
 import { Button } from "@/components/ui/Button";
 
 type Mode = "signin" | "signup" | "forgot";
@@ -17,7 +17,6 @@ const linkClass =
 export function EmailAuthForm() {
   const t = useTranslations("auth.email");
   const locale = useLocale();
-  const router = useRouter();
   const [mode, setMode] = useState<Mode>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,8 +59,7 @@ export function EmailAuthForm() {
           fail(error.code);
           return;
         }
-        router.replace("/profile");
-        router.refresh();
+        hardNavigate(`/${locale}/profile`);
         return;
       }
 
@@ -82,8 +80,7 @@ export function EmailAuthForm() {
           return;
         }
         if (data.session) {
-          router.replace("/profile");
-          router.refresh();
+          hardNavigate(`/${locale}/profile`);
           return;
         }
         setPassword("");
