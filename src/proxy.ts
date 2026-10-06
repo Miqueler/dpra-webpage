@@ -33,5 +33,7 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  // /auth holds the route handlers for login callbacks, email links and
+  // logout. They live outside /[locale], so a locale redirect would 404 them.
+  matcher: ["/((?!api|auth|_next|_vercel|.*\\..*).*)"],
 };
