@@ -34,7 +34,9 @@ Easiest path (no CLI install needed):
    - RPC functions: `grant_coins`, `claim_daily_bonus`, `redeem_invite`, `buy_roll`
 5. Repeat with `supabase/migrations/0002_email_signup.sql` (email sign-up
    support, plus a fix that lets the coin functions above actually move
-   coins). Run the files in number order.
+   coins), then `supabase/migrations/0003_choose_username.sql` (lets
+   citizens pick their username at email sign-up, and checks the format when
+   they change it from their profile). Run the files in number order.
 
 ### Alternative: Supabase CLI
 
