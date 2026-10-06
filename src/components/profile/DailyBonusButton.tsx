@@ -2,10 +2,12 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export function DailyBonusButton({ alreadyClaimed }: { alreadyClaimed: boolean }) {
   const t = useTranslations("auth.profile");
+  const router = useRouter();
   const [claimed, setClaimed] = useState(alreadyClaimed);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -19,6 +21,7 @@ export function DailyBonusButton({ alreadyClaimed }: { alreadyClaimed: boolean }
         setError(error.message);
       } else {
         setClaimed(true);
+        router.refresh();
       }
     });
   }
