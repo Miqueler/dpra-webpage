@@ -150,20 +150,6 @@ create policy "citizens read their own play history"
   to authenticated
   using (user_id = auth.uid());
 
-create policy "citizens read friends' play history"
-  on public.rng_sessions for select
-  to authenticated
-  using (
-    exists (
-      select 1 from public.friendships f
-      where f.status = 'accepted'
-        and (
-          (f.user_id = auth.uid() and f.friend_id = rng_sessions.user_id)
-          or (f.friend_id = auth.uid() and f.user_id = rng_sessions.user_id)
-        )
-    )
-  );
-
 -- Inserts only via the service-role machine ingestion route.
 
 -- ---------------------------------------------------------------------------
@@ -201,6 +187,22 @@ create policy "either side may withdraw"
   on public.friendships for delete
   to authenticated
   using (auth.uid() = user_id or auth.uid() = friend_id);
+
+-- Declared here rather than alongside rng_sessions because it references
+-- friendships, which must exist first.
+create policy "citizens read friends' play history"
+  on public.rng_sessions for select
+  to authenticated
+  using (
+    exists (
+      select 1 from public.friendships f
+      where f.status = 'accepted'
+        and (
+          (f.user_id = auth.uid() and f.friend_id = rng_sessions.user_id)
+          or (f.friend_id = auth.uid() and f.user_id = rng_sessions.user_id)
+        )
+    )
+  );
 
 -- ---------------------------------------------------------------------------
 -- leaderboard view — score only, no coin balances exposed
