@@ -1,15 +1,15 @@
 {
   "hero": {
     "eyebrow": "República Popular Democràtica d'Abril",
-    "title": "GLÒRIA ETERNA A ABRIL",
-    "subtitle": "Un sol poble. Un sol pla d'estudis. Una sola Abril.",
-    "tagline": "La DPRA vetlla perquè cada integral es resolgui amb l'esperit correcte. Allista't o queda't quiet: el Partit observa totes dues opcions amb el mateix amor.",
+    "title": "GLÒRIA ETERNA A LA DPRA",
+    "subtitle": "Un sol poble. Un sol pla d'estudis. Una sola República.",
+    "tagline": "La DPRA vetlla perquè cada integral es resolgui amb l'esperit correcte. Allista't o queda't quiet: CASA observa totes dues opcions amb el mateix amor.",
     "ctaPrimary": "Allista't",
     "ctaSecondary": "Llegeix el Programa"
   },
   "lore": {
     "eyebrow": "Breu Història Oficial",
-    "paragraph1": "Abril regna des de sempre sobre la DPRA, tot i que ningú recorda exactament quan va començar el seu mandat, perquè preguntar-ho es considera de mal gust. La seva saviesa s'estén sobre cada llista de problemes, cada pràctica de Python i cada cua de la fotocopiadora.",
+    "paragraph1": "El Règim regna des de sempre sobre la DPRA, tot i que ningú recorda exactament quan va començar el seu mandat, perquè preguntar-ho es considera de mal gust. La seva saviesa s'estén sobre cada llista de problemes, cada pràctica de Python i cada cua de la fotocopiadora.",
     "paragraph2": "Oficialment, la DPRA no és més que una modesta subsecció del CFIS, el programa que CASA supervisa amb lupa per decidir qui es queda i qui torna al grau de sempre. Extraoficialment, la DPRA porta anys expandint-se amb discreció cap a la resta del departament de Matemàtiques, un seminari a la vegada.",
     "paragraph3": "El pla, que ningú ha vist per escrit perquè no cal, és senzill: primer el departament, després la facultat, després el món. Fins aleshores, la missió de cada ciutadà és estudiar, somriure i no fer preguntes sobre el que passa a la sala de reunions del tercer pis."
   },
@@ -33,6 +33,6 @@
     }
   },
   "closing": {
-    "slogan": "ABRIL ET VIGILA"
+    "slogan": "CASA ET VIGILA"
   }
 }

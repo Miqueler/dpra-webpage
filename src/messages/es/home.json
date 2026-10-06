@@ -1,15 +1,15 @@
 {
   "hero": {
     "eyebrow": "República Popular Democrática de Abril",
-    "title": "GLORIA ETERNA A ABRIL",
-    "subtitle": "Un solo pueblo. Un solo plan de estudios. Una sola Abril.",
-    "tagline": "La DPRA vela por que cada integral se resuelva con el espíritu correcto. Alístate o quédate quieto: el Partido observa ambas opciones con el mismo cariño.",
+    "title": "GLORIA ETERNA A LA DPRA",
+    "subtitle": "Un solo pueblo. Un solo plan de estudios. Una sola República.",
+    "tagline": "La DPRA vela por que cada integral se resuelva con el espíritu correcto. Alístate o quédate quieto: CASA observa ambas opciones con el mismo cariño.",
     "ctaPrimary": "Alístate",
     "ctaSecondary": "Lee el Programa"
   },
   "lore": {
     "eyebrow": "Breve Historia Oficial",
-    "paragraph1": "Abril reina desde siempre sobre la DPRA, aunque nadie recuerda exactamente cuándo empezó su mandato, porque preguntarlo se considera de mal gusto. Su sabiduría se extiende sobre cada lista de problemas, cada práctica de Python y cada cola de la fotocopiadora.",
+    "paragraph1": "El Régimen reina desde siempre sobre la DPRA, aunque nadie recuerda exactamente cuándo empezó su mandato, porque preguntarlo se considera de mal gusto. Su sabiduría se extiende sobre cada lista de problemas, cada práctica de Python y cada cola de la fotocopiadora.",
     "paragraph2": "Oficialmente, la DPRA no es más que una modesta subsección del CFIS, el programa que CASA supervisa con lupa para decidir quién se queda y quién vuelve al grado de siempre. Extraoficialmente, la DPRA lleva años expandiéndose con discreción hacia el resto del departamento de Matemáticas, un seminario a la vez.",
     "paragraph3": "El plan, que nadie ha visto por escrito porque no hace falta, es sencillo: primero el departamento, luego la facultad, luego el mundo. Hasta entonces, la misión de cada ciudadano es estudiar, sonreír y no hacer preguntas sobre lo que ocurre en la sala de reuniones del tercer piso."
   },
@@ -33,6 +33,6 @@
     }
   },
   "closing": {
-    "slogan": "ABRIL TE VIGILA"
+    "slogan": "CASA TE VIGILA"
   }
 }
