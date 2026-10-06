@@ -12,6 +12,7 @@ const ORIGIN = "https://dpra.example.com";
 const EXTERNAL_TARGETS = [
   "https://evil.example/steal",
   "//evil.example/steal",
+  "/\\evil.example/steal",
   "@evil.example/steal",
   ".evil.example/steal",
 ];
@@ -24,6 +25,10 @@ function get(path: string) {
 
 function location(response: Response) {
   return response.headers.get("location");
+}
+
+function expectOnSite(response: Response) {
+  expect(new URL(location(response)!).origin).toBe(ORIGIN);
 }
 
 beforeEach(() => {
@@ -49,20 +54,38 @@ describe("GET /auth/callback (Google login)", () => {
     expect(location(response)).toBe(`${ORIGIN}/ca/login?error=auth`);
   });
 
-  it("returns to the login page when the code is rejected", async () => {
-    supabase.auth.exchangeCodeForSession.mockResolvedValue({
-      error: { message: "bad code" },
-    });
-    const response = await callback(get("/auth/callback?code=abc&next=%2Fen%2Fprofile"));
-    expect(location(response)).toBe(`${ORIGIN}/ca/login?error=auth`);
-  });
+  it.each(["ca", "es", "en"])(
+    "returns to the %s login page when the code is rejected",
+    async (locale) => {
+      supabase.auth.exchangeCodeForSession.mockResolvedValue({
+        error: { message: "bad code" },
+      });
+      const response = await callback(
+        get(`/auth/callback?code=abc&next=%2F${locale}%2Fprofile`),
+      );
+      expect(location(response)).toBe(`${ORIGIN}/${locale}/login?error=auth`);
+    },
+  );
 
   it.each(EXTERNAL_TARGETS)("never redirects off-site to %s", async (target) => {
     const response = await callback(
       get(`/auth/callback?code=abc&next=${encodeURIComponent(target)}`),
     );
-    expect(location(response)).toBe(`${ORIGIN}/ca/profile`);
+    expectOnSite(response);
   });
+
+  it.each(EXTERNAL_TARGETS)(
+    "never redirects off-site to %s when the code is rejected",
+    async (target) => {
+      supabase.auth.exchangeCodeForSession.mockResolvedValue({
+        error: { message: "bad code" },
+      });
+      const response = await callback(
+        get(`/auth/callback?code=abc&next=${encodeURIComponent(target)}`),
+      );
+      expectOnSite(response);
+    },
+  );
 });
 
 describe("GET /auth/confirm (email links)", () => {
@@ -99,7 +122,7 @@ describe("GET /auth/confirm (email links)", () => {
     const response = await confirm(
       get(`/auth/confirm?token_hash=hash&type=email&next=${encodeURIComponent(target)}`),
     );
-    expect(location(response)).toBe(`${ORIGIN}/ca/profile`);
+    expectOnSite(response);
   });
 
   it.each(["ca", "es", "en"])(

@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
+import { hardNavigate } from "@/lib/redirects";
 import { Button } from "@/components/ui/Button";
 
 export function UpdatePasswordForm() {
   const t = useTranslations("auth.updatePassword");
-  const router = useRouter();
+  const locale = useLocale();
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -28,8 +28,7 @@ export function UpdatePasswordForm() {
         );
         return;
       }
-      router.replace("/profile");
-      router.refresh();
+      hardNavigate(`/${locale}/profile`);
     });
   }
 

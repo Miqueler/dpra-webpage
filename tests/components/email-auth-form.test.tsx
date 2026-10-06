@@ -3,14 +3,18 @@ import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { EmailAuthForm } from "@/components/auth/EmailAuthForm";
-import { useRouter } from "@/i18n/navigation";
+import { hardNavigate } from "@/lib/redirects";
 import { createClient } from "@/lib/supabase/client";
 import { text } from "../helpers/messages";
-import { fakeRouter, renderWithIntl, type FakeRouter } from "../helpers/render";
+import { renderWithIntl } from "../helpers/render";
 import { fakeSupabase, type FakeSupabase } from "../helpers/supabase";
 
-vi.mock("@/i18n/navigation", () => ({ useRouter: vi.fn() }));
 vi.mock("@/lib/supabase/client", () => ({ createClient: vi.fn() }));
+// A real full-page load would tear down the test document.
+vi.mock("@/lib/redirects", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/redirects")>()),
+  hardNavigate: vi.fn(),
+}));
 
 const msg = (key: string) => text("en", `auth.email.${key}`);
 const ORIGIN = window.location.origin;
@@ -18,7 +22,6 @@ const EMAIL = "abril@upc.edu";
 const PASSWORD = "integral-1917";
 
 let supabase: FakeSupabase;
-let router: FakeRouter;
 
 // Labels wrap their hint text, so match on how the label starts.
 const field = (label: string) =>
@@ -43,9 +46,8 @@ async function signUp(username: string) {
 
 beforeEach(() => {
   supabase = fakeSupabase();
-  router = fakeRouter();
   vi.mocked(createClient).mockReturnValue(supabase as never);
-  vi.mocked(useRouter).mockReturnValue(router as never);
+  vi.mocked(hardNavigate).mockReset();
 });
 
 describe("EmailAuthForm — log in", () => {
@@ -65,9 +67,8 @@ describe("EmailAuthForm — log in", () => {
       email: EMAIL,
       password: PASSWORD,
     });
-    expect(router.replace).toHaveBeenCalledWith("/profile");
-    // Without the refresh the top bar keeps showing the logged-out state.
-    expect(router.refresh).toHaveBeenCalledTimes(1);
+    // A full page load, so the top bar is re-rendered as logged in.
+    expect(hardNavigate).toHaveBeenCalledWith("/en/profile");
   });
 
   it("explains wrong credentials and stays on the page", async () => {
@@ -81,7 +82,7 @@ describe("EmailAuthForm — log in", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent(
       msg("errors.invalid_credentials"),
     );
-    expect(router.replace).not.toHaveBeenCalled();
+    expect(hardNavigate).not.toHaveBeenCalled();
   });
 
   it("falls back to a generic message for unknown errors", async () => {
@@ -149,7 +150,7 @@ describe("EmailAuthForm — enlist", () => {
     expect(await screen.findByRole("status")).toHaveTextContent(EMAIL);
     expect(field(msg("passwordLabel"))).toHaveValue("");
     expect(button(msg("resend"))).toBeVisible();
-    expect(router.replace).not.toHaveBeenCalled();
+    expect(hardNavigate).not.toHaveBeenCalled();
   });
 
   it.each(["ab", "great abril", "abril@upc"])(
@@ -184,8 +185,7 @@ describe("EmailAuthForm — enlist", () => {
     renderWithIntl(<EmailAuthForm />);
     await signUp("comrade_1");
 
-    expect(router.replace).toHaveBeenCalledWith("/profile");
-    expect(router.refresh).toHaveBeenCalledTimes(1);
+    expect(hardNavigate).toHaveBeenCalledWith("/en/profile");
   });
 
   it("explains a weak password", async () => {
@@ -234,5 +234,14 @@ describe("EmailAuthForm — language", () => {
         }),
       }),
     );
+  });
+
+  it("stays in the citizen's language after logging in", async () => {
+    renderWithIntl(<EmailAuthForm />, "es");
+    await userEvent.type(field(text("es", "auth.email.emailLabel")), EMAIL);
+    await userEvent.type(field(text("es", "auth.email.passwordLabel")), PASSWORD);
+    await userEvent.click(button(text("es", "auth.email.submit.signin")));
+
+    expect(hardNavigate).toHaveBeenCalledWith("/es/profile");
   });
 });

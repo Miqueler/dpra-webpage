@@ -8,6 +8,7 @@ import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
 import { UpdatePasswordForm } from "@/components/auth/UpdatePasswordForm";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import { hardNavigate } from "@/lib/redirects";
 import { createClient } from "@/lib/supabase/client";
 import { text } from "../helpers/messages";
 import { fakeRouter, renderWithIntl, type FakeRouter } from "../helpers/render";
@@ -21,6 +22,11 @@ import {
 
 vi.mock("@/i18n/navigation", () => ({ useRouter: vi.fn(), usePathname: vi.fn() }));
 vi.mock("@/lib/supabase/client", () => ({ createClient: vi.fn() }));
+// A real full-page load would tear down the test document.
+vi.mock("@/lib/redirects", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/redirects")>()),
+  hardNavigate: vi.fn(),
+}));
 
 let supabase: FakeSupabase;
 let router: FakeRouter;
@@ -31,6 +37,7 @@ beforeEach(() => {
   vi.mocked(createClient).mockReturnValue(supabase as never);
   vi.mocked(useRouter).mockReturnValue(router as never);
   vi.mocked(usePathname).mockReturnValue("/atzar/friends");
+  vi.mocked(hardNavigate).mockReset();
 });
 
 describe("AddFriendForm", () => {
@@ -120,29 +127,35 @@ describe("AcceptFriendButton", () => {
 describe("UpdatePasswordForm", () => {
   const msg = (key: string) => text("en", `auth.updatePassword.${key}`);
 
-  async function submit(password: string) {
-    renderWithIntl(<UpdatePasswordForm />);
+  async function submit(password: string, locale = "en") {
+    renderWithIntl(<UpdatePasswordForm />, locale);
     await userEvent.type(
-      screen.getByLabelText((content) => content.startsWith(msg("passwordLabel"))),
+      screen.getByLabelText((content) =>
+        content.startsWith(text(locale, "auth.updatePassword.passwordLabel")),
+      ),
       password,
     );
-    await userEvent.click(screen.getByRole("button", { name: msg("submit") }));
+    await userEvent.click(
+      screen.getByRole("button", { name: text(locale, "auth.updatePassword.submit") }),
+    );
   }
 
-  it("saves the new password and goes to the profile", async () => {
-    await submit("integral-1917");
+  it.each(["ca", "es", "en"])(
+    "saves the new password and loads the %s profile",
+    async (locale) => {
+      await submit("integral-1917", locale);
 
-    expect(supabase.auth.updateUser).toHaveBeenCalledWith({ password: "integral-1917" });
-    expect(router.replace).toHaveBeenCalledWith("/profile");
-    expect(router.refresh).toHaveBeenCalledTimes(1);
-  });
+      expect(supabase.auth.updateUser).toHaveBeenCalledWith({ password: "integral-1917" });
+      expect(hardNavigate).toHaveBeenCalledWith(`/${locale}/profile`);
+    },
+  );
 
   it.each(["weak_password", "same_password"])("explains a %s error", async (code) => {
     supabase.auth.updateUser.mockResolvedValue({ error: { code, message: "raw" } });
     await submit("integral-1917");
 
     expect(await screen.findByRole("alert")).toHaveTextContent(msg(`errors.${code}`));
-    expect(router.replace).not.toHaveBeenCalled();
+    expect(hardNavigate).not.toHaveBeenCalled();
   });
 
   it("falls back to a generic message for other errors", async () => {
