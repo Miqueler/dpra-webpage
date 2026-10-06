@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import type { EmailOtpType } from "@supabase/supabase-js";
+import { sameOriginPath } from "@/lib/redirect";
 import { createClient } from "@/lib/supabase/server";
 
 // Landing point for the links in Supabase's auth emails (signup confirmation
@@ -12,16 +13,7 @@ export async function GET(request: NextRequest) {
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
 
-  let next = "/ca/profile";
-  const requested = searchParams.get("next");
-  if (requested) {
-    try {
-      const url = new URL(requested, origin);
-      if (url.origin === origin) next = `${url.pathname}${url.search}`;
-    } catch {
-      // Malformed target — fall back to the default.
-    }
-  }
+  const next = sameOriginPath(searchParams.get("next"), origin, "/ca/profile");
 
   if (tokenHash && type) {
     const supabase = await createClient();
