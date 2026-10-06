@@ -1,0 +1,80 @@
+{
+  "layout": {
+    "wordmark": "ATZAR",
+    "tagline": "Òrgan oficial de finançament de la República. Instal·lada a la Facultat de Matemàtiques i Estadística."
+  },
+  "dashboard": {
+    "loggedOut": {
+      "eyebrow": "Accés restringit",
+      "title": "La màquina de l'atzar",
+      "body1": "ATZAR — de l'atzar, la sort que l'Estat administra en nom teu — és el mecanisme oficial de finançament de la República. Una màquina física, instal·lada a la Facultat de Matemàtiques i Estadística, on cada ciutadà identificat té dret a una tirada diària.",
+      "body2": "La puntuació es decideix a la pròpia màquina, mai en aquest portal. Aquí només es registra el que la màquina reporta. Identifica't per consultar el teu codi de màquina.",
+      "cta": "Identifica't per jugar"
+    },
+    "lore": {
+      "title": "Com funciona",
+      "body": "Cada ciutadà identificat rep una tirada gratuïta diària a la màquina ATZAR, instal·lada físicament a la Facultat de Matemàtiques i Estadística. Introdueix el teu codi de màquina a l'aparell per vincular la partida: la puntuació es calcula allà, no en aquest lloc web. El portal només mostra l'historial que la màquina decideix reportar."
+    },
+    "machineCode": "Codi de màquina",
+    "machineCodeHint": "Introdueix aquest codi a la màquina ATZAR per vincular la teva propera tirada.",
+    "coins": "Monedes ATZAR",
+    "today": {
+      "title": "Tirada d'avui",
+      "freeAvailable": "Tirada gratuïta disponible",
+      "freeUsed": "Tirada gratuïta ja consumida avui",
+      "extraRolls": "Tirades extra disponibles: {count}"
+    },
+    "buy": {
+      "title": "Compra una tirada",
+      "description": "Bescanvia monedes per una tirada addicional a la màquina.",
+      "button": "Compra una tirada ({cost}¤)",
+      "success": "Tirada comprada. Ja la tens disponible a la màquina.",
+      "genericError": "No s'ha pogut processar la compra. Torna-ho a intentar."
+    },
+    "history": {
+      "title": "Historial de partides",
+      "empty": "Encara no hi ha cap partida registrada per la màquina.",
+      "score": "Puntuació",
+      "playedAt": "Data",
+      "source": "Origen",
+      "pending": "Sense puntuació"
+    }
+  },
+  "leaderboard": {
+    "eyebrow": "Classificació",
+    "title": "Rànquing de la sort",
+    "subtitle": "Les millors puntuacions reportades per la màquina ATZAR, per a tots els ciutadans.",
+    "rank": "Pos.",
+    "player": "Ciutadà",
+    "bestScore": "Millor puntuació",
+    "plays": "Partides",
+    "empty": "Encara no s'ha registrat cap partida a la màquina."
+  },
+  "friends": {
+    "eyebrow": "Xarxa de confiança",
+    "title": "Companys de joc",
+    "intro": "Vincula't amb altres ciutadans per comparar historials i vigilar-vos mútuament.",
+    "accepted": {
+      "title": "Amics",
+      "empty": "Encara no tens cap amic acceptat. La solitud també és vigilada."
+    },
+    "pending": {
+      "title": "Sol·licituds pendents",
+      "empty": "No tens sol·licituds pendents.",
+      "accept": "Accepta"
+    },
+    "outgoing": {
+      "title": "Sol·licituds enviades",
+      "empty": "No has enviat cap sol·licitud pendent de resposta.",
+      "waiting": "Esperant resposta"
+    },
+    "add": {
+      "title": "Afegeix un ciutadà",
+      "placeholder": "Nom d'usuari",
+      "button": "Envia sol·licitud",
+      "success": "Sol·licitud enviada.",
+      "errorNotFound": "No s'ha trobat cap ciutadà amb aquest nom d'usuari.",
+      "errorSelf": "No pots sol·licitar amistat amb tu mateix, ciutadà."
+    }
+  }
+}

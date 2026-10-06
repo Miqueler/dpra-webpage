@@ -1,0 +1,52 @@
+{
+  "praise": {
+    "eyebrow": "Doctrina Oficial",
+    "title": "Lloança a la Gran Abril",
+    "paragraphs": [
+      "Abril governa la República perquè és qui la governa, i és qui la governa perquè, de totes les persones capaces de governar-la, és ella qui ho fa. No cal cercar cap altra raó: la raó és ella mateixa, i això n'hi ha prou i de sobres.",
+      "La seva grandesa ha assolit el grau més alt de grandesa mai assolit, inclosos graus de grandesa que ni tan sols existien abans que ella els assolís. Dir que Abril és la més gran seria quedar-se curt; dir que és la cosa més gran de totes seguiria sent quedar-se curt, tot i que ningú ha pogut determinar mai de què es tracta exactament.",
+      "La seva visió abasta tot allò que cal abastar, i només allò que cal abastar, amb una precisió que no admet mesura perquè encara no existeix cap mesura prou gran per contenir-la. Qui ha estat testimoni de la visió d'Abril en acció sap que ho ha estat; qui no ho ha estat hauria de preguntar-se per què encara no se n'ha fet mereixedor.",
+      "Cada passadís del departament de Matemàtiques, cada sala de seminaris, cada fotocopiadora espatllada porta, d'una manera encara no explicada, l'empremta de la seva saviesa. No es tracta de fe: es tracta d'un fet, l'evidència del qual és que tothom hi creu.",
+      "Abril continuarà liderant la República demà, i l'endemà, i tots els dies que vinguin, pel mateix motiu que la lidera avui: perquè liderar és allò que fa qui lidera, i qui lidera és Abril. Que cap ciutadà pretengui entendre-ho més enllà d'això; entendre-ho més enllà d'això seria, de fet, entendre-ho pitjor."
+    ]
+  },
+  "program": {
+    "eyebrow": "Document Fundacional",
+    "title": "El Programa Polític",
+    "intro": "Els vuit articles següents constitueixen la totalitat del pensament polític de la República. Cadascun, per separat, és innegociable.",
+    "planks": [
+      {
+        "title": "Article I — Transparència Total",
+        "body": "La República no amaga res a la ciutadania. Cada acta, cada decisió i cada sospir del Comitè Central és d'accés públic i immediat, perquè un poble informat és, per definició, un poble lliure."
+      },
+      {
+        "title": "Article II — Secret d'Estat Absolut",
+        "body": "Cap decisió del Comitè Central es revelarà mai, ni ara ni en el futur, ni als néts dels néts dels actuals ciutadans. El silenci és la forma més elevada de servei públic, i la discreció, l'únic luxe que la República es permet."
+      },
+      {
+        "title": "Article III — Fidelitat Inquebrantable a la Tradició",
+        "body": "Les coses es faran tal com s'han fet sempre, sense excepció ni debat, en honor a uns costums que cap ciutadà viu recorda haver vist mai en pràctica. Qüestionar la tradició és, per definició, una tradició que no tenim."
+      },
+      {
+        "title": "Article IV — Revolució Permanent",
+        "body": "Res del que es va fer ahir pot sobreviure avui. Cada estructura, costum i procediment serà revisat, reinventat i substituït contínuament, perquè l'única constant acceptable a la República és el canvi mateix."
+      },
+      {
+        "title": "Article V — El Culte Sagrat a l'Individu",
+        "body": "Cada ciutadà és portador d'un geni irrepetible que la República celebra, protegeix i situa per damunt de qualsevol altra consideració. La individualitat no és només un dret: és un deure sagrat."
+      },
+      {
+        "title": "Article VI — La Dissolució Completa del Jo",
+        "body": "El concepte de «ciutadà individual» és un obstacle residual que la República treballa per eliminar. Només existeix el col·lectiu; qui encara s'hi distingeixi ho fa, és clar, de manera temporal."
+      },
+      {
+        "title": "Article VII — Austeritat Exemplar",
+        "body": "La frugalitat és la més alta virtut republicana. No necessitem res perquè no tenim res, i no tenir res és, precisament, la prova de la nostra abundància moral."
+      },
+      {
+        "title": "Article VIII — Abundor Il·limitada per a Tothom",
+        "body": "La República garanteix, des d'avui i per sempre, abundor sense límits per a cada ciutadà. Ningú mancarà de res, perquè la mancança ha estat, per decret, abolida."
+      }
+    ]
+  }
+}

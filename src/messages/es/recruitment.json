@@ -1,0 +1,36 @@
+{
+  "hero": {
+    "eyebrow": "Llamamiento del Partido",
+    "title": "Alístate en la República",
+    "lead": "El Partido no busca voluntarios: busca ciudadanos que todavía no han descubierto que ya lo son. Rellena tu ficha, cede tus datos biométricos y disfruta de los privilegios reservados a quien demuestra lealtad."
+  },
+  "benefits": {
+    "title": "Ventajas de la militancia",
+    "items": [
+      "Progresión de rango dentro del Partido, con títulos cada vez más largos y difíciles de pronunciar en voz alta.",
+      "Monedas ATZAR acumulables, convertibles en prácticamente nada, pero luciéndose con orgullo en tu expediente.",
+      "La cálida sensación de saberte observado en todo momento, sin ni siquiera tener que pedirlo.",
+      "Compañerismo obligatorio con otros miembros del programa CFIS, incluso a la hora de comer.",
+      "Acceso anticipado a los comunicados oficiales, antes de que sean desmentidos."
+    ]
+  },
+  "requirements": {
+    "title": "Requisitos de ingreso",
+    "items": [
+      "Estar matriculado en el CFIS o en un programa de matemáticas afín, o afirmarlo con la convicción suficiente.",
+      "No albergar pensamientos desleales, ni siquiera en forma de duda razonable.",
+      "Consentir auditorías de pensamiento ocasionales, sin previo aviso ni derecho a réplica.",
+      "Saber contar hasta diez sin preguntarse por qué el Partido lo exige.",
+      "Jurar fidelidad eterna a la Gran Abril (se permiten los dedos cruzados, pero quedan registrados)."
+    ]
+  },
+  "cta": {
+    "button": "Alístate ahora",
+    "note": "El alistamiento se formaliza con tu cuenta de Google. Un solo clic y ya eres de los nuestros."
+  },
+  "contact": {
+    "lead": "¿Tienes dudas antes de jurar lealtad?",
+    "emailLabel": "Escribe al Comisariado",
+    "hint": "...o localiza a un representante del Partido en el pasillo de matemáticas más cercano."
+  }
+}

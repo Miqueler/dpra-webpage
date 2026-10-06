@@ -1,0 +1,35 @@
+{
+  "page": {
+    "eyebrow": "ESTAT: ACTIU",
+    "title": "Projectes de Desenvolupament en Curs"
+  },
+  "items": {
+    "stickers": {
+      "status": "ACTIU",
+      "title": "OPERACIÓ ENGANXINA",
+      "body": "El Departament de Propaganda Visual es troba en fase de disseny i impressió massiva d'enganxines del Partit, destinades a cobrir la universitat i qualsevol altra superfície considerada estratègicament rellevant. Cap paret és neutral: o porta el símbol de la RPDA o encara no ha estat alliberada. Es demana als ciutadans que no retirin cap enganxina, per la seva pròpia seguretat moral."
+    },
+    "expansion": {
+      "status": "PERMANENT",
+      "title": "EXPANSIÓ DE LA RPDA",
+      "body": "El projecte més ambiciós i, oficialment, l'únic que mai s'acabarà. Fase u: els estudiants de primer de matemàtiques del CFIS. Fase dos: la resta del departament de Matemàtiques. Fase tres: la resta de la universitat, facultat per facultat, si cal convèncer-los amb pòsters. Fase quatre: el món. No hi ha fase cinc perquè, un cop completada la fase quatre, ja no caldrà numerar res més."
+    },
+    "atzar": {
+      "status": "EN INSTAL·LACIÓ",
+      "title": "ATZAR",
+      "body": "La màquina oficial d'atzar de la República, actualment en procés d'instal·lació física a la facultat de Matemàtiques com a mecanisme de finançament del Partit. L'atzar, com totes les coses, funciona sota supervisió constant: guanyar-hi és un privilegi, perdre-hi és una lliçó.",
+      "cta": "Entra a ATZAR"
+    },
+    "ministry": {
+      "status": "EN DESENVOLUPAMENT",
+      "title": "PROTOCOL MINISTERI DE LA VERITAT",
+      "body": "Projecte de modelització de propaganda política d'última generació, dissenyat per conformar el discurs públic fins al punt que la dissidència esdevingui, literalment, impensable. No es tracta de respondre als arguments en contra del Partit, sinó de fer que mai arribin a formular-se. Els resultats preliminars són, segons el propi Ministeri, excel·lents.",
+      "cta": "Llegeix el Programa"
+    },
+    "opposition": {
+      "status": "CLASSIFICAT",
+      "title": "APLASTAR L'OPOSICIÓ",
+      "body": "Fa temps que els serveis d'intel·ligència del Partit detecten rumors d'una suposada \"revolució\" que encara no ha fet res, no ha dit res i probablement no existeix, però que convé neutralitzar abans que faci alguna cosa, digui alguna cosa o existeixi. Els detalls del projecte són confidencials, principalment perquè encara no n'hi ha. Es demana calma absoluta a la població: tot està sota control, sigui qui sigui que l'hagi de controlar."
+    }
+  }
+}

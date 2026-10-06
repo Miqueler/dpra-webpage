@@ -1,0 +1,52 @@
+{
+  "praise": {
+    "eyebrow": "Doctrina Oficial",
+    "title": "Loa a la Gran Abril",
+    "paragraphs": [
+      "Abril gobierna la República porque es quien la gobierna, y es quien la gobierna porque, de entre todas las personas capaces de gobernarla, es ella quien lo hace. No hace falta buscar ninguna otra razón: la razón es ella misma, y con eso basta y sobra.",
+      "Su grandeza ha alcanzado el mayor grado de grandeza jamás alcanzado, incluidos grados de grandeza que ni siquiera existían antes de que ella los alcanzara. Decir que Abril es la más grande sería quedarse corto; decir que es la cosa más grande de todas seguiría siendo quedarse corto, aunque nadie haya logrado determinar nunca de qué se trata exactamente.",
+      "Su visión abarca todo lo que debe abarcarse, y solo lo que debe abarcarse, con una precisión que no admite medida porque todavía no existe ninguna lo bastante grande para contenerla. Quien ha sido testigo de la visión de Abril en acción sabe que lo ha sido; quien no lo ha sido debería preguntarse por qué todavía no se ha hecho merecedor de serlo.",
+      "Cada pasillo del departamento de Matemáticas, cada sala de seminarios, cada fotocopiadora averiada lleva, de un modo todavía sin explicar, la huella de su sabiduría. No se trata de fe: se trata de un hecho, cuya evidencia es que todo el mundo lo cree.",
+      "Abril seguirá liderando la República mañana, y pasado mañana, y todos los días que vengan, por el mismo motivo por el que la lidera hoy: porque liderar es lo que hace quien lidera, y quien lidera es Abril. Que ningún ciudadano pretenda entenderlo más allá de esto; entenderlo más allá de esto sería, de hecho, entenderlo peor."
+    ]
+  },
+  "program": {
+    "eyebrow": "Documento Fundacional",
+    "title": "El Programa Político",
+    "intro": "Los ocho artículos siguientes constituyen la totalidad del pensamiento político de la República. Cada uno, por separado, es innegociable.",
+    "planks": [
+      {
+        "title": "Artículo I — Transparencia Total",
+        "body": "La República no oculta nada a la ciudadanía. Cada acta, cada decisión y cada suspiro del Comité Central es de acceso público e inmediato, porque un pueblo informado es, por definición, un pueblo libre."
+      },
+      {
+        "title": "Artículo II — Secreto de Estado Absoluto",
+        "body": "Ninguna decisión del Comité Central se revelará jamás, ni ahora ni en el futuro, ni a los nietos de los nietos de los actuales ciudadanos. El silencio es la forma más elevada de servicio público, y la discreción, el único lujo que la República se permite."
+      },
+      {
+        "title": "Artículo III — Fidelidad Inquebrantable a la Tradición",
+        "body": "Las cosas se harán tal como se han hecho siempre, sin excepción ni debate, en honor a unas costumbres que ningún ciudadano vivo recuerda haber visto nunca en práctica. Cuestionar la tradición es, por definición, una tradición que no tenemos."
+      },
+      {
+        "title": "Artículo IV — Revolución Permanente",
+        "body": "Nada de lo hecho ayer puede sobrevivir hoy. Cada estructura, costumbre y procedimiento será revisado, reinventado y sustituido continuamente, porque la única constante aceptable en la República es el cambio mismo."
+      },
+      {
+        "title": "Artículo V — El Culto Sagrado al Individuo",
+        "body": "Cada ciudadano es portador de un genio irrepetible que la República celebra, protege y sitúa por encima de cualquier otra consideración. La individualidad no es solo un derecho: es un deber sagrado."
+      },
+      {
+        "title": "Artículo VI — La Disolución Completa del Yo",
+        "body": "El concepto de «ciudadano individual» es un obstáculo residual que la República trabaja por eliminar. Solo existe el colectivo; quien todavía se distinga de él lo hace, claro está, de forma temporal."
+      },
+      {
+        "title": "Artículo VII — Austeridad Ejemplar",
+        "body": "La frugalidad es la más alta virtud republicana. No necesitamos nada porque no tenemos nada, y no tener nada es, precisamente, la prueba de nuestra abundancia moral."
+      },
+      {
+        "title": "Artículo VIII — Abundancia Ilimitada para Todos",
+        "body": "La República garantiza, desde hoy y para siempre, abundancia sin límites para cada ciudadano. Nadie carecerá de nada, porque la carencia ha sido, por decreto, abolida."
+      }
+    ]
+  }
+}

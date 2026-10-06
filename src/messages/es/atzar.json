@@ -1,0 +1,80 @@
+{
+  "layout": {
+    "wordmark": "ATZAR",
+    "tagline": "Órgano oficial de financiación de la República. Instalada en la Facultad de Matemáticas y Estadística."
+  },
+  "dashboard": {
+    "loggedOut": {
+      "eyebrow": "Acceso restringido",
+      "title": "La máquina del azar",
+      "body1": "ATZAR — del catalán atzar, el azar que el Estado administra en tu nombre — es el mecanismo oficial de financiación de la República. Una máquina física, instalada en la Facultad de Matemáticas y Estadística, donde todo ciudadano identificado tiene derecho a una tirada diaria.",
+      "body2": "La puntuación se decide en la propia máquina, nunca en este portal. Aquí solo se registra lo que la máquina reporta. Identifícate para consultar tu código de máquina.",
+      "cta": "Identifícate para jugar"
+    },
+    "lore": {
+      "title": "Cómo funciona",
+      "body": "Cada ciudadano identificado recibe una tirada gratuita diaria en la máquina ATZAR, instalada físicamente en la Facultad de Matemáticas y Estadística. Introduce tu código de máquina en el aparato para vincular la partida: la puntuación se calcula allí, no en este sitio web. El portal solo muestra el historial que la máquina decide reportar."
+    },
+    "machineCode": "Código de máquina",
+    "machineCodeHint": "Introduce este código en la máquina ATZAR para vincular tu próxima tirada.",
+    "coins": "Monedas ATZAR",
+    "today": {
+      "title": "Tirada de hoy",
+      "freeAvailable": "Tirada gratuita disponible",
+      "freeUsed": "Tirada gratuita ya consumida hoy",
+      "extraRolls": "Tiradas extra disponibles: {count}"
+    },
+    "buy": {
+      "title": "Compra una tirada",
+      "description": "Cambia monedas por una tirada adicional en la máquina.",
+      "button": "Compra una tirada ({cost}¤)",
+      "success": "Tirada comprada. Ya la tienes disponible en la máquina.",
+      "genericError": "No se ha podido procesar la compra. Inténtalo de nuevo."
+    },
+    "history": {
+      "title": "Historial de partidas",
+      "empty": "Todavía no hay ninguna partida registrada por la máquina.",
+      "score": "Puntuación",
+      "playedAt": "Fecha",
+      "source": "Origen",
+      "pending": "Sin puntuación"
+    }
+  },
+  "leaderboard": {
+    "eyebrow": "Clasificación",
+    "title": "Ranking del azar",
+    "subtitle": "Las mejores puntuaciones reportadas por la máquina ATZAR, para todos los ciudadanos.",
+    "rank": "Pos.",
+    "player": "Ciudadano",
+    "bestScore": "Mejor puntuación",
+    "plays": "Partidas",
+    "empty": "Todavía no se ha registrado ninguna partida en la máquina."
+  },
+  "friends": {
+    "eyebrow": "Red de confianza",
+    "title": "Compañeros de juego",
+    "intro": "Vincúlate con otros ciudadanos para comparar historiales y vigilaros mutuamente.",
+    "accepted": {
+      "title": "Amigos",
+      "empty": "Todavía no tienes ningún amigo aceptado. La soledad también está vigilada."
+    },
+    "pending": {
+      "title": "Solicitudes pendientes",
+      "empty": "No tienes solicitudes pendientes.",
+      "accept": "Aceptar"
+    },
+    "outgoing": {
+      "title": "Solicitudes enviadas",
+      "empty": "No has enviado ninguna solicitud pendiente de respuesta.",
+      "waiting": "Esperando respuesta"
+    },
+    "add": {
+      "title": "Añade a un ciudadano",
+      "placeholder": "Nombre de usuario",
+      "button": "Enviar solicitud",
+      "success": "Solicitud enviada.",
+      "errorNotFound": "No se ha encontrado ningún ciudadano con ese nombre de usuario.",
+      "errorSelf": "No puedes solicitar amistad contigo mismo, ciudadano."
+    }
+  }
+}

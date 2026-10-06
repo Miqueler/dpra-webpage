@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "eyebrow": "República Popular Democràtica d'Abril",
+    "title": "GLÒRIA ETERNA A ABRIL",
+    "subtitle": "Un sol poble. Un sol pla d'estudis. Una sola Abril.",
+    "tagline": "La RPDA vetlla perquè cada integral es resolgui amb l'esperit correcte. Allista't o queda't quiet: el Partit observa totes dues opcions amb el mateix amor.",
+    "ctaPrimary": "Allista't",
+    "ctaSecondary": "Llegeix el Programa"
+  },
+  "lore": {
+    "eyebrow": "Breu Història Oficial",
+    "paragraph1": "Abril regna des de sempre sobre la RPDA, tot i que ningú recorda exactament quan va començar el seu mandat, perquè preguntar-ho es considera de mal gust. La seva saviesa s'estén sobre cada llista de problemes, cada pràctica de Python i cada cua de la fotocopiadora.",
+    "paragraph2": "Oficialment, la RPDA no és més que una modesta subsecció del CFIS, el programa que CASA supervisa amb lupa per decidir qui es queda i qui torna al grau de sempre. Extraoficialment, la RPDA porta anys expandint-se amb discreció cap a la resta del departament de Matemàtiques, un seminari a la vegada.",
+    "paragraph3": "El pla, que ningú ha vist per escrit perquè no cal, és senzill: primer el departament, després la facultat, després el món. Fins aleshores, la missió de cada ciutadà és estudiar, somriure i no fer preguntes sobre el que passa a la sala de reunions del tercer pis."
+  },
+  "teasers": {
+    "eyebrow": "Serveis del Partit",
+    "title": "Tres Camins Cap a la Glòria",
+    "projects": {
+      "title": "Projectes en Curs",
+      "body": "Iniciatives aprovades pel Comitè Central per al progrés col·lectiu, el benestar de la militància i, ocasionalment, algun pòster.",
+      "cta": "Veure projectes"
+    },
+    "propaganda": {
+      "title": "Programa Polític",
+      "body": "El cos doctrinal complet de la RPDA, redactat amb la claredat que només dona la certesa absoluta.",
+      "cta": "Llegir el programa"
+    },
+    "atzar": {
+      "title": "ATZAR",
+      "body": "La màquina d'atzar oficial de la República. L'atzar, com tota la resta, és sota vigilància constant.",
+      "cta": "Provar sort"
+    }
+  },
+  "closing": {
+    "slogan": "ABRIL ET VIGILA"
+  }
+}

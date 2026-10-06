@@ -1,0 +1,52 @@
+{
+  "praise": {
+    "eyebrow": "Official Doctrine",
+    "title": "In Praise of Great Abril",
+    "paragraphs": [
+      "Abril governs the Republic because she is the one who governs it, and she is the one who governs it because, of everyone capable of governing it, she is the one who does. No further reason need be sought: the reason is herself, and that is more than sufficient.",
+      "Her greatness has reached the highest degree of greatness ever reached, including degrees of greatness that did not exist until she reached them. To call Abril the greatest would be an understatement; to call her the single greatest thing of all would still be an understatement, though no one has ever managed to determine of exactly what.",
+      "Her vision encompasses everything that must be encompassed, and only what must be encompassed, with a precision too vast to be measured, since no measure yet exists large enough to hold it. Those who have witnessed Abril's vision in action know that they have witnessed it; those who have not should ask themselves why they have not yet earned the privilege.",
+      "Every corridor of the Mathematics department, every seminar room, every broken photocopier bears, in some manner not yet explained, the imprint of her wisdom. This is not a matter of faith: it is a matter of fact, and the evidence is that everyone believes it.",
+      "Abril will go on leading the Republic tomorrow, and the day after, and every day that follows, for the very same reason she leads it today: because leading is what the leader does, and the leader is Abril. Let no citizen presume to understand this any further; to understand it any further would, in fact, be to understand it less."
+    ]
+  },
+  "program": {
+    "eyebrow": "Founding Document",
+    "title": "The Political Program",
+    "intro": "The following eight articles constitute the entirety of the Republic's political thought. Each, individually, is non-negotiable.",
+    "planks": [
+      {
+        "title": "Article I — Total Transparency",
+        "body": "The Republic hides nothing from its citizens. Every record, every decision, and every sigh of the Central Committee is immediately and publicly accessible, because an informed people is, by definition, a free one."
+      },
+      {
+        "title": "Article II — Absolute State Secrecy",
+        "body": "No decision of the Central Committee will ever be disclosed, not now and not ever, not even to the grandchildren of today's citizens' grandchildren. Silence is the highest form of public service, and discretion the one luxury the Republic permits itself."
+      },
+      {
+        "title": "Article III — Unwavering Fidelity to Tradition",
+        "body": "Things will be done exactly as they have always been done, without exception or debate, in honor of customs no living citizen can recall ever having actually seen practiced. Questioning tradition is, by definition, a tradition we do not have."
+      },
+      {
+        "title": "Article IV — Permanent Revolution",
+        "body": "Nothing done yesterday may survive into today. Every structure, custom, and procedure will be continuously reviewed, reinvented, and replaced, because the only acceptable constant in the Republic is change itself."
+      },
+      {
+        "title": "Article V — The Sacred Cult of the Individual",
+        "body": "Every citizen carries within them an unrepeatable genius that the Republic celebrates, protects, and places above every other consideration. Individuality is not merely a right: it is a sacred duty."
+      },
+      {
+        "title": "Article VI — The Complete Dissolution of the Self",
+        "body": "The notion of the 'individual citizen' is a residual obstacle the Republic is working to eliminate. Only the collective exists; anyone still distinguishable from it is, naturally, only doing so temporarily."
+      },
+      {
+        "title": "Article VII — Exemplary Austerity",
+        "body": "Frugality is the highest republican virtue. We need nothing, because we have nothing, and having nothing is precisely the proof of our moral abundance."
+      },
+      {
+        "title": "Article VIII — Unlimited Abundance for All",
+        "body": "The Republic guarantees, from this day forward and forever, unlimited abundance for every citizen. No one shall want for anything, since want has, by decree, been abolished."
+      }
+    ]
+  }
+}

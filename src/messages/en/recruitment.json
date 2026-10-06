@@ -1,0 +1,36 @@
+{
+  "hero": {
+    "eyebrow": "A Call From The Party",
+    "title": "Enlist In The Republic",
+    "lead": "The Party is not looking for volunteers: it is looking for citizens who haven't yet discovered that they already are one. Fill in your file, surrender your biometric data, and enjoy the privileges reserved for the loyal."
+  },
+  "benefits": {
+    "title": "Benefits Of Membership",
+    "items": [
+      "Rank progression within the Party, with titles that grow longer and harder to pronounce out loud.",
+      "Stackable ATZAR coins, redeemable for practically nothing, but worn proudly on your record.",
+      "The warm feeling of knowing you are being watched at all times, no need to even ask.",
+      "Mandatory camaraderie with fellow CFIS Program members, including at lunch.",
+      "Early access to official communiqués, before they get retracted."
+    ]
+  },
+  "requirements": {
+    "title": "Requirements For Entry",
+    "items": [
+      "Be enrolled in CFIS or an adjacent mathematics program, or claim so with sufficient conviction.",
+      "Harbor no disloyal thoughts, not even in the form of reasonable doubt.",
+      "Consent to occasional thought audits, without notice or right of reply.",
+      "Be able to count to ten without wondering why the Party requires it.",
+      "Swear eternal loyalty to Great Abril (crossed fingers are permitted, but logged)."
+    ]
+  },
+  "cta": {
+    "button": "Enlist Now",
+    "note": "Enlistment is finalized through your Google account. One click and you're one of us."
+  },
+  "contact": {
+    "lead": "Having second thoughts before swearing loyalty?",
+    "emailLabel": "Write To The Commissariat",
+    "hint": "...or find a Party representative in your nearest math corridor."
+  }
+}

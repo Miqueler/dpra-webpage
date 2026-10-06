@@ -1,0 +1,30 @@
+{
+  "brand": "RPDA",
+  "brandFull": "República Popular Democràtica d'Abril",
+  "nav": {
+    "home": "Inici",
+    "projects": "Projectes",
+    "propaganda": "Propaganda",
+    "recruitment": "Allistament",
+    "atzar": "ATZAR",
+    "profile": "El meu perfil",
+    "admin": "Comissariat",
+    "login": "Inicia sessió"
+  },
+  "footer": {
+    "tagline": "La Gran Abril ens observa.",
+    "rights": "Tots els drets reservats al Partit. Els pensaments no autoritzats reproduïts aquí són involuntaris.",
+    "casaNotice": "Supervisat per CASA — Programa CFIS"
+  },
+  "language": {
+    "label": "Idioma",
+    "ca": "Català",
+    "es": "Castellà",
+    "en": "Anglès"
+  },
+  "common": {
+    "loading": "Carregant...",
+    "comingSoon": "Pròximament",
+    "backHome": "Torna a la pàtria"
+  }
+}

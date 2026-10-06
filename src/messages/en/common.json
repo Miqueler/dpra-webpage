@@ -1,0 +1,30 @@
+{
+  "brand": "DPRA",
+  "brandFull": "Democratic Popular Republic of Abril",
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "propaganda": "Propaganda",
+    "recruitment": "Enlistment",
+    "atzar": "ATZAR",
+    "profile": "My Profile",
+    "admin": "Commissariat",
+    "login": "Log In"
+  },
+  "footer": {
+    "tagline": "Great Abril is watching.",
+    "rights": "All rights reserved to the Party. Any unauthorized thoughts reproduced here are involuntary.",
+    "casaNotice": "Overseen by CASA — CFIS Program"
+  },
+  "language": {
+    "label": "Language",
+    "ca": "Catalan",
+    "es": "Spanish",
+    "en": "English"
+  },
+  "common": {
+    "loading": "Loading...",
+    "comingSoon": "Coming Soon",
+    "backHome": "Return to the Homeland"
+  }
+}

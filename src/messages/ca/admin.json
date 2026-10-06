@@ -1,0 +1,22 @@
+{
+  "eyebrow": "Accés restringit",
+  "title": "Comissariat",
+  "description": "Registre complet dels ciutadans de la República. Des d'aquí el Comissariat pot concedir monedes ATZAR com a recompensa per mèrits o lleialtat demostrada.",
+  "tableHeaders": {
+    "username": "Ciutadà",
+    "rank": "Rang",
+    "coins": "Monedes",
+    "action": "Concessió"
+  },
+  "empty": "No s'ha trobat cap ciutadà al registre.",
+  "grantForm": {
+    "amountPlaceholder": "Quantitat",
+    "reasonAdminGrant": "Assignació estàndard",
+    "reasonEventGrant": "Assignació d'esdeveniment especial",
+    "notePlaceholder": "Nota (opcional)",
+    "submit": "Concedeix",
+    "pending": "Processant…",
+    "success": "Monedes concedides.",
+    "invalidAmount": "Introdueix una quantitat vàlida diferent de zero."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "page": {
+    "eyebrow": "ESTADO: ACTIVO",
+    "title": "Proyectos de Desarrollo en Curso"
+  },
+  "items": {
+    "stickers": {
+      "status": "ACTIVO",
+      "title": "OPERACIÓN PEGATINA",
+      "body": "El Departamento de Propaganda Visual se encuentra en fase de diseño e impresión masiva de pegatinas del Partido, destinadas a cubrir la universidad y cualquier otra superficie considerada estratégicamente relevante. Ninguna pared es neutral: o lleva el símbolo de la RPDA o todavía no ha sido liberada. Se ruega a los ciudadanos que no retiren ninguna pegatina, por su propia seguridad moral."
+    },
+    "expansion": {
+      "status": "PERMANENTE",
+      "title": "EXPANSIÓN DE LA RPDA",
+      "body": "El proyecto más ambicioso y, oficialmente, el único que nunca terminará. Fase uno: los estudiantes de primero de matemáticas del CFIS. Fase dos: el resto del departamento de Matemáticas. Fase tres: el resto de la universidad, facultad por facultad, convenciéndolas con pósters si es necesario. Fase cuatro: el mundo. No hay fase cinco porque, una vez completada la fase cuatro, ya no habrá nada más que numerar."
+    },
+    "atzar": {
+      "status": "EN INSTALACIÓN",
+      "title": "ATZAR",
+      "body": "La máquina oficial de azar de la República, actualmente en proceso de instalación física en la facultad de Matemáticas como mecanismo de financiación del Partido. El azar, como todo lo demás, funciona bajo supervisión constante: ganar es un privilegio, perder es una lección.",
+      "cta": "Entra en ATZAR"
+    },
+    "ministry": {
+      "status": "EN DESARROLLO",
+      "title": "PROTOCOLO MINISTERIO DE LA VERDAD",
+      "body": "Proyecto de modelización de propaganda política de última generación, diseñado para conformar el discurso público hasta el punto de que la disidencia resulte, literalmente, impensable. No se trata de responder a los argumentos contrarios al Partido, sino de que nunca lleguen a formularse. Los resultados preliminares son, según el propio Ministerio, excelentes.",
+      "cta": "Lee el Programa"
+    },
+    "opposition": {
+      "status": "CLASIFICADO",
+      "title": "APLASTAR LA OPOSICIÓN",
+      "body": "Hace tiempo que los servicios de inteligencia del Partido detectan rumores de una supuesta \"revolución\" que todavía no ha hecho nada, no ha dicho nada y probablemente no existe, pero que conviene neutralizar antes de que haga algo, diga algo o exista. Los detalles del proyecto son confidenciales, principalmente porque todavía no los hay. Se pide calma absoluta a la población: todo está bajo control, sea quien sea el que tenga que controlarlo."
+    }
+  }
+}

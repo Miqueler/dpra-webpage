@@ -1,0 +1,35 @@
+{
+  "page": {
+    "eyebrow": "STATUS: ACTIVE",
+    "title": "Current Development Projects"
+  },
+  "items": {
+    "stickers": {
+      "status": "ACTIVE",
+      "title": "OPERATION STICKER TAKEOVER",
+      "body": "The Department of Visual Propaganda is currently designing and mass-printing Party stickers, intended to cover the university and any other surface deemed strategically significant. No wall is neutral: it either bears the symbol of the DPRA, or it has simply not been liberated yet. Citizens are kindly asked not to remove any stickers, for their own moral safety."
+    },
+    "expansion": {
+      "status": "PERMANENT",
+      "title": "DPRA EXPANSION",
+      "body": "The most ambitious project, and officially the only one that will never conclude. Phase one: first-year math students in CFIS. Phase two: the rest of the Mathematics department. Phase three: the rest of the university, faculty by faculty, with posters if persuasion is required. Phase four: the world. There is no phase five, because once phase four is complete, there will be nothing left to number."
+    },
+    "atzar": {
+      "status": "BEING INSTALLED",
+      "title": "ATZAR",
+      "body": "The Republic's official chance machine, currently being physically installed in the Mathematics faculty as a Party funding mechanism. Chance, like everything else, operates under constant supervision: winning is a privilege, losing is a lesson.",
+      "cta": "Enter ATZAR"
+    },
+    "ministry": {
+      "status": "IN DEVELOPMENT",
+      "title": "MINISTRY OF TRUTH PROTOCOL",
+      "body": "A next-generation political propaganda modeling project, designed to shape public discourse to the point where dissent becomes, quite literally, unthinkable. The goal is not to answer the Party's critics, but to ensure they never form a thought worth answering. Preliminary results are, according to the Ministry itself, excellent.",
+      "cta": "Read the Program"
+    },
+    "opposition": {
+      "status": "CLASSIFIED",
+      "title": "CRUSH THE OPPOSITION",
+      "body": "Party intelligence has long detected rumors of an alleged \"revolution\" that has not yet done anything, said anything, or probably exists, but which should nonetheless be neutralized before it does something, says something, or exists. Project details remain confidential, chiefly because there are not yet any. Citizens are asked to remain perfectly calm: everything is under control, whoever that may turn out to be."
+    }
+  }
+}

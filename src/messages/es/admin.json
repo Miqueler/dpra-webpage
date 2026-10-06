@@ -1,0 +1,22 @@
+{
+  "eyebrow": "Acceso restringido",
+  "title": "Comisariado",
+  "description": "Registro completo de los ciudadanos de la República. Desde aquí el Comisariado puede conceder monedas ATZAR como recompensa por méritos o lealtad demostrada.",
+  "tableHeaders": {
+    "username": "Ciudadano",
+    "rank": "Rango",
+    "coins": "Monedas",
+    "action": "Concesión"
+  },
+  "empty": "No se ha encontrado ningún ciudadano en el registro.",
+  "grantForm": {
+    "amountPlaceholder": "Cantidad",
+    "reasonAdminGrant": "Asignación estándar",
+    "reasonEventGrant": "Asignación de evento especial",
+    "notePlaceholder": "Nota (opcional)",
+    "submit": "Conceder",
+    "pending": "Procesando…",
+    "success": "Monedas concedidas.",
+    "invalidAmount": "Introduce una cantidad válida distinta de cero."
+  }
+}

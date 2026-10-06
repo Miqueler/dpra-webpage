@@ -1,0 +1,80 @@
+{
+  "layout": {
+    "wordmark": "ATZAR",
+    "tagline": "Official funding organ of the Republic. Installed at the Faculty of Mathematics and Statistics."
+  },
+  "dashboard": {
+    "loggedOut": {
+      "eyebrow": "Restricted access",
+      "title": "The machine of chance",
+      "body1": "ATZAR — from the Catalan atzar, the chance the State administers on your behalf — is the Republic's official funding mechanism. A physical machine, installed at the Faculty of Mathematics and Statistics, where every identified citizen is entitled to one roll a day.",
+      "body2": "The score is decided on the machine itself, never on this portal. Here we only record what the machine reports. Identify yourself to view your machine code.",
+      "cta": "Identify yourself to play"
+    },
+    "lore": {
+      "title": "How it works",
+      "body": "Every identified citizen receives one free daily roll on the ATZAR machine, physically installed at the Faculty of Mathematics and Statistics. Enter your machine code on the device to link your play: the score is computed there, not on this website. The portal only shows the history the machine chooses to report."
+    },
+    "machineCode": "Machine code",
+    "machineCodeHint": "Enter this code at the ATZAR machine to link your next roll.",
+    "coins": "ATZAR coins",
+    "today": {
+      "title": "Today's roll",
+      "freeAvailable": "Free roll available",
+      "freeUsed": "Free roll already used today",
+      "extraRolls": "Extra rolls available: {count}"
+    },
+    "buy": {
+      "title": "Buy a roll",
+      "description": "Exchange coins for an additional roll on the machine.",
+      "button": "Buy a roll ({cost}¤)",
+      "success": "Roll purchased. It is now waiting for you at the machine.",
+      "genericError": "The purchase could not be processed. Please try again."
+    },
+    "history": {
+      "title": "Play history",
+      "empty": "No plays have been registered by the machine yet.",
+      "score": "Score",
+      "playedAt": "Date",
+      "source": "Source",
+      "pending": "No score"
+    }
+  },
+  "leaderboard": {
+    "eyebrow": "Standings",
+    "title": "Ranking of chance",
+    "subtitle": "The best scores reported by the ATZAR machine, across all citizens.",
+    "rank": "Rank",
+    "player": "Citizen",
+    "bestScore": "Best score",
+    "plays": "Plays",
+    "empty": "No plays have been registered on the machine yet."
+  },
+  "friends": {
+    "eyebrow": "Trust network",
+    "title": "Fellow players",
+    "intro": "Link up with other citizens to compare histories and watch over one another.",
+    "accepted": {
+      "title": "Friends",
+      "empty": "You have no accepted friends yet. Solitude is also monitored."
+    },
+    "pending": {
+      "title": "Pending requests",
+      "empty": "You have no pending requests.",
+      "accept": "Accept"
+    },
+    "outgoing": {
+      "title": "Sent requests",
+      "empty": "You have not sent any request awaiting a response.",
+      "waiting": "Awaiting response"
+    },
+    "add": {
+      "title": "Add a citizen",
+      "placeholder": "Username",
+      "button": "Send request",
+      "success": "Request sent.",
+      "errorNotFound": "No citizen was found with that username.",
+      "errorSelf": "You cannot request friendship with yourself, citizen."
+    }
+  }
+}

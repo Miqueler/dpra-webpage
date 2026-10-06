@@ -1,0 +1,36 @@
+{
+  "hero": {
+    "eyebrow": "Crida del Partit",
+    "title": "Allista't a la República",
+    "lead": "El Partit no busca voluntaris: busca ciutadans que encara no han descobert que ja ho són. Omple la teva fitxa, cedeix les teves dades biomètriques i gaudeix dels privilegis reservats a qui demostra lleialtat."
+  },
+  "benefits": {
+    "title": "Avantatges de la militància",
+    "items": [
+      "Progressió de rang dins del Partit, amb títols cada cop més llargs i difícils de pronunciar en veu alta.",
+      "Monedes ATZAR acumulables, convertibles en pràcticament res, però lluïdes amb orgull al teu expedient.",
+      "La càlida sensació de saber-te observat en tot moment, sense haver de demanar-ho.",
+      "Companyonia obligatòria amb altres membres del programa CFIS, fins i tot a l'hora de dinar.",
+      "Accés anticipat als comunicats oficials, abans que siguin desmentits."
+    ]
+  },
+  "requirements": {
+    "title": "Requisits d'ingrés",
+    "items": [
+      "Estar matriculat al CFIS o a un programa de matemàtiques afí, o bé afirmar-ho amb la convicció suficient.",
+      "No albergar pensaments deslleials, ni tan sols en forma de dubte raonable.",
+      "Consentir auditories de pensament ocasionals, sense previ avís ni dret a rèplica.",
+      "Saber comptar fins a deu sense preguntar-se per què el Partit ho exigeix.",
+      "Jurar fidelitat eterna a la Gran Abril (es permeten els dits creuats, però queden registrats)."
+    ]
+  },
+  "cta": {
+    "button": "Allista't ara",
+    "note": "L'allistament es formalitza amb el teu compte de Google. Un sol clic i ja ets dels nostres."
+  },
+  "contact": {
+    "lead": "Tens dubtes abans de jurar lleialtat?",
+    "emailLabel": "Escriu al Comissariat",
+    "hint": "...o localitza un representant del Partit al passadís de matemàtiques més proper."
+  }
+}

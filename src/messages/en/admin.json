@@ -1,0 +1,22 @@
+{
+  "eyebrow": "Restricted access",
+  "title": "Commissariat",
+  "description": "Full register of the Republic's citizens. From here the Commissariat may grant ATZAR coins as reward for merit or demonstrated loyalty.",
+  "tableHeaders": {
+    "username": "Citizen",
+    "rank": "Rank",
+    "coins": "Coins",
+    "action": "Grant"
+  },
+  "empty": "No citizens found in the register.",
+  "grantForm": {
+    "amountPlaceholder": "Amount",
+    "reasonAdminGrant": "Standard grant",
+    "reasonEventGrant": "Special event grant",
+    "notePlaceholder": "Note (optional)",
+    "submit": "Grant",
+    "pending": "Processing…",
+    "success": "Coins granted.",
+    "invalidAmount": "Enter a valid, non-zero amount."
+  }
+}
