@@ -1,8 +1,9 @@
 # 2. Google OAuth login
 
-The site's only sign-up/login method is "Continue with Google" via Supabase
-Auth (see `src/components/auth/GoogleLoginButton.tsx`). This needs a Google
-Cloud OAuth client, registered in Supabase.
+"Continue with Google" via Supabase Auth (see
+`src/components/auth/GoogleLoginButton.tsx`) is one of the site's two
+sign-up/login methods; the other is [email + password](./02b-email-login.md).
+This needs a Google Cloud OAuth client, registered in Supabase.
 
 ## A. Create a Google OAuth client
 
@@ -65,4 +66,4 @@ Still under **Authentication**:
    migration) fires and creates their `profiles` row — username derived from
    their email, a random machine code, and a 50-coin signup bonus.
 
-Next: [Environment variables](./03-environment-variables.md).
+Next: [Email + password login](./02b-email-login.md).

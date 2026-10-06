@@ -32,6 +32,9 @@ Easiest path (no CLI install needed):
      (with a generated 6-character machine code and a 50-coin signup bonus)
      whenever someone signs up via Google
    - RPC functions: `grant_coins`, `claim_daily_bonus`, `redeem_invite`, `buy_roll`
+5. Repeat with `supabase/migrations/0002_email_signup.sql` (email sign-up
+   support, plus a fix that lets the coin functions above actually move
+   coins). Run the files in number order.
 
 ### Alternative: Supabase CLI
 

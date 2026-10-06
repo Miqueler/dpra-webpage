@@ -6,6 +6,7 @@ the first time; after that, use them as reference.
 
 1. [Supabase project setup](./01-supabase-setup.md) — create the project, run the schema migration.
 2. [Google OAuth login](./02-google-oauth.md) — wire up "Continue with Google".
+   - [Email + password login](./02b-email-login.md) — email sign-up with mandatory verification.
 3. [Environment variables](./03-environment-variables.md) — what each `.env.local` value is and where to find it.
 4. [Running locally](./04-running-locally.md) — install, dev server, typecheck/lint/build.
 5. [Becoming an admin](./05-admin-promotion.md) — promote the first Commissariat account.

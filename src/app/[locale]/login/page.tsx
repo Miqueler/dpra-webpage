@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PosterCard } from "@/components/ui/PosterCard";
 import { WatchingEye } from "@/components/ui/WatchingEye";
 import { GoogleLoginButton } from "@/components/auth/GoogleLoginButton";
+import { EmailAuthForm } from "@/components/auth/EmailAuthForm";
 
 export default async function LoginPage({
   params,
@@ -35,9 +36,15 @@ export default async function LoginPage({
         <GoogleLoginButton />
         {error && (
           <p className="mt-4 text-xs uppercase tracking-widest text-party-red">
-            {t("error")}
+            {error === "link" ? t("errorLink") : t("error")}
           </p>
         )}
+        <div className="my-6 flex items-center gap-3 text-[11px] uppercase tracking-widest text-party-cream/40">
+          <span className="h-px flex-1 bg-party-cream/20" />
+          {t("or")}
+          <span className="h-px flex-1 bg-party-cream/20" />
+        </div>
+        <EmailAuthForm />
         <p className="mt-6 text-[11px] text-party-cream/40">{t("disclaimer")}</p>
       </PosterCard>
     </div>
