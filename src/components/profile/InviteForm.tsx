@@ -2,10 +2,12 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export function InviteForm({ alreadyInvited }: { alreadyInvited: boolean }) {
   const t = useTranslations("auth.profile");
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [status, setStatus] = useState<"idle" | "done" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
@@ -31,6 +33,7 @@ export function InviteForm({ alreadyInvited }: { alreadyInvited: boolean }) {
         setMessage(error.message);
       } else {
         setStatus("done");
+        router.refresh();
       }
     });
   }

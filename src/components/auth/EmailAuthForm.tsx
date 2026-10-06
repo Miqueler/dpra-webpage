@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { hardNavigate } from "@/lib/redirects";
 import { Button } from "@/components/ui/Button";
+import { USERNAME_MAX_LENGTH, isValidUsername } from "@/lib/username";
 
 type Mode = "signin" | "signup" | "forgot";
 type Notice = { kind: "info" | "error"; text: string };
@@ -20,6 +21,7 @@ export function EmailAuthForm() {
   const [mode, setMode] = useState<Mode>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [notice, setNotice] = useState<Notice | null>(null);
   // Address with a confirmation email outstanding — enables "resend".
   const [unconfirmed, setUnconfirmed] = useState<string | null>(null);
@@ -42,8 +44,14 @@ export function EmailAuthForm() {
   function submit(e: React.FormEvent) {
     e.preventDefault();
     const address = email.trim();
+    const chosenUsername = username.trim();
     setNotice(null);
     setUnconfirmed(null);
+
+    if (mode === "signup" && !isValidUsername(chosenUsername)) {
+      fail("invalid_username");
+      return;
+    }
 
     startTransition(async () => {
       const supabase = createClient();
@@ -67,7 +75,11 @@ export function EmailAuthForm() {
         const { data, error } = await supabase.auth.signUp({
           email: address,
           password,
-          options: { emailRedirectTo: `${origin}/${locale}/profile` },
+          options: {
+            emailRedirectTo: `${origin}/${locale}/profile`,
+            // Read by the handle_new_user trigger to name the profile.
+            data: { username: chosenUsername },
+          },
         });
         if (error) {
           fail(error.code);
@@ -136,6 +148,26 @@ export function EmailAuthForm() {
           className={inputClass}
         />
       </label>
+
+      {mode === "signup" && (
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] uppercase tracking-widest text-party-cream/60">
+            {t("usernameLabel")}
+          </span>
+          <input
+            type="text"
+            required
+            maxLength={USERNAME_MAX_LENGTH}
+            autoComplete="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className={inputClass}
+          />
+          <span className="text-[11px] text-party-cream/40">
+            {t("usernameHint")}
+          </span>
+        </label>
+      )}
 
       {mode !== "forgot" && (
         <label className="flex flex-col gap-1">

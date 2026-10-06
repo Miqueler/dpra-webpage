@@ -2,12 +2,14 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 type GrantReason = "admin_grant" | "event_grant";
 
 export function GrantCoinsForm({ userId }: { userId: string }) {
   const t = useTranslations("admin");
+  const router = useRouter();
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState<GrantReason>("admin_grant");
   const [note, setNote] = useState("");
@@ -44,6 +46,7 @@ export function GrantCoinsForm({ userId }: { userId: string }) {
         setMessage(t("grantForm.success"));
         setAmount("");
         setNote("");
+        router.refresh();
       }
     });
   }

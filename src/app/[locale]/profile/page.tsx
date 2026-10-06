@@ -6,6 +6,7 @@ import { PosterCard, SectionHeading } from "@/components/ui/PosterCard";
 import { LogoutButton } from "@/components/layout/LogoutButton";
 import { DailyBonusButton } from "@/components/profile/DailyBonusButton";
 import { InviteForm } from "@/components/profile/InviteForm";
+import { UsernameForm } from "@/components/profile/UsernameForm";
 
 export default async function ProfilePage({
   params,
@@ -60,6 +61,10 @@ export default async function ProfilePage({
             {t("coins")}
           </p>
         </div>
+      </PosterCard>
+
+      <PosterCard className="mb-6">
+        <UsernameForm userId={profile!.id} currentUsername={profile!.username} />
       </PosterCard>
 
       <PosterCard className="mb-6">
