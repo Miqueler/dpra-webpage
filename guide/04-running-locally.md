@@ -35,22 +35,32 @@ version, stale `node_modules`) is likely the cause; try `rm -rf node_modules
 
 ## Tests
 
-`npm test` needs no Supabase project or `.env.local` — Supabase is replaced
-by a stand-in (`tests/helpers/supabase.ts`). The suite lives in `tests/`:
+`npm test` needs no Supabase project or `.env.local`. The suite lives in
+`tests/`:
 
 - `messages.test.ts` — the three languages have the same keys and
   placeholders, and the name is DPRA in all of them.
 - `username.test.ts` — the username rule, and that the SQL migration uses the
   same one.
-- `proxy.test.ts`, `redirect.test.ts`, `auth-routes.test.ts` — locale
+- `database.test.ts` — runs every file in `supabase/migrations/` against an
+  in-memory Postgres (PGlite) and checks sign-up, the coin functions
+  (`claim_daily_bonus`, `buy_roll`, `redeem_invite`, `grant_coins`), the
+  protected profile columns and the row-level security policies.
+- `proxy.test.ts`, `redirects.test.ts`, `auth-routes.test.ts` — locale
   redirects, and that login/confirmation links never redirect off-site.
 - `machine-api.test.ts` — the routes the physical ATZAR machine calls.
 - `components/` — every form and button, including that the top-bar coin
   balance refreshes after coins move.
 
 Adding a message key to one language only, or a new namespace file that is
-not registered in `src/i18n/request.ts`, fails the suite. The SQL itself
-(triggers, RPC functions, RLS policies) is not executed by these tests.
+not registered in `src/i18n/request.ts`, fails the suite.
+
+Two limits worth knowing. The route and component tests replace Supabase
+with a stand-in (`tests/helpers/supabase.ts`), so they check what the app
+asks Supabase to do, not Supabase itself. And the database tests supply a
+minimal copy of what Supabase provides (`auth.users`, `auth.uid()`, the
+`anon`/`authenticated` roles — see `tests/helpers/database.ts`) and use a
+single connection, so they cannot catch two requests racing each other.
 
 ## Project layout, if you want to orient yourself
 
