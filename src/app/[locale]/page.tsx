@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PosterCard, SectionHeading } from "@/components/ui/PosterCard";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { WatchingEye } from "@/components/ui/WatchingEye";
+import { DpraLogo } from "@/components/ui/DpraLogo";
 
 export default async function Page({
   params,
@@ -105,7 +106,7 @@ export default async function Page({
       {/* Closing banner */}
       <section className="border-t border-party-cream/15 bg-party-red">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 px-4 py-16 text-center sm:px-8 sm:py-20">
-          <WatchingEye className="h-14 w-24 text-party-black! sm:h-20 sm:w-36" />
+          <DpraLogo size={144} className="h-28 w-28 sm:h-36 sm:w-36" />
           <p className="font-display text-2xl uppercase tracking-[0.2em] text-party-cream sm:text-4xl">
             {t("closing.slogan")}
           </p>
