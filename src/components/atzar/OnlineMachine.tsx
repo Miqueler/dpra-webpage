@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import type { RollResult } from "@/lib/atzar/machine";
 import { noStateRestore } from "@/components/ui/noStateRestore";
+
+const CELEBRATORY_TIERS: RollResult["tier"][] = ["epic", "anomaly", "mythic"];
 
 // The reveal runs on a single clock: the reels stop one by one from the most
 // significant digit to the least, then the badges appear one by one.
@@ -41,9 +43,12 @@ function lastTick(result: RollResult) {
 export function OnlineMachine({
   freeRollAvailable,
   extraRolls,
+  personalBest,
 }: {
   freeRollAvailable: boolean;
   extraRolls: number;
+  /** The citizen's best score before this page loaded, if they have played before. */
+  personalBest: number | null;
 }) {
   const t = useTranslations("atzar.play");
   const locale = useLocale();
@@ -53,6 +58,11 @@ export function OnlineMachine({
   const [frame, setFrame] = useState({ tick: 0, spin: "" });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<RollError | null>(null);
+  const [best, setBest] = useState(personalBest);
+  // Mirrors `best` without triggering the reveal effect below when it changes.
+  const bestRef = useRef(personalBest);
+  const [newRecord, setNewRecord] = useState(false);
+  const [shareState, setShareState] = useState<"idle" | "copied" | "error">("idle");
 
   const result = run?.result ?? null;
   const digits = result ? String(result.number) : "";
@@ -83,6 +93,12 @@ export function OnlineMachine({
       setFrame({ tick, spin: randomDigits(length) });
       if (tick >= final) {
         clearInterval(clock);
+        const priorBest = bestRef.current;
+        if (priorBest === null || run.result.score > priorBest) {
+          if (priorBest !== null) setNewRecord(true);
+          bestRef.current = run.result.score;
+          setBest(run.result.score);
+        }
         // The roll counts and the play history are rendered on the server.
         router.refresh();
       }
@@ -93,6 +109,8 @@ export function OnlineMachine({
   async function roll() {
     setBusy(true);
     setError(null);
+    setNewRecord(false);
+    setShareState("idle");
     try {
       const response = await fetch("/api/atzar/roll", {
         method: "POST",
@@ -124,7 +142,32 @@ export function OnlineMachine({
     }
   }
 
+  async function share() {
+    if (!result) return;
+    const emojiLine = result.badges
+      .filter((badge) => badge.counts)
+      .map((badge) => badge.emoji)
+      .join("");
+    const lines = [
+      t("share.line1", { number: result.number }),
+      t("share.line2", {
+        score: result.score.toLocaleString(locale),
+        tier: t(`tiers.${result.tier}`),
+      }),
+      emojiLine,
+      `${window.location.origin}/${locale}/atzar`,
+    ].filter((line) => line.length > 0);
+
+    try {
+      await navigator.clipboard.writeText(lines.join("\n"));
+      setShareState("copied");
+    } catch {
+      setShareState("error");
+    }
+  }
+
   const canRoll = freeRollAvailable || extraRolls > 0;
+  const celebratory = result !== null && CELEBRATORY_TIERS.includes(result.tier);
   const reels = result
     ? [...digits].map((digit, i) => (i < lockedReels ? digit : frame.spin[i] ?? "0"))
     : Array.from({ length: IDLE_REELS }, () => "–");
@@ -174,6 +217,11 @@ export function OnlineMachine({
               ? t("paidRolls", { count: extraRolls })
               : t("noRolls")}
         </p>
+        {best !== null && (
+          <p className="text-xs text-party-cream/40">
+            {t("personalBest", { score: best.toLocaleString(locale) })}
+          </p>
+        )}
         {error && (
           <p role="alert" className="text-sm text-atzar-red">
             {t(`errors.${error}`)}
@@ -220,7 +268,20 @@ export function OnlineMachine({
       )}
 
       {done && result && (
-        <div className="atzar-badge border border-atzar-gold/40 bg-atzar-black px-4 py-6 text-center">
+        <div
+          key={result.number}
+          className={clsx(
+            "atzar-badge relative overflow-hidden border px-4 py-6 text-center",
+            celebratory
+              ? "border-atzar-red bg-atzar-red/10 atzar-burst"
+              : "border-atzar-gold/40 bg-atzar-black",
+          )}
+        >
+          {newRecord && (
+            <p className="atzar-badge mb-2 text-xs uppercase tracking-[0.3em] text-atzar-red">
+              {t("newRecord")}
+            </p>
+          )}
           <p className="mb-1 text-xs uppercase tracking-widest text-party-cream/50">
             {t("score")}
           </p>
@@ -235,6 +296,16 @@ export function OnlineMachine({
               ? t("noBadges")
               : t("percentile", { percent: Math.floor(result.percentile) })}
           </p>
+          <button
+            type="button"
+            onClick={share}
+            className="font-display mt-4 border border-atzar-gold/40 px-5 py-2 text-xs uppercase tracking-widest text-atzar-gold hover:border-atzar-gold hover:bg-atzar-gold/10"
+          >
+            {shareState === "copied" ? t("share.copied") : t("share.button")}
+          </button>
+          {shareState === "error" && (
+            <p className="mt-2 text-xs text-atzar-red">{t("share.error")}</p>
+          )}
         </div>
       )}
     </div>

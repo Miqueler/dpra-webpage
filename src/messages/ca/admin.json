@@ -18,6 +18,16 @@
     "switchOff": "Apaga",
     "pending": "Processant…"
   },
+  "emailLogin": {
+    "title": "Identificació per correu",
+    "on": "Encesa",
+    "off": "Apagada",
+    "onHint": "Els ciutadans poden allistar-se i iniciar sessió amb correu i contrasenya.",
+    "offHint": "La pàgina d'inici de sessió només mostra Google. Els comptes de correu ja existents no es veuen afectats.",
+    "switchOn": "Encén",
+    "switchOff": "Apaga",
+    "pending": "Processant…"
+  },
   "register": {
     "title": "Registre",
     "hint": "Obre l'expedient d'un ciutadà per veure'n les dades, assignar-li un rang o concedir-li monedes.",

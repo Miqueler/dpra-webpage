@@ -224,3 +224,33 @@ their names are translated in `src/messages/*/atzar.json` under `play`.
   one step. The number is only sent back if that succeeded.
 - `src/components/atzar/OnlineMachine.tsx` — the reels and the badge reveal.
   Citizens whose device asks for reduced motion get the result at once.
+
+## Keeping citizens coming back
+
+A few things, inspired by rngdle itself, make a roll worth returning for:
+
+- **Streak** — `src/lib/atzar/streak.ts` (`computeStreak`) counts the
+  consecutive days, ending today or yesterday, a citizen has a free roll
+  recorded in `daily_rolls`. A streak rolled yesterday still shows — they
+  have until the end of today to extend it before it breaks. Shown as
+  `StreakBadge` (`src/components/atzar/StreakBadge.tsx`) on `/atzar` and
+  `/atzar/play` once it reaches 2 days.
+- **Personal best** — `src/lib/atzar/stats.ts` (`fetchPlayerStats`) also
+  reads a citizen's highest score ever from `rng_sessions`. `OnlineMachine`
+  takes it as the `personalBest` prop and tracks it locally from there, so a
+  roll that beats it mid-session is announced as a new record (`newRecord`
+  in `atzar.play`) without waiting for the page to reload — and a *second*
+  record in the same sitting is still announced, compared against the
+  newly-raised bar, not the one the page loaded with.
+- **Share** — once a roll is scored, "Share result" copies a short summary
+  (the number, score, tier and earned badge emojis, and a link back to
+  `/atzar`) to the clipboard, Wordle-style. Pure client-side; nothing is
+  sent anywhere.
+- **A flourish for the good ones** — `epic`, `anomaly` and `mythic` rolls get
+  a one-shot gold pulse (`.atzar-burst` in `globals.css`), skipped for
+  citizens who asked their device for reduced motion, same as the reel spin.
+
+`fetchPlayerStats` is shared by both ATZAR pages specifically so the two
+queries it runs (and the streak math) live in one place — if you add a third
+page that needs the same numbers, read from there rather than copying the
+queries.

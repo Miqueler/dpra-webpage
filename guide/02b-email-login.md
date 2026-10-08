@@ -5,6 +5,25 @@ Besides Google, citizens can enlist with an email address and password (see
 follow the confirmation link Supabase emails them. This needs a few dashboard
 settings — the code alone is not enough.
 
+## Turning it off
+
+If steps B–E below aren't done (most commonly: no SMTP provider configured,
+so confirmation emails never arrive), email login doesn't work — citizens
+can fill in the form, but never receive the link that unlocks their account.
+Rather than ship a broken option, an admin can switch the whole form off from
+**Online ATZAR machine → Email login** on `/admin`. While it's off:
+
+- the login page shows only "Continue with Google";
+- nothing is deleted — existing email/password accounts and their data are
+  untouched, and switching it back on makes the form reappear immediately;
+- it's read from `auth_settings.email_login_enabled`, defaulting to **on**,
+  changed only through the `set_email_login()` function (admin-only, see
+  `supabase/migrations/0010_email_login_toggle.sql`).
+
+Run `supabase/migrations/0010_email_login_toggle.sql` once, the same way as
+the others, for the toggle to exist at all. Until steps B–E below are done,
+switching it off is the right call.
+
 ## A. Run the second migration
 
 Run `supabase/migrations/0002_email_signup.sql` the same way as the first

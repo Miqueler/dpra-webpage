@@ -74,6 +74,43 @@ body {
   }
 }
 
+/* A one-shot flourish for epic/anomaly/mythic rolls. */
+@media (prefers-reduced-motion: no-preference) {
+  .atzar-burst {
+    animation: atzar-burst-pop 0.6s ease-out both;
+  }
+  .atzar-burst::before {
+    content: "";
+    position: absolute;
+    inset: -60%;
+    background: radial-gradient(circle, var(--color-atzar-gold-bright) 0%, transparent 65%);
+    opacity: 0;
+    animation: atzar-burst-glow 0.9s ease-out both;
+    pointer-events: none;
+  }
+}
+
+@keyframes atzar-burst-pop {
+  0% {
+    transform: scale(0.94);
+  }
+  45% {
+    transform: scale(1.025);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes atzar-burst-glow {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes eye-watch-pulse {
   0%,
   100% {

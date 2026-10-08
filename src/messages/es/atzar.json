@@ -45,6 +45,7 @@
       "genericError": "No se ha podido procesar la compra. Inténtalo de nuevo."
     },
     "history": {
+      "personalBest": "Récord personal: {score}",
       "title": "Historial de partidas",
       "empty": "Todavía no hay ninguna partida registrada por la máquina.",
       "score": "Puntuación",
@@ -62,11 +63,21 @@
     "freeRoll": "Tu tirada gratuita diaria está disponible",
     "paidRolls": "{count, plural, one {# tirada comprada restante} other {# tiradas compradas restantes}}",
     "noRolls": "No te quedan tiradas hoy. Compra una aquí abajo.",
+    "streak": "{count, plural, one {# día de racha} other {# días de racha}}",
+    "personalBest": "Récord personal: {score}",
+    "newRecord": "Nuevo récord personal",
     "score": "Puntuación",
     "percentile": "Mejor que el {percent}% de todas las tiradas posibles",
     "noBadges": "Ninguna insignia. La República te agradece igualmente tu contribución.",
     "outranked": "Superada por una insignia mejor",
     "announce": "Has sacado {number}. Puntuación: {score}.",
+    "share": {
+      "button": "Compartir resultado",
+      "copied": "Copiado al portapapeles",
+      "error": "No se ha podido copiar. Cópialo tú mismo, ciudadano.",
+      "line1": "ATZAR #{number}",
+      "line2": "{score} pts — {tier}"
+    },
     "back": "Volver a ATZAR",
     "offline": {
       "title": "Máquina apagada",

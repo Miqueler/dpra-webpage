@@ -46,6 +46,7 @@
     },
     "history": {
       "title": "Play history",
+      "personalBest": "Personal best: {score}",
       "empty": "No plays have been registered by the machine yet.",
       "score": "Score",
       "playedAt": "Date",
@@ -62,11 +63,21 @@
     "freeRoll": "Your free daily roll is available",
     "paidRolls": "{count, plural, one {# purchased roll left} other {# purchased rolls left}}",
     "noRolls": "No rolls left today. Buy one below.",
+    "streak": "{count, plural, one {# day streak} other {# day streak}}",
+    "personalBest": "Personal best: {score}",
+    "newRecord": "New personal record",
     "score": "Score",
     "percentile": "Better than {percent}% of all possible rolls",
     "noBadges": "No badges. The Republic thanks you for your contribution anyway.",
     "outranked": "Outranked by a better badge",
     "announce": "You rolled {number}. Score: {score}.",
+    "share": {
+      "button": "Share result",
+      "copied": "Copied to clipboard",
+      "error": "Could not copy. Copy it yourself, citizen.",
+      "line1": "ATZAR #{number}",
+      "line2": "{score} pts — {tier}"
+    },
     "back": "Back to ATZAR",
     "offline": {
       "title": "Machine switched off",

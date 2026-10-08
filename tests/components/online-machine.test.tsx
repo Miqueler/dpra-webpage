@@ -79,7 +79,7 @@ describe("OnlineMachine", () => {
 
   it("asks the server for a roll and shows the number, badges and score", async () => {
     const fetchMock = server(200, ROLL);
-    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} />);
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
     expect(screen.getByText(play("freeRoll"))).toBeVisible();
     await userEvent.click(rollButton());
 
@@ -103,7 +103,7 @@ describe("OnlineMachine", () => {
 
   it("says so when a roll earns no badges", async () => {
     server(200, { ...ROLL, badges: [], score: 0, percentile: 0, tier: "trash" });
-    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} />);
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
     await userEvent.click(rollButton());
     expect(await screen.findByText(play("noBadges"))).toBeVisible();
   });
@@ -116,7 +116,7 @@ describe("OnlineMachine", () => {
     [500, "something new"],
   ])("explains a refused roll (%i %s)", async (status, error) => {
     server(status, { error });
-    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} />);
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
     await userEvent.click(rollButton());
 
     const known = ["disabled", "no_rolls", "unauthorized"].includes(error) ? error : "failed";
@@ -127,26 +127,105 @@ describe("OnlineMachine", () => {
 
   it("explains a roll that never reached the server", async () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
-    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} />);
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
     await userEvent.click(rollButton());
     expect(await screen.findByRole("alert")).toHaveTextContent(play("errors.failed"));
   });
 
   it("counts the purchased rolls when the free one is gone", () => {
-    renderWithIntl(<OnlineMachine freeRollAvailable={false} extraRolls={2} />);
+    renderWithIntl(<OnlineMachine freeRollAvailable={false} extraRolls={2} personalBest={null} />);
     expect(screen.getByText("2 purchased rolls left")).toBeVisible();
     expect(rollButton()).toBeEnabled();
   });
 
   it("tells the browser not to restore the button's old state after a reload", () => {
-    renderWithIntl(<OnlineMachine freeRollAvailable={false} extraRolls={0} />);
+    renderWithIntl(<OnlineMachine freeRollAvailable={false} extraRolls={0} personalBest={null} />);
     expect(rollButton()).toHaveAttribute("autocomplete", "off");
   });
 
   it("cannot roll without rolls", () => {
-    renderWithIntl(<OnlineMachine freeRollAvailable={false} extraRolls={0} />);
+    renderWithIntl(<OnlineMachine freeRollAvailable={false} extraRolls={0} personalBest={null} />);
     expect(screen.getByText(play("noRolls"))).toBeVisible();
     expect(rollButton()).toBeDisabled();
+  });
+
+  it("shows no personal best banner for a citizen who has never played", () => {
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
+    expect(screen.queryByText(/Personal best/)).not.toBeInTheDocument();
+  });
+
+  it("shows the personal best brought from the server", () => {
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={500} />);
+    expect(screen.getByText("Personal best: 500")).toBeVisible();
+  });
+
+  it("does not announce a record on a score below the personal best", async () => {
+    server(200, ROLL); // score 1001
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={5000} />);
+    await userEvent.click(rollButton());
+
+    expect(await screen.findByText("1,001")).toBeVisible();
+    expect(screen.queryByText(play("newRecord"))).not.toBeInTheDocument();
+  });
+
+  it("announces and keeps a new record for the rest of the session", async () => {
+    server(200, ROLL); // score 1001
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={2} personalBest={500} />);
+    await userEvent.click(rollButton());
+
+    expect(await screen.findByText(play("newRecord"))).toBeVisible();
+    expect(screen.getByText("Personal best: 1,001")).toBeVisible();
+
+    // Beating the (locally tracked) new best again still reads as a record...
+    server(200, { ...ROLL, score: 2000 });
+    await userEvent.click(screen.getByRole("button", { name: play("rollAgain") }));
+    expect(await screen.findByText("2,000")).toBeVisible();
+    expect(screen.getByText(play("newRecord"))).toBeVisible();
+
+    // ...but a lower roll after that is not.
+    server(200, { ...ROLL, score: 100 });
+    await userEvent.click(screen.getByRole("button", { name: play("rollAgain") }));
+    expect(await screen.findByText("100")).toBeVisible();
+    expect(screen.queryByText(play("newRecord"))).not.toBeInTheDocument();
+    expect(screen.getByText("Personal best: 2,000")).toBeVisible();
+  });
+
+  it("copies a summary of the result to the clipboard", async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(window.navigator, "clipboard", {
+      value: { writeText },
+      configurable: true,
+    });
+    server(200, ROLL);
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
+    await userEvent.click(rollButton());
+    await screen.findByText("1,001");
+
+    await userEvent.click(screen.getByRole("button", { name: play("share.button") }));
+
+    expect(writeText).toHaveBeenCalledWith(
+      [
+        "ATZAR #4096",
+        "1,001 pts — Epic roll",
+        "⚖️🟥",
+        `${window.location.origin}/en/atzar`,
+      ].join("\n"),
+    );
+    expect(await screen.findByText(play("share.copied"))).toBeVisible();
+  });
+
+  it("says so when the clipboard refuses", async () => {
+    Object.defineProperty(window.navigator, "clipboard", {
+      value: { writeText: vi.fn().mockRejectedValue(new Error("denied")) },
+      configurable: true,
+    });
+    server(200, ROLL);
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
+    await userEvent.click(rollButton());
+    await screen.findByText("1,001");
+
+    await userEvent.click(screen.getByRole("button", { name: play("share.button") }));
+    expect(await screen.findByText(play("share.error"))).toBeVisible();
   });
 });
 

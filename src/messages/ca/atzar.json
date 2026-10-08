@@ -45,6 +45,7 @@
       "genericError": "No s'ha pogut processar la compra. Torna-ho a intentar."
     },
     "history": {
+      "personalBest": "Rècord personal: {score}",
       "title": "Historial de partides",
       "empty": "Encara no hi ha cap partida registrada per la màquina.",
       "score": "Puntuació",
@@ -62,11 +63,21 @@
     "freeRoll": "La teva tirada gratuïta diària està disponible",
     "paidRolls": "{count, plural, one {# tirada comprada restant} other {# tirades comprades restants}}",
     "noRolls": "No et queden tirades avui. Compra'n una aquí sota.",
+    "streak": "{count, plural, one {# dia de ratxa} other {# dies de ratxa}}",
+    "personalBest": "Rècord personal: {score}",
+    "newRecord": "Nou rècord personal",
     "score": "Puntuació",
     "percentile": "Millor que el {percent}% de totes les tirades possibles",
     "noBadges": "Cap insígnia. La República t'agraeix igualment la contribució.",
     "outranked": "Superada per una insígnia millor",
     "announce": "Has tret {number}. Puntuació: {score}.",
+    "share": {
+      "button": "Comparteix el resultat",
+      "copied": "Copiat al porta-retalls",
+      "error": "No s'ha pogut copiar. Copia-ho tu mateix, ciutadà.",
+      "line1": "ATZAR #{number}",
+      "line2": "{score} pts — {tier}"
+    },
     "back": "Torna a ATZAR",
     "offline": {
       "title": "Màquina apagada",

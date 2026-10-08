@@ -49,8 +49,9 @@ version, stale `node_modules`) is likely the cause; try `rm -rf node_modules
 - `proxy.test.ts`, `redirects.test.ts`, `auth-routes.test.ts` — locale
   redirects, and that login/confirmation links never redirect off-site.
 - `machine-api.test.ts` — the routes the physical ATZAR machine calls.
-- `atzar-badges.test.ts`, `atzar-roll-api.test.ts` — the online machine: every
-  badge's examples, that the points file is up to date, and the roll route.
+- `atzar-badges.test.ts`, `atzar-roll-api.test.ts`, `atzar-streak.test.ts` —
+  the online machine: every badge's examples, that the points file is up to
+  date, the roll route, and the daily-streak calculation.
 - `components/` — every form and button, including that the top-bar coin
   balance refreshes after coins move.
 

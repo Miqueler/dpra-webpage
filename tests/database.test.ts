@@ -794,6 +794,44 @@ describe("the online machine", () => {
   });
 });
 
+describe("email login toggle", () => {
+  it("starts on, and only an admin can switch it", async () => {
+    const admin = await commissar();
+    const me = await citizen();
+
+    expect(await db.as(null, "select email_login_enabled from auth_settings")).toEqual([
+      { email_login_enabled: true },
+    ]);
+
+    await expect(db.as(me.id, "select set_email_login(false)")).rejects.toThrow(
+      /Only the Commissariat/,
+    );
+    await expect(db.as(null, "select set_email_login(false)")).rejects.toThrow();
+    await expect(
+      db.as(me.id, "update auth_settings set email_login_enabled = false returning id"),
+    ).resolves.toEqual([]);
+
+    await db.as(admin.id, "select set_email_login(false)");
+    const [settings] = await db.admin(
+      "select email_login_enabled, updated_by from auth_settings",
+    );
+    expect(settings).toEqual({ email_login_enabled: false, updated_by: admin.id });
+    expect(await db.as(null, "select email_login_enabled from auth_settings")).toEqual([
+      { email_login_enabled: false },
+    ]);
+
+    await db.as(admin.id, "select set_email_login(true)");
+    expect(await db.as(null, "select email_login_enabled from auth_settings")).toEqual([
+      { email_login_enabled: true },
+    ]);
+  });
+
+  it("never holds more than one row of settings", async () => {
+    await expect(db.admin("insert into auth_settings (id) values (false)")).rejects.toThrow();
+    await expect(db.admin("insert into auth_settings default values")).rejects.toThrow();
+  });
+});
+
 describe("accepting the privacy policy", () => {
   async function acceptedAt(userId: string) {
     const [row] = await db.admin<{ privacy_accepted_at: Date | null }>(

@@ -51,7 +51,10 @@ Easiest path (no CLI install needed):
    on/off switch fails with "UPDATE requires a WHERE clause"), then
    `supabase/migrations/0009_privacy_acceptance.sql` (records who accepted
    the privacy policy; everyone who already has an account is marked as
-   having accepted).
+   having accepted), then
+   `supabase/migrations/0010_email_login_toggle.sql` (lets admins hide the
+   email/password login form from `/admin` — see
+   [02b-email-login.md](./02b-email-login.md#turning-it-off)).
    Run the files in number order.
 
 ### Alternative: Supabase CLI

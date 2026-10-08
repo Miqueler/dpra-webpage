@@ -18,10 +18,14 @@ export default async function LoginPage({
   const { error } = await searchParams;
 
   const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
+  const [{ data }, { data: authSettings }] = await Promise.all([
+    supabase.auth.getUser(),
+    supabase.from("auth_settings").select("email_login_enabled").maybeSingle(),
+  ]);
   if (data.user) {
     redirect({ href: "/profile", locale });
   }
+  const emailLoginEnabled = authSettings?.email_login_enabled ?? true;
 
   const t = await getTranslations("auth.login");
 
@@ -32,19 +36,25 @@ export default async function LoginPage({
         <h1 className="font-display mb-3 text-2xl uppercase tracking-wide">
           {t("title")}
         </h1>
-        <p className="mb-6 text-sm text-party-cream/70">{t("subtitle")}</p>
+        <p className="mb-6 text-sm text-party-cream/70">
+          {emailLoginEnabled ? t("subtitle") : t("subtitleGoogleOnly")}
+        </p>
         <GoogleLoginButton />
         {error && (
           <p className="mt-4 text-xs uppercase tracking-widest text-party-red">
             {error === "link" ? t("errorLink") : t("error")}
           </p>
         )}
-        <div className="my-6 flex items-center gap-3 text-[11px] uppercase tracking-widest text-party-cream/40">
-          <span className="h-px flex-1 bg-party-cream/20" />
-          {t("or")}
-          <span className="h-px flex-1 bg-party-cream/20" />
-        </div>
-        <EmailAuthForm />
+        {emailLoginEnabled && (
+          <>
+            <div className="my-6 flex items-center gap-3 text-[11px] uppercase tracking-widest text-party-cream/40">
+              <span className="h-px flex-1 bg-party-cream/20" />
+              {t("or")}
+              <span className="h-px flex-1 bg-party-cream/20" />
+            </div>
+            <EmailAuthForm />
+          </>
+        )}
         <p className="mt-6 text-[11px] text-party-cream/40">{t("disclaimer")}</p>
         <p className="mt-2 text-[11px] text-party-cream/60">
           {t("privacyLead")}{" "}

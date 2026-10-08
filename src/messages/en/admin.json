@@ -18,6 +18,16 @@
     "switchOff": "Switch off",
     "pending": "Processing…"
   },
+  "emailLogin": {
+    "title": "Email login",
+    "on": "On",
+    "off": "Off",
+    "onHint": "Citizens can sign up and log in with email and password.",
+    "offHint": "The login page shows Google only. Existing email accounts are unaffected.",
+    "switchOn": "Switch on",
+    "switchOff": "Switch off",
+    "pending": "Processing…"
+  },
   "register": {
     "title": "Register",
     "hint": "Open a citizen's file to see their details, assign a rank or grant coins.",

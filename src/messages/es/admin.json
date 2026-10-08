@@ -18,6 +18,16 @@
     "switchOff": "Apagar",
     "pending": "Procesando…"
   },
+  "emailLogin": {
+    "title": "Identificación por correo",
+    "on": "Encendida",
+    "off": "Apagada",
+    "onHint": "Los ciudadanos pueden alistarse e iniciar sesión con correo y contraseña.",
+    "offHint": "La página de inicio de sesión solo muestra Google. Las cuentas de correo ya existentes no se ven afectadas.",
+    "switchOn": "Encender",
+    "switchOff": "Apagar",
+    "pending": "Procesando…"
+  },
   "register": {
     "title": "Registro",
     "hint": "Abre el expediente de un ciudadano para ver sus datos, asignarle un rango o concederle monedas.",

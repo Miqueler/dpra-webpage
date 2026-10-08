@@ -6,6 +6,7 @@ import { PosterCard, SectionHeading } from "@/components/ui/PosterCard";
 import { GrantCoinsForm } from "@/components/admin/GrantCoinsForm";
 import { RankForm } from "@/components/admin/RankForm";
 import { OnlineMachineToggle } from "@/components/admin/OnlineMachineToggle";
+import { EmailLoginToggle } from "@/components/admin/EmailLoginToggle";
 
 const RANK_SUGGESTIONS_ID = "rank-suggestions";
 const LEDGER_LIMIT = 25;
@@ -60,6 +61,7 @@ export default async function AdminPage({
     { data: citizenRows, error: citizensError },
     { data: ledgerRows },
     { data: settings },
+    { data: authSettings },
   ] = await Promise.all([
       supabase.rpc("admin_citizens"),
       supabase
@@ -68,6 +70,7 @@ export default async function AdminPage({
         .order("created_at", { ascending: false })
         .limit(LEDGER_LIMIT),
       supabase.from("atzar_settings").select("online_enabled").maybeSingle(),
+      supabase.from("auth_settings").select("email_login_enabled").maybeSingle(),
     ]);
 
   const citizens = citizenRows ?? [];
@@ -114,6 +117,13 @@ export default async function AdminPage({
           {t("onlineMachine.title")}
         </h3>
         <OnlineMachineToggle enabled={settings?.online_enabled ?? false} />
+      </PosterCard>
+
+      <PosterCard className="mb-8">
+        <h3 className="font-display mb-3 text-xl uppercase tracking-wide text-party-cream">
+          {t("emailLogin.title")}
+        </h3>
+        <EmailLoginToggle enabled={authSettings?.email_login_enabled ?? true} />
       </PosterCard>
 
       <datalist id={RANK_SUGGESTIONS_ID}>

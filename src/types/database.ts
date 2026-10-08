@@ -65,6 +65,13 @@ export type AtzarSettings = {
   updated_by: string | null;
 };
 
+export type AuthSettings = {
+  id: boolean;
+  email_login_enabled: boolean;
+  updated_at: string;
+  updated_by: string | null;
+};
+
 export type Friendship = {
   id: string;
   user_id: string;
@@ -148,6 +155,12 @@ export type Database = {
         Update: Partial<Friendship>;
         Relationships: [];
       };
+      auth_settings: {
+        Row: AuthSettings;
+        Insert: Partial<AuthSettings>;
+        Update: Partial<AuthSettings>;
+        Relationships: [];
+      };
     };
     Views: {
       leaderboard: {
@@ -182,6 +195,10 @@ export type Database = {
         Returns: undefined;
       };
       set_online_machine: {
+        Args: { enabled: boolean };
+        Returns: undefined;
+      };
+      set_email_login: {
         Args: { enabled: boolean };
         Returns: undefined;
       };

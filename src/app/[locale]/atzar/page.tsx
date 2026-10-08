@@ -1,10 +1,12 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
+import { fetchPlayerStats } from "@/lib/atzar/stats";
 import { PosterCard, SectionHeading } from "@/components/ui/PosterCard";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { AtzarMark } from "@/components/atzar/AtzarMark";
 import { BuyRollButton } from "@/components/atzar/BuyRollButton";
 import { LinkMachineForm } from "@/components/atzar/LinkMachineForm";
+import { StreakBadge } from "@/components/atzar/StreakBadge";
 
 export default async function AtzarDashboardPage({
   params,
@@ -64,6 +66,8 @@ export default async function AtzarDashboardPage({
     .order("played_at", { ascending: false })
     .limit(10);
 
+  const stats = await fetchPlayerStats(supabase, auth.user.id, today);
+
   if (!profile) {
     return null;
   }
@@ -73,7 +77,10 @@ export default async function AtzarDashboardPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-8">
-      <SectionHeading eyebrow={profile.rank} title={profile.username} />
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <SectionHeading eyebrow={profile.rank} title={profile.username} />
+        <StreakBadge streak={stats.streak} />
+      </div>
 
       <PosterCard className="mb-6 flex flex-col gap-4 border-atzar-gold/25 bg-atzar-black/60 sm:flex-row sm:items-start sm:justify-between">
         <div>
@@ -139,9 +146,16 @@ export default async function AtzarDashboardPage({
       </PosterCard>
 
       <PosterCard className="border-atzar-gold/25 bg-atzar-black/60">
-        <p className="mb-4 text-xs uppercase tracking-widest text-party-cream/50">
-          {t("history.title")}
-        </p>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs uppercase tracking-widest text-party-cream/50">
+            {t("history.title")}
+          </p>
+          {stats.personalBest !== null && (
+            <p className="font-display text-sm text-atzar-gold-bright">
+              {t("history.personalBest", { score: stats.personalBest })}
+            </p>
+          )}
+        </div>
         {!sessions || sessions.length === 0 ? (
           <p className="text-sm text-party-cream/50">{t("history.empty")}</p>
         ) : (
