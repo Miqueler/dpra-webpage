@@ -705,4 +705,31 @@ describe("leaderboard", () => {
     expect(Object.keys(rows[0])).not.toContain("coins");
     expect(Object.keys(rows[0])).not.toContain("machine_code");
   });
+
+  it("runs with the caller's privileges, not its creator's", async () => {
+    const [view] = await db.admin<{ reloptions: string[] | null }>(
+      "select reloptions from pg_class where oid = 'public.leaderboard'::regclass",
+    );
+    expect(view.reloptions).toContain("security_invoker=true");
+  });
+
+  it("shows visitors nothing", async () => {
+    const player = await citizen("champion");
+    await db.admin("insert into rng_sessions (user_id, score) values ($1, 80)", [player.id]);
+
+    await expect(db.as(null, "select * from leaderboard")).rejects.toThrow(/permission denied/);
+    await expect(db.as(null, "select * from leaderboard_rows()")).rejects.toThrow(
+      /permission denied/,
+    );
+  });
+
+  it("does not open up the play history behind it", async () => {
+    const player = await citizen("champion");
+    const stranger = await citizen("stranger");
+    await db.admin("insert into rng_sessions (user_id, score) values ($1, 80)", [player.id]);
+
+    expect(
+      await db.as(stranger.id, "select * from rng_sessions where user_id = $1", [player.id]),
+    ).toEqual([]);
+  });
 });
