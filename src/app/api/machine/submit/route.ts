@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { findMachineSession, isMachine } from "@/lib/machine";
 
 type SubmitBody = {
   code?: string;
@@ -15,12 +16,12 @@ type SubmitBody = {
  * Body: { code, score, payload, roll_type }
  *
  * The physical machine performs the RNG/scoring itself and reports the
- * result here. This route only records it and decrements the roll that was
- * consumed — it never recomputes a score.
+ * result here, under the code it showed for this play. This route only
+ * records it for the citizen who claimed that code and decrements the roll
+ * that was consumed — it never recomputes a score. The code is spent.
  */
 export async function POST(request: NextRequest) {
-  const secret = request.headers.get("x-machine-secret");
-  if (!secret || secret !== process.env.MACHINE_API_SECRET) {
+  if (!isMachine(request)) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
@@ -33,21 +34,20 @@ export async function POST(request: NextRequest) {
   }
 
   const supabase = createAdminClient();
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("id")
-    .eq("machine_code", code)
-    .single();
-
-  if (profileError || !profile) {
-    return NextResponse.json({ error: "unknown machine code" }, { status: 404 });
+  const { session, failure } = await findMachineSession(supabase, code);
+  if (failure) {
+    return NextResponse.json({ error: failure.error }, { status: failure.status });
   }
+  if (!session.user_id) {
+    return NextResponse.json({ error: "code not linked to a citizen yet" }, { status: 409 });
+  }
+  const userId = session.user_id;
 
   const today = new Date().toISOString().slice(0, 10);
   const { data: roll } = await supabase
     .from("daily_rolls")
     .select("free_roll_used, extra_rolls")
-    .eq("user_id", profile.id)
+    .eq("user_id", userId)
     .eq("roll_date", today)
     .single();
 
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     await supabase
       .from("daily_rolls")
       .upsert(
-        { user_id: profile.id, roll_date: today, free_roll_used: true },
+        { user_id: userId, roll_date: today, free_roll_used: true },
         { onConflict: "user_id,roll_date" }
       );
   } else {
@@ -68,12 +68,17 @@ export async function POST(request: NextRequest) {
     await supabase
       .from("daily_rolls")
       .update({ extra_rolls: roll.extra_rolls - 1 })
-      .eq("user_id", profile.id)
+      .eq("user_id", userId)
       .eq("roll_date", today);
   }
 
+  await supabase
+    .from("machine_sessions")
+    .update({ used_at: new Date().toISOString() })
+    .eq("id", session.id);
+
   const { error: insertError } = await supabase.from("rng_sessions").insert({
-    user_id: profile.id,
+    user_id: userId,
     score: body.score,
     payload: body.payload ?? null,
     source: "machine",

@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { redirect } from "@/i18n/navigation";
+import { Link, redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PosterCard } from "@/components/ui/PosterCard";
 import { WatchingEye } from "@/components/ui/WatchingEye";
@@ -46,6 +46,13 @@ export default async function LoginPage({
         </div>
         <EmailAuthForm />
         <p className="mt-6 text-[11px] text-party-cream/40">{t("disclaimer")}</p>
+        <p className="mt-2 text-[11px] text-party-cream/60">
+          {t("privacyLead")}{" "}
+          <Link href="/privacy" className="underline underline-offset-2 hover:text-party-cream">
+            {t("privacyLink")}
+          </Link>
+          .
+        </p>
       </PosterCard>
     </div>
   );

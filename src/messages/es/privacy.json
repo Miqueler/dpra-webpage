@@ -1,0 +1,104 @@
+{
+  "eyebrow": "Ministerio de la Transparencia",
+  "title": "Política de privacidad",
+  "intro": "La República respeta tu privacidad y por eso la ha puesto bajo su custodia. Este documento explica, con total transparencia, todo aquello de lo que no hace falta que te preocupes.",
+  "updated": "Última enmienda: octubre de 2026. Siempre ha dicho esto.",
+  "article": "Artículo {number}",
+  "articles": [
+    {
+      "title": "Quién es el responsable",
+      "paragraphs": [
+        "La República Democrática Popular de Abril (DPRA) es la responsable de tus datos. La DPRA es un proyecto estudiantil del programa CFIS y carece de personalidad jurídica, cosa que el Partido considera una de sus principales fortalezas.",
+        "La responsabilidad es colectiva. Si algo saliera mal, se repartirá a partes iguales entre todos los ciudadanos, empezando por ti."
+      ]
+    },
+    {
+      "title": "Qué recogemos",
+      "paragraphs": [
+        "La República no recoge datos personales. Con fines exclusivamente administrativos, conserva los siguientes:"
+      ],
+      "items": [
+        "Tu dirección de correo, que jamás miraremos, y que los administradores pueden ver.",
+        "Si entras con Google: el nombre y la foto que Google tiene de ti. No se los pedimos a Google. Google insistió.",
+        "Tu nombre de usuario, tu rango y tu saldo de monedas, junto con cada moneda que has recibido o gastado, el motivo y quién lo autorizó.",
+        "Cada tirada que haces en la máquina ATZAR: el número, la puntuación y el instante exacto. El azar no se vigila. Los resultados del azar, sí.",
+        "Tus amistades y el ciudadano que te apadrinó, para poder seguir la lealtad hasta su origen.",
+        "La fecha en que aceptaste esta política, que es el único dato de esta lista que nos diste a propósito."
+      ]
+    },
+    {
+      "title": "Para qué los recogemos",
+      "paragraphs": [
+        "Tus datos se usan exclusivamente para que puedas entrar, para guardar tus monedas y puntuaciones y para mostrar la clasificación. No se usan para nada más.",
+        "También pueden usarse para zanjar discusiones sobre quién sacó qué. No es una finalidad distinta; es la misma finalidad, vista con desconfianza."
+      ]
+    },
+    {
+      "title": "Quién puede verlos",
+      "paragraphs": [
+        "Tus datos son confidenciales. Los demás ciudadanos identificados pueden ver tu nombre de usuario, tu foto, tu rango y tus puntuaciones, porque un ciudadano que no tiene nada que ocultar no oculta nada. Tus amigos pueden ver tu historial de partidas. Los administradores pueden verlo todo, incluido tu correo.",
+        "Nunca compartimos tus datos con terceros. CASA no es un tercero. El tercero eres tú."
+      ]
+    },
+    {
+      "title": "Cookies",
+      "paragraphs": [
+        "Este sitio usa únicamente las cookies estrictamente necesarias para recordar que has iniciado sesión y en qué idioma obedeces. No usamos cookies de seguimiento ni de publicidad. Nunca nos ha hecho falta seguirte por internet; vienes tú solo.",
+        "Puedes rechazar estas cookies en tu navegador. El sitio te olvidará entonces a cada clic, cosa que a algunos ciudadanos les resulta reparadora."
+      ]
+    },
+    {
+      "title": "Cuánto tiempo los guardamos",
+      "paragraphs": [
+        "Tus datos se conservan mientras tengas una cuenta, y ni un día más que para siempre.",
+        "Si lo pides, el Partido borrará tu cuenta y todo lo que lleva asociado, con rapidez y de forma permanente, y sostendrá después que nunca estuviste aquí."
+      ]
+    },
+    {
+      "title": "Tus derechos",
+      "paragraphs": [
+        "Tienes derecho a ver tus datos, a corregirlos y a que se borren. También tienes derecho a oponerte. Las objeciones son bienvenidas y se registran con esmero.",
+        "Para ejercer cualquier derecho, escribe al Comisariado a la dirección de abajo. No hace falta dar ningún motivo, aunque se te supondrá uno."
+      ]
+    },
+    {
+      "title": "Consentimiento",
+      "paragraphs": [
+        "Aceptar esta política es completamente voluntario. También es obligatorio para usar una cuenta. El Partido no ve contradicción alguna.",
+        "Se ha comprobado que los ciudadanos que ya tenían cuenta cuando se introdujo esta política la habían aceptado de antemano."
+      ]
+    },
+    {
+      "title": "Cambios en esta política",
+      "paragraphs": [
+        "Esta política puede enmendarse en cualquier momento. Cada vez que ocurra, resultará que la versión anterior decía lo mismo."
+      ]
+    }
+  ],
+  "plain": {
+    "eyebrow": "Anexo para inspectores",
+    "title": "La parte que significa lo que dice",
+    "intro": "El reglamento de CASA nos obliga a incluir una sección sin ironía. Todo lo anterior es una broma sobre una lista verdadera; esta es la lista verdadera.",
+    "items": [
+      "Esto es un proyecto estudiantil sin ánimo de lucro. No hay anuncios, ni analíticas, ni seguimiento, y tus datos nunca se venden ni se ceden a nadie con fines comerciales.",
+      "Guardamos: tu correo; tu nombre y tu foto de perfil de Google si entras con Google; tu nombre de usuario, tu rango y tu saldo de monedas; tu historial de monedas; tus partidas de ATZAR; tu lista de amigos y quién te invitó; y cuándo aceptaste esta política.",
+      "Las contraseñas las gestiona nuestro proveedor de inicio de sesión y solo se guardan cifradas con hash. No podemos leerlas.",
+      "Los datos están en Supabase (base de datos e inicio de sesión) y el sitio lo sirve Vercel. Google solo interviene si decides entrar con Google.",
+      "Los demás usuarios identificados pueden ver tu nombre de usuario, tu foto, tu rango y tus puntuaciones. Los amigos aceptados pueden ver tu historial de partidas. Los administradores del proyecto pueden ver tu correo y el resto de tu cuenta.",
+      "Las únicas cookies son las que mantienen tu sesión iniciada y recuerdan tu idioma.",
+      "Puedes cambiar tu nombre de usuario desde tu perfil. Para ver, corregir o borrar tus datos, o para eliminar tu cuenta, escríbenos y lo haremos."
+    ],
+    "contact": "Contacto:"
+  },
+  "consent": {
+    "eyebrow": "Trámite obligatorio",
+    "title": "Una firma, ciudadano",
+    "body": "Antes de continuar, la República necesita que aceptes su Política de privacidad.",
+    "voluntary": "Aceptar es voluntario. Tener cuenta, también.",
+    "read": "Leer antes la política",
+    "accept": "Acepto, por voluntad propia",
+    "pending": "Registrando tu voluntad propia…",
+    "decline": "No acepto (cerrar mi sesión)",
+    "error": "No se ha podido registrar tu aceptación. Inténtalo de nuevo."
+  }
+}

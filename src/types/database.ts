@@ -16,6 +16,8 @@ export type Profile = {
   machine_code: string;
   invited_by: string | null;
   last_daily_bonus_at: string | null;
+  /** Null until the citizen accepts the privacy policy. */
+  privacy_accepted_at: string | null;
   created_at: string;
 };
 
@@ -44,6 +46,23 @@ export type RngSession = {
   payload: Record<string, unknown> | null;
   source: string;
   played_at: string;
+};
+
+export type MachineSession = {
+  id: string;
+  code: string;
+  user_id: string | null;
+  created_at: string;
+  expires_at: string;
+  claimed_at: string | null;
+  used_at: string | null;
+};
+
+export type AtzarSettings = {
+  id: boolean;
+  online_enabled: boolean;
+  updated_at: string;
+  updated_by: string | null;
 };
 
 export type Friendship = {
@@ -111,6 +130,18 @@ export type Database = {
         Update: Partial<RngSession>;
         Relationships: [];
       };
+      machine_sessions: {
+        Row: MachineSession;
+        Insert: Partial<MachineSession> & { code: string; expires_at: string };
+        Update: Partial<MachineSession>;
+        Relationships: [];
+      };
+      atzar_settings: {
+        Row: AtzarSettings;
+        Insert: Partial<AtzarSettings>;
+        Update: Partial<AtzarSettings>;
+        Relationships: [];
+      };
       friendships: {
         Row: Friendship;
         Insert: Partial<Friendship> & { user_id: string; friend_id: string };
@@ -141,6 +172,30 @@ export type Database = {
       admin_citizens: {
         Args: Record<string, never>;
         Returns: AdminCitizen[];
+      };
+      create_machine_session: {
+        Args: Record<string, never>;
+        Returns: { code: string; expires_at: string }[];
+      };
+      claim_machine_session: {
+        Args: { session_code: string };
+        Returns: undefined;
+      };
+      set_online_machine: {
+        Args: { enabled: boolean };
+        Returns: undefined;
+      };
+      record_online_play: {
+        Args: {
+          target_user: string;
+          play_score: number;
+          play_payload: Record<string, unknown>;
+        };
+        Returns: "free" | "paid" | "disabled" | "no_rolls";
+      };
+      accept_privacy_policy: {
+        Args: Record<string, never>;
+        Returns: undefined;
       };
       claim_daily_bonus: {
         Args: Record<string, never>;

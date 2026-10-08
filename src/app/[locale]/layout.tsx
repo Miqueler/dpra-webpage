@@ -33,6 +33,11 @@ export async function generateMetadata({
   return {
     title: t("brand"),
     description: t("footer.tagline"),
+    icons: {
+      icon: { url: "/dpra-logo.svg", type: "image/svg+xml" },
+      // iOS home-screen icons cannot be SVG.
+      apple: "/icon.png",
+    },
   };
 }
 

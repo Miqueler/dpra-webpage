@@ -1,4 +1,6 @@
 // @vitest-environment jsdom
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { generateMetadata } from "@/app/[locale]/layout";
@@ -44,6 +46,7 @@ const profile: Profile = {
   machine_code: "ABC123",
   invited_by: null,
   last_daily_bonus_at: null,
+  privacy_accepted_at: "2026-01-01T00:00:00Z",
   created_at: "2026-01-01T00:00:00Z",
 };
 
@@ -56,6 +59,19 @@ describe("page title", () => {
   it.each(["ca", "es", "en"])("has the translated tagline as description in %s", async (locale) => {
     const metadata = await generateMetadata({ params: Promise.resolve({ locale }) });
     expect(metadata.description).toBe(text(locale, "common.footer.tagline"));
+  });
+});
+
+describe("tab icon", () => {
+  it("is the DPRA seal, from a file that exists", async () => {
+    const metadata = await generateMetadata({ params: Promise.resolve({ locale: "en" }) });
+    expect(metadata.icons).toMatchObject({
+      icon: { url: "/dpra-logo.svg" },
+      apple: "/icon.png",
+    });
+    for (const file of ["public/dpra-logo.svg", "public/icon.png"]) {
+      expect(existsSync(join(process.cwd(), file))).toBe(true);
+    }
   });
 });
 

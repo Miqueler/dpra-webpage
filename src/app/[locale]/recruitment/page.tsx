@@ -65,7 +65,7 @@ export default async function RecruitmentPage({
       <div className="border-t border-party-cream/10 pt-8 text-center">
         <p className="mb-2 text-sm text-party-cream/70">{t("contact.lead")}</p>
         <a
-          href="mailto:dpra.cfis@upc.edu"
+          href="mailto:dpra.cfis@gmail.com"
           className="font-display text-sm uppercase tracking-widest text-party-cream underline underline-offset-4 hover:text-party-red"
         >
           {t("contact.emailLabel")}

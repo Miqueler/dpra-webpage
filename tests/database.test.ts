@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createDatabase, type TestDatabase } from "./helpers/database";
 
@@ -33,6 +35,31 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await db?.close();
+});
+
+describe("the functions the site calls", () => {
+  // Supabase rejects an UPDATE or DELETE with no WHERE clause at run time
+  // ("UPDATE requires a WHERE clause"). The in-memory Postgres does not, so
+  // this reads the functions as they stand after every migration.
+  it("never update or delete without a WHERE clause", async () => {
+    const functions = await db.admin<{ name: string; body: string }>(
+      `select p.proname as name, p.prosrc as body
+       from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+       where n.nspname = 'public'`,
+    );
+    expect(functions.length).toBeGreaterThan(5);
+
+    const offenders: string[] = [];
+    for (const { name, body } of functions) {
+      const code = body.replace(/--.*$/gm, "");
+      for (const statement of code.split(";")) {
+        const write = /\b(update\s+[\w.]+\s+set|delete\s+from)\b/i.test(statement);
+        const upsert = /\bdo\s+update\s+set\b/i.test(statement);
+        if (write && !upsert && !/\bwhere\b/i.test(statement)) offenders.push(name);
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
 });
 
 describe("signing up", () => {
@@ -531,6 +558,296 @@ describe("admin_citizens", () => {
 
   it("refuses a visitor", async () => {
     await expect(db.as(null, "select * from admin_citizens()")).rejects.toThrow();
+  });
+});
+
+describe("linking a play to the machine", () => {
+  /** What the machine route does when someone presses play. */
+  async function pressPlay() {
+    const [session] = await db.admin<{ code: string; expires_at: Date }>(
+      "select * from create_machine_session()",
+    );
+    return session;
+  }
+
+  async function session(code: string) {
+    const [row] = await db.admin<{
+      user_id: string | null;
+      claimed_at: Date | null;
+      expires_at: Date;
+    }>("select user_id, claimed_at, expires_at from machine_sessions where code = $1", [code]);
+    return row;
+  }
+
+  it("gives the machine a different, typeable code for each play", async () => {
+    const first = await pressPlay();
+    const second = await pressPlay();
+
+    expect(first.code).toMatch(/^[A-HJ-NP-Z2-9]{6}$/);
+    expect(second.code).not.toBe(first.code);
+    expect(first.expires_at.getTime()).toBeGreaterThan(Date.now());
+    expect((await session(first.code)).user_id).toBeNull();
+  });
+
+  it("links the code to the citizen who types it in, however they type it", async () => {
+    const me = await citizen();
+    const { code } = await pressPlay();
+
+    await db.as(me.id, "select claim_machine_session($1)", [` ${code.toLowerCase()} `]);
+
+    const linked = await session(code);
+    expect(linked.user_id).toBe(me.id);
+    expect(linked.claimed_at).not.toBeNull();
+  });
+
+  it("lets the same citizen enter their code twice", async () => {
+    const me = await citizen();
+    const { code } = await pressPlay();
+    await db.as(me.id, "select claim_machine_session($1)", [code]);
+    await db.as(me.id, "select claim_machine_session($1)", [code]);
+    expect((await session(code)).user_id).toBe(me.id);
+  });
+
+  it("does not let a second citizen take over a claimed code", async () => {
+    const me = await citizen();
+    const other = await citizen();
+    const { code } = await pressPlay();
+    await db.as(me.id, "select claim_machine_session($1)", [code]);
+
+    await expect(db.as(other.id, "select claim_machine_session($1)", [code])).rejects.toThrow(
+      /already been claimed/,
+    );
+    expect((await session(code)).user_id).toBe(me.id);
+  });
+
+  it("refuses a code the machine never showed", async () => {
+    const me = await citizen();
+    await expect(db.as(me.id, "select claim_machine_session('NOPE99')")).rejects.toThrow(
+      /unknown or has expired/,
+    );
+  });
+
+  it("refuses a code that has run out of time", async () => {
+    const me = await citizen();
+    const { code } = await pressPlay();
+    await db.admin("update machine_sessions set expires_at = now() - interval '1 second' where code = $1", [
+      code,
+    ]);
+
+    await expect(db.as(me.id, "select claim_machine_session($1)", [code])).rejects.toThrow(
+      /unknown or has expired/,
+    );
+    expect((await session(code)).user_id).toBeNull();
+  });
+
+  it("refuses a code that was already played", async () => {
+    const me = await citizen();
+    const { code } = await pressPlay();
+    await db.admin("update machine_sessions set used_at = now() where code = $1", [code]);
+
+    await expect(db.as(me.id, "select claim_machine_session($1)", [code])).rejects.toThrow(
+      /unknown or has expired/,
+    );
+  });
+
+  it("refuses a visitor", async () => {
+    const { code } = await pressPlay();
+    await expect(db.as(null, "select claim_machine_session($1)", [code])).rejects.toThrow();
+    expect((await session(code)).user_id).toBeNull();
+  });
+
+  it("keeps codes out of citizens' reach", async () => {
+    const me = await citizen();
+    await pressPlay();
+
+    await expect(db.as(me.id, "select * from machine_sessions")).rejects.toThrow(
+      /permission denied/,
+    );
+    await expect(db.as(me.id, "select * from create_machine_session()")).rejects.toThrow(
+      /permission denied/,
+    );
+  });
+
+  it("clears out codes that expired more than a day ago", async () => {
+    const stale = await pressPlay();
+    const recent = await pressPlay();
+    await db.admin("update machine_sessions set expires_at = now() - interval '2 days' where code = $1", [
+      stale.code,
+    ]);
+    await db.admin("update machine_sessions set expires_at = now() - interval '1 hour' where code = $1", [
+      recent.code,
+    ]);
+
+    await pressPlay();
+
+    expect(await session(stale.code)).toBeUndefined();
+    expect(await session(recent.code)).toBeDefined();
+  });
+});
+
+describe("the online machine", () => {
+  async function switchMachine(on: boolean) {
+    await db.admin("update atzar_settings set online_enabled = $1 where id", [on]);
+  }
+
+  /** What the roll route does once it has rolled and scored a number. */
+  async function play(userId: string, score = 123) {
+    const [{ outcome }] = await db.admin<{ outcome: string }>(
+      "select record_online_play($1, $2, $3) as outcome",
+      [userId, score, JSON.stringify({ number: 4096 })],
+    );
+    return outcome;
+  }
+
+  async function plays(userId: string) {
+    return db.admin<{ score: number; source: string; payload: unknown }>(
+      "select score, source, payload from rng_sessions where user_id = $1 order by played_at",
+      [userId],
+    );
+  }
+
+  it("starts switched off, and only an admin can switch it", async () => {
+    await switchMachine(false);
+    const admin = await commissar();
+    const me = await citizen();
+
+    await expect(db.as(me.id, "select set_online_machine(true)")).rejects.toThrow(
+      /Only the Commissariat/,
+    );
+    await expect(db.as(null, "select set_online_machine(true)")).rejects.toThrow();
+    await expect(
+      db.as(me.id, "update atzar_settings set online_enabled = true returning id"),
+    ).resolves.toEqual([]);
+    expect(await db.as(me.id, "select online_enabled from atzar_settings")).toEqual([
+      { online_enabled: false },
+    ]);
+
+    await db.as(admin.id, "select set_online_machine(true)");
+    const [settings] = await db.admin("select online_enabled, updated_by from atzar_settings");
+    expect(settings).toEqual({ online_enabled: true, updated_by: admin.id });
+
+    await db.as(admin.id, "select set_online_machine(false)");
+    expect(await db.as(me.id, "select online_enabled from atzar_settings")).toEqual([
+      { online_enabled: false },
+    ]);
+  });
+
+  it("never holds more than one row of settings", async () => {
+    await expect(db.admin("insert into atzar_settings (id) values (false)")).rejects.toThrow();
+    await expect(db.admin("insert into atzar_settings default values")).rejects.toThrow();
+  });
+
+  it("records nothing and spends nothing while switched off", async () => {
+    await switchMachine(false);
+    const me = await citizen();
+
+    expect(await play(me.id)).toBe("disabled");
+    expect(await plays(me.id)).toEqual([]);
+    expect(await db.admin("select * from daily_rolls where user_id = $1", [me.id])).toEqual([]);
+  });
+
+  it("spends the free roll first, then purchased rolls, then refuses", async () => {
+    await switchMachine(true);
+    const me = await citizen();
+    await db.as(me.id, "select buy_roll()");
+
+    expect(await play(me.id, 10)).toBe("free");
+    expect(await play(me.id, 20)).toBe("paid");
+    expect(await play(me.id, 30)).toBe("no_rolls");
+
+    expect(await plays(me.id)).toEqual([
+      { score: 10, source: "online", payload: { number: 4096 } },
+      { score: 20, source: "online", payload: { number: 4096 } },
+    ]);
+    const [roll] = await db.admin(
+      "select free_roll_used, extra_rolls from daily_rolls where user_id = $1",
+      [me.id],
+    );
+    expect(roll).toEqual({ free_roll_used: true, extra_rolls: 0 });
+  });
+
+  it("shares the daily roll with the physical machine", async () => {
+    await switchMachine(true);
+    const me = await citizen();
+    await db.admin("insert into daily_rolls (user_id, free_roll_used) values ($1, true)", [me.id]);
+    expect(await play(me.id)).toBe("no_rolls");
+  });
+
+  it("puts online plays on the leaderboard", async () => {
+    await switchMachine(true);
+    const me = await citizen("online_player");
+    await play(me.id, 777);
+
+    const [row] = await db.as(me.id, "select best_score from leaderboard where user_id = $1", [
+      me.id,
+    ]);
+    expect(row).toEqual({ best_score: 777 });
+  });
+
+  it("cannot be called by citizens to record a score of their choosing", async () => {
+    await switchMachine(true);
+    const me = await citizen();
+    await expect(
+      db.as(me.id, "select record_online_play($1, 999999, '{}')", [me.id]),
+    ).rejects.toThrow(/permission denied/);
+    expect(await plays(me.id)).toEqual([]);
+  });
+});
+
+describe("accepting the privacy policy", () => {
+  async function acceptedAt(userId: string) {
+    const [row] = await db.admin<{ privacy_accepted_at: Date | null }>(
+      "select privacy_accepted_at from profiles where id = $1",
+      [userId],
+    );
+    return row.privacy_accepted_at;
+  }
+
+  it("has not happened yet for a new citizen", async () => {
+    const me = await citizen();
+    expect(await acceptedAt(me.id)).toBeNull();
+  });
+
+  it("is recorded for the citizen who accepts, and nobody else", async () => {
+    const me = await citizen();
+    const other = await citizen();
+
+    await db.as(me.id, "select accept_privacy_policy()");
+
+    expect(await acceptedAt(me.id)).toBeInstanceOf(Date);
+    expect(await acceptedAt(other.id)).toBeNull();
+  });
+
+  it("keeps the first date when accepted again", async () => {
+    const me = await citizen();
+    await db.admin("update profiles set privacy_accepted_at = '2026-01-01T00:00:00Z' where id = $1", [
+      me.id,
+    ]);
+
+    await db.as(me.id, "select accept_privacy_policy()");
+
+    expect(await acceptedAt(me.id)).toEqual(new Date("2026-01-01T00:00:00Z"));
+  });
+
+  it("refuses a visitor", async () => {
+    await expect(db.as(null, "select accept_privacy_policy()")).rejects.toThrow();
+  });
+
+  it("was granted in advance to everyone who already had an account", async () => {
+    // The migration's own statement, run again over citizens who signed up
+    // "before" it.
+    const veteran = await citizen("veteran");
+    expect(await acceptedAt(veteran.id)).toBeNull();
+
+    const migration = readFileSync(
+      join(process.cwd(), "supabase/migrations/0009_privacy_acceptance.sql"),
+      "utf8",
+    );
+    const backfill = migration.match(/update public\.profiles[^;]+;/)?.[0];
+    expect(backfill).toBeDefined();
+    await db.admin(backfill!);
+
+    expect(await acceptedAt(veteran.id)).toBeInstanceOf(Date);
   });
 });
 

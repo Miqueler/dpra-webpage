@@ -8,15 +8,28 @@
       "eyebrow": "Acceso restringido",
       "title": "La máquina del azar",
       "body1": "ATZAR — del catalán atzar, el azar que el Estado administra en tu nombre — es el mecanismo oficial de financiación de la República. Una máquina física, instalada en la Facultad de Matemáticas y Estadística, donde todo ciudadano identificado tiene derecho a una tirada diaria.",
-      "body2": "La puntuación se decide en la propia máquina, nunca en este portal. Aquí solo se registra lo que la máquina reporta. Identifícate para consultar tu código de máquina.",
+      "body2": "La puntuación se decide en la propia máquina, nunca en este portal. Aquí solo se registra lo que la máquina reporta. Identifícate para vincular tus partidas a tu expediente.",
       "cta": "Identifícate para jugar"
     },
     "lore": {
       "title": "Cómo funciona",
-      "body": "Cada ciudadano identificado recibe una tirada gratuita diaria en la máquina ATZAR, instalada físicamente en la Facultad de Matemáticas y Estadística. Introduce tu código de máquina en el aparato para vincular la partida: la puntuación se calcula allí, no en este sitio web. El portal solo muestra el historial que la máquina decide reportar."
+      "body": "Cada ciudadano identificado recibe una tirada gratuita diaria en la máquina ATZAR, instalada físicamente en la Facultad de Matemáticas y Estadística. Pulsa jugar en el aparato y te mostrará un código; introdúcelo aquí para vincular la partida a tu expediente. La puntuación se calcula allí, no en este sitio web. El portal solo muestra el historial que la máquina decide reportar."
     },
-    "machineCode": "Código de máquina",
-    "machineCodeHint": "Introduce este código en la máquina ATZAR para vincular tu próxima tirada.",
+    "link": {
+      "title": "Vincula la máquina",
+      "hint": "Pulsa jugar en la máquina ATZAR e introduce el código que te muestre. Cada código sirve para una partida.",
+      "label": "Código mostrado por la máquina",
+      "placeholder": "CÓDIGO",
+      "button": "Vincular",
+      "pending": "Vinculando…",
+      "success": "Máquina vinculada. Vuelve a la máquina, ciudadano.",
+      "genericError": "No se ha podido vincular el código. Inténtalo de nuevo."
+    },
+    "online": {
+      "title": "La máquina en línea está abierta",
+      "body": "Mientras se construye la máquina física, la República te permite tirar desde aquí. La misma tirada diaria, las mismas tiradas compradas.",
+      "cta": "Jugar en línea"
+    },
     "coins": "Monedas ATZAR",
     "today": {
       "title": "Tirada de hoy",
@@ -38,6 +51,49 @@
       "playedAt": "Fecha",
       "source": "Origen",
       "pending": "Sin puntuación"
+    }
+  },
+  "play": {
+    "eyebrow": "Instalación provisional",
+    "title": "Máquina en línea",
+    "roll": "Tirar",
+    "rollAgain": "Tirar otra vez",
+    "rolling": "Tirando…",
+    "freeRoll": "Tu tirada gratuita diaria está disponible",
+    "paidRolls": "{count, plural, one {# tirada comprada restante} other {# tiradas compradas restantes}}",
+    "noRolls": "No te quedan tiradas hoy. Compra una aquí abajo.",
+    "score": "Puntuación",
+    "percentile": "Mejor que el {percent}% de todas las tiradas posibles",
+    "noBadges": "Ninguna insignia. La República te agradece igualmente tu contribución.",
+    "outranked": "Superada por una insignia mejor",
+    "announce": "Has sacado {number}. Puntuación: {score}.",
+    "back": "Volver a ATZAR",
+    "offline": {
+      "title": "Máquina apagada",
+      "body": "El Comisariado ha apagado la máquina en línea. Vuelve cuando se anuncie."
+    },
+    "errors": {
+      "unauthorized": "Identifícate para tirar.",
+      "disabled": "El Comisariado acaba de apagar la máquina en línea.",
+      "no_rolls": "No te quedan tiradas hoy.",
+      "failed": "No se ha podido completar la tirada. No se ha gastado ninguna; inténtalo de nuevo."
+    },
+    "rarities": {
+      "common": "Común",
+      "uncommon": "Poco común",
+      "rare": "Rara",
+      "epic": "Épica",
+      "anomaly": "Anomalía",
+      "mythic": "Mítica"
+    },
+    "tiers": {
+      "trash": "Tirada basura",
+      "common": "Tirada común",
+      "uncommon": "Tirada poco común",
+      "rare": "Tirada rara",
+      "epic": "Tirada épica",
+      "anomaly": "Tirada anómala",
+      "mythic": "Tirada mítica"
     }
   },
   "leaderboard": {

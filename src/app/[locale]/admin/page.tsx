@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PosterCard, SectionHeading } from "@/components/ui/PosterCard";
 import { GrantCoinsForm } from "@/components/admin/GrantCoinsForm";
 import { RankForm } from "@/components/admin/RankForm";
+import { OnlineMachineToggle } from "@/components/admin/OnlineMachineToggle";
 
 const RANK_SUGGESTIONS_ID = "rank-suggestions";
 const LEDGER_LIMIT = 25;
@@ -55,14 +56,18 @@ export default async function AdminPage({
     redirect({ href: "/", locale });
   }
 
-  const [{ data: citizenRows, error: citizensError }, { data: ledgerRows }] =
-    await Promise.all([
+  const [
+    { data: citizenRows, error: citizensError },
+    { data: ledgerRows },
+    { data: settings },
+  ] = await Promise.all([
       supabase.rpc("admin_citizens"),
       supabase
         .from("coin_transactions")
         .select("*")
         .order("created_at", { ascending: false })
         .limit(LEDGER_LIMIT),
+      supabase.from("atzar_settings").select("online_enabled").maybeSingle(),
     ]);
 
   const citizens = citizenRows ?? [];
@@ -103,6 +108,13 @@ export default async function AdminPage({
           value={citizens.reduce((sum, c) => sum + c.plays, 0)}
         />
       </div>
+
+      <PosterCard className="mb-8">
+        <h3 className="font-display mb-3 text-xl uppercase tracking-wide text-party-cream">
+          {t("onlineMachine.title")}
+        </h3>
+        <OnlineMachineToggle enabled={settings?.online_enabled ?? false} />
+      </PosterCard>
 
       <datalist id={RANK_SUGGESTIONS_ID}>
         {ranksInUse.map((rank) => (
@@ -164,11 +176,6 @@ export default async function AdminPage({
                     </Field>
                     <Field label={t("fields.lastSignIn")}>
                       {moment(citizen.last_sign_in_at)}
-                    </Field>
-                    <Field label={t("fields.machineCode")}>
-                      <span className="font-mono tracking-widest">
-                        {citizen.machine_code}
-                      </span>
                     </Field>
                     <Field label={t("fields.sponsor")}>
                       {citizen.invited_by_username ?? "—"}

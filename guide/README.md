@@ -12,6 +12,7 @@ the first time; after that, use them as reference.
 5. [Becoming an admin](./05-admin-promotion.md) — promote the first Commissariat account.
 6. [ATZAR machine integration](./06-atzar-machine-integration.md) — how the physical slot machine talks to the website.
 7. [Deploying](./07-deployment.md) — putting it on the internet (Vercel).
+8. [The online machine and its badges](./08-online-machine-and-badges.md) — switching the online ATZAR machine on and off, and how to create and remove badges.
 
 Nothing in the app will work — login, profile, ATZAR, admin — until step 1–3
 are done. The app is fully built and typechecks/builds/lints clean with no

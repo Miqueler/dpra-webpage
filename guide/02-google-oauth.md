@@ -13,6 +13,10 @@ This needs a Google Cloud OAuth client, registered in Supabase.
    - User type: **External** (unless everyone logging in has a Google
      Workspace account under one organization, then Internal works too).
    - Fill in app name ("DPRA"), support email, developer contact.
+   - **Application privacy policy link**: `https://<your-domain>/en/privacy`.
+     Google asks for one before an app can be published "In production";
+     the page is `src/app/[locale]/privacy/page.tsx`, with its text in
+     `src/messages/*/privacy.json`.
    - Scopes: the defaults (`email`, `profile`, `openid`) are enough — Supabase
      requests these automatically.
    - You can leave the app in "Testing" mode while developing, but then only
@@ -64,7 +68,7 @@ Still under **Authentication**:
    redirects to the `next` param (the citizen's profile page).
 4. On first login, the `on_auth_user_created` Postgres trigger (from the
    migration) fires and creates their `profiles` row — username derived from
-   their email (they can change it from their profile page), a random machine
-   code, and a 50-coin signup bonus.
+   their email (they can change it from their profile page) and a 50-coin
+   signup bonus.
 
 Next: [Email + password login](./02b-email-login.md).

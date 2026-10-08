@@ -1,0 +1,104 @@
+{
+  "eyebrow": "Ministeri de la Transparència",
+  "title": "Política de privacitat",
+  "intro": "La República respecta la teva privacitat i per això l'ha posat sota la seva custòdia. Aquest document explica, amb total transparència, tot allò de què no cal que et preocupis.",
+  "updated": "Última esmena: octubre de 2026. Sempre ha dit això.",
+  "article": "Article {number}",
+  "articles": [
+    {
+      "title": "Qui n'és el responsable",
+      "paragraphs": [
+        "La República Democràtica Popular d'Abril (DPRA) és la responsable de les teves dades. La DPRA és un projecte estudiantil del programa CFIS i no té personalitat jurídica, cosa que el Partit considera una de les seves principals fortaleses.",
+        "La responsabilitat és col·lectiva. Si alguna cosa anés malament, es repartirà a parts iguals entre tots els ciutadans, començant per tu."
+      ]
+    },
+    {
+      "title": "Què recollim",
+      "paragraphs": [
+        "La República no recull dades personals. Amb finalitats exclusivament administratives, conserva les següents:"
+      ],
+      "items": [
+        "La teva adreça de correu, que no mirarem mai, i que els administradors poden veure.",
+        "Si entres amb Google: el nom i la foto que Google té de tu. No els vam demanar a Google. Google va insistir.",
+        "El teu nom d'usuari, el teu rang i el teu saldo de monedes, juntament amb cada moneda que has rebut o gastat, el motiu i qui ho va autoritzar.",
+        "Cada tirada que fas a la màquina ATZAR: el nombre, la puntuació i l'instant exacte. L'atzar no es vigila. Els resultats de l'atzar, sí.",
+        "Les teves amistats i el ciutadà que et va apadrinar, per poder seguir la lleialtat fins al seu origen.",
+        "La data en què vas acceptar aquesta política, que és l'única dada d'aquesta llista que ens vas donar expressament."
+      ]
+    },
+    {
+      "title": "Per què les recollim",
+      "paragraphs": [
+        "Les teves dades es fan servir exclusivament perquè puguis entrar, per guardar les teves monedes i puntuacions i per mostrar la classificació. No es fan servir per a res més.",
+        "També es poden fer servir per resoldre discussions sobre qui va treure què. No és una finalitat diferent; és la mateixa finalitat, mirada amb desconfiança."
+      ]
+    },
+    {
+      "title": "Qui les pot veure",
+      "paragraphs": [
+        "Les teves dades són confidencials. Els altres ciutadans identificats poden veure el teu nom d'usuari, la teva foto, el teu rang i les teves puntuacions, perquè un ciutadà que no té res a amagar no amaga res. Els teus amics poden veure el teu historial de partides. Els administradors ho poden veure tot, inclòs el teu correu.",
+        "No compartim mai les teves dades amb tercers. CASA no és un tercer. El tercer ets tu."
+      ]
+    },
+    {
+      "title": "Galetes",
+      "paragraphs": [
+        "Aquest lloc fa servir únicament les galetes estrictament necessàries per recordar que has iniciat la sessió i en quin idioma obeeixes. No fem servir galetes de seguiment ni de publicitat. Mai no ens ha calgut seguir-te per internet; ja hi vens tu sol.",
+        "Pots rebutjar aquestes galetes al teu navegador. El lloc t'oblidarà llavors a cada clic, cosa que alguns ciutadans troben reparadora."
+      ]
+    },
+    {
+      "title": "Quant de temps les guardem",
+      "paragraphs": [
+        "Les teves dades es conserven mentre tinguis un compte, i ni un dia més que per sempre.",
+        "Si ho demanes, el Partit esborrarà el teu compte i tot el que hi va associat, amb rapidesa i de manera permanent, i després sostindrà que no hi vas ser mai."
+      ]
+    },
+    {
+      "title": "Els teus drets",
+      "paragraphs": [
+        "Tens dret a veure les teves dades, a corregir-les i que s'esborrin. També tens dret a oposar-t'hi. Les objeccions són benvingudes i es registren amb cura.",
+        "Per exercir qualsevol dret, escriu al Comissariat a l'adreça de sota. No cal donar cap motiu, tot i que se te'n suposarà un."
+      ]
+    },
+    {
+      "title": "Consentiment",
+      "paragraphs": [
+        "Acceptar aquesta política és completament voluntari. També és obligatori per fer servir un compte. El Partit no hi veu cap contradicció.",
+        "S'ha comprovat que els ciutadans que ja tenien compte quan es va introduir aquesta política l'havien acceptada per endavant."
+      ]
+    },
+    {
+      "title": "Canvis en aquesta política",
+      "paragraphs": [
+        "Aquesta política es pot esmenar en qualsevol moment. Cada vegada que passi, resultarà que la versió anterior deia el mateix."
+      ]
+    }
+  ],
+  "plain": {
+    "eyebrow": "Annex per a inspectors",
+    "title": "La part que vol dir el que diu",
+    "intro": "El reglament de CASA ens obliga a incloure una secció sense ironia. Tot l'anterior és una broma sobre una llista veritable; aquesta és la llista veritable.",
+    "items": [
+      "Això és un projecte estudiantil sense ànim de lucre. No hi ha anuncis, ni analítiques, ni seguiment, i les teves dades no es venen ni se cedeixen mai a ningú amb finalitats comercials.",
+      "Guardem: el teu correu; el teu nom i la teva foto de perfil de Google si entres amb Google; el teu nom d'usuari, el teu rang i el teu saldo de monedes; el teu historial de monedes; les teves partides d'ATZAR; la teva llista d'amics i qui et va convidar; i quan vas acceptar aquesta política.",
+      "Les contrasenyes les gestiona el nostre proveïdor d'inici de sessió i només es guarden xifrades amb hash. No les podem llegir.",
+      "Les dades són a Supabase (base de dades i inici de sessió) i el lloc el serveix Vercel. Google només hi intervé si decideixes entrar amb Google.",
+      "Els altres usuaris identificats poden veure el teu nom d'usuari, la teva foto, el teu rang i les teves puntuacions. Els amics acceptats poden veure el teu historial de partides. Els administradors del projecte poden veure el teu correu i la resta del teu compte.",
+      "Les úniques galetes són les que mantenen la teva sessió iniciada i recorden el teu idioma.",
+      "Pots canviar el teu nom d'usuari des del teu perfil. Per veure, corregir o esborrar les teves dades, o per eliminar el teu compte, escriu-nos i ho farem."
+    ],
+    "contact": "Contacte:"
+  },
+  "consent": {
+    "eyebrow": "Tràmit obligatori",
+    "title": "Una signatura, ciutadà",
+    "body": "Abans de continuar, la República necessita que acceptis la seva Política de privacitat.",
+    "voluntary": "Acceptar és voluntari. Tenir compte, també.",
+    "read": "Llegeix abans la política",
+    "accept": "Accepto, per voluntat pròpia",
+    "pending": "Registrant la teva voluntat pròpia…",
+    "decline": "No accepto (tanca la meva sessió)",
+    "error": "No s'ha pogut registrar la teva acceptació. Torna-ho a provar."
+  }
+}

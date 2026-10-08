@@ -11,7 +11,7 @@ cp .env.local.example .env.local
 | `NEXT_PUBLIC_SUPABASE_URL` | Browser + server Supabase clients (`src/lib/supabase/client.ts`, `server.ts`, `admin.ts`) | Supabase → Project Settings → API → Project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Same as above | Supabase → Project Settings → API → anon public key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only admin client (`src/lib/supabase/admin.ts`), used by `/api/machine/*` routes | Supabase → Project Settings → API → service_role key (click Reveal) |
-| `MACHINE_API_SECRET` | Shared secret the physical ATZAR machine sends as the `x-machine-secret` header to `/api/machine/status` and `/api/machine/submit` | You choose this — generate a long random string, e.g. `openssl rand -hex 32` |
+| `MACHINE_API_SECRET` | Shared secret the physical ATZAR machine sends as the `x-machine-secret` header to the `/api/machine/*` routes | You choose this — generate a long random string, e.g. `openssl rand -hex 32` |
 
 Notes:
 

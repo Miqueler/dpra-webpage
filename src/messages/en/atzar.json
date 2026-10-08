@@ -8,15 +8,28 @@
       "eyebrow": "Restricted access",
       "title": "The machine of chance",
       "body1": "ATZAR — from the Catalan atzar, the chance the State administers on your behalf — is the Republic's official funding mechanism. A physical machine, installed at the Faculty of Mathematics and Statistics, where every identified citizen is entitled to one roll a day.",
-      "body2": "The score is decided on the machine itself, never on this portal. Here we only record what the machine reports. Identify yourself to view your machine code.",
+      "body2": "The score is decided on the machine itself, never on this portal. Here we only record what the machine reports. Identify yourself to link your plays to your file.",
       "cta": "Identify yourself to play"
     },
     "lore": {
       "title": "How it works",
-      "body": "Every identified citizen receives one free daily roll on the ATZAR machine, physically installed at the Faculty of Mathematics and Statistics. Enter your machine code on the device to link your play: the score is computed there, not on this website. The portal only shows the history the machine chooses to report."
+      "body": "Every identified citizen receives one free daily roll on the ATZAR machine, physically installed at the Faculty of Mathematics and Statistics. Press play on the device and it will show a code; enter that code here to link the play to your file. The score is computed there, not on this website. The portal only shows the history the machine chooses to report."
     },
-    "machineCode": "Machine code",
-    "machineCodeHint": "Enter this code at the ATZAR machine to link your next roll.",
+    "link": {
+      "title": "Link the machine",
+      "hint": "Press play on the ATZAR machine and enter the code it shows. Each code is good for one play.",
+      "label": "Code shown by the machine",
+      "placeholder": "CODE",
+      "button": "Link",
+      "pending": "Linking…",
+      "success": "Machine linked. Turn to the machine, citizen.",
+      "genericError": "The code could not be linked. Please try again."
+    },
+    "online": {
+      "title": "The online machine is open",
+      "body": "While the physical machine is being built, the Republic lets you roll from here. Same daily roll, same purchased rolls.",
+      "cta": "Play online"
+    },
     "coins": "ATZAR coins",
     "today": {
       "title": "Today's roll",
@@ -38,6 +51,49 @@
       "playedAt": "Date",
       "source": "Source",
       "pending": "No score"
+    }
+  },
+  "play": {
+    "eyebrow": "Provisional installation",
+    "title": "Online machine",
+    "roll": "Roll",
+    "rollAgain": "Roll again",
+    "rolling": "Rolling…",
+    "freeRoll": "Your free daily roll is available",
+    "paidRolls": "{count, plural, one {# purchased roll left} other {# purchased rolls left}}",
+    "noRolls": "No rolls left today. Buy one below.",
+    "score": "Score",
+    "percentile": "Better than {percent}% of all possible rolls",
+    "noBadges": "No badges. The Republic thanks you for your contribution anyway.",
+    "outranked": "Outranked by a better badge",
+    "announce": "You rolled {number}. Score: {score}.",
+    "back": "Back to ATZAR",
+    "offline": {
+      "title": "Machine switched off",
+      "body": "The Commissariat has switched the online machine off. Come back when it is announced."
+    },
+    "errors": {
+      "unauthorized": "Identify yourself to roll.",
+      "disabled": "The Commissariat has just switched the online machine off.",
+      "no_rolls": "You have no rolls left today.",
+      "failed": "The roll could not be completed. No roll was spent; try again."
+    },
+    "rarities": {
+      "common": "Common",
+      "uncommon": "Uncommon",
+      "rare": "Rare",
+      "epic": "Epic",
+      "anomaly": "Anomaly",
+      "mythic": "Mythic"
+    },
+    "tiers": {
+      "trash": "Trash roll",
+      "common": "Common roll",
+      "uncommon": "Uncommon roll",
+      "rare": "Rare roll",
+      "epic": "Epic roll",
+      "anomaly": "Anomalous roll",
+      "mythic": "Mythic roll"
     }
   },
   "leaderboard": {
