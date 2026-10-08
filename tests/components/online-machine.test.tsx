@@ -138,6 +138,11 @@ describe("OnlineMachine", () => {
     expect(rollButton()).toBeEnabled();
   });
 
+  it("tells the browser not to restore the button's old state after a reload", () => {
+    renderWithIntl(<OnlineMachine freeRollAvailable={false} extraRolls={0} />);
+    expect(rollButton()).toHaveAttribute("autocomplete", "off");
+  });
+
   it("cannot roll without rolls", () => {
     renderWithIntl(<OnlineMachine freeRollAvailable={false} extraRolls={0} />);
     expect(screen.getByText(play("noRolls"))).toBeVisible();

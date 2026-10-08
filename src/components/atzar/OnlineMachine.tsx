@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import type { RollResult } from "@/lib/atzar/machine";
+import { noStateRestore } from "@/components/ui/noStateRestore";
 
 // The reveal runs on a single clock: the reels stop one by one from the most
 // significant digit to the least, then the badges appear one by one.
@@ -159,6 +160,7 @@ export function OnlineMachine({
       <div className="mb-8 flex flex-col items-center gap-3">
         <button
           type="button"
+          {...noStateRestore}
           onClick={roll}
           disabled={busy || revealing || !canRoll}
           className="font-display border border-atzar-gold bg-atzar-gold px-10 py-3 text-sm uppercase tracking-[0.3em] text-atzar-black hover:bg-atzar-gold-bright disabled:cursor-not-allowed disabled:bg-transparent disabled:text-atzar-gold/50"

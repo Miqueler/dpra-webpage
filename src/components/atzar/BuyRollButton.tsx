@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { noStateRestore } from "@/components/ui/noStateRestore";
 
 const ROLL_COST = 20;
 
@@ -33,6 +34,7 @@ export function BuyRollButton({ coins }: { coins: number }) {
   return (
     <div>
       <button
+        {...noStateRestore}
         onClick={buy}
         disabled={pending || insufficientFunds}
         className="font-display border border-atzar-gold px-5 py-2 text-xs uppercase tracking-widest text-atzar-gold hover:bg-atzar-gold hover:text-atzar-black disabled:opacity-50"
