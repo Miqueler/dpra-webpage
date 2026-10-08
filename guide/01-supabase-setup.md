@@ -38,7 +38,10 @@ Easiest path (no CLI install needed):
    citizens pick their username at email sign-up, and checks the format when
    they change it from their profile), then
    `supabase/migrations/0004_admin_panel.sql` (lets admins assign ranks and
-   see each citizen's full file on `/admin`). Run the files in number order.
+   see each citizen's full file on `/admin`), then
+   `supabase/migrations/0005_leaderboard_security_invoker.sql` (clears the
+   "Security Definer View" error Supabase reports for `leaderboard`). Run
+   the files in number order.
 
 ### Alternative: Supabase CLI
 
