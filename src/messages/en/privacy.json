@@ -1,0 +1,104 @@
+{
+  "eyebrow": "Ministry of Transparency",
+  "title": "Privacy Policy",
+  "intro": "The Republic respects your privacy and has therefore taken custody of it. This document explains, in complete openness, everything you are not required to worry about.",
+  "updated": "Last amended: October 2026. It has always said this.",
+  "article": "Article {number}",
+  "articles": [
+    {
+      "title": "Who is responsible",
+      "paragraphs": [
+        "The Democratic Popular Republic of Abril (DPRA) is responsible for your data. The DPRA is a student project of the CFIS programme and has no legal personality, which the Party regards as one of its principal strengths.",
+        "Responsibility is collective. Should anything go wrong, it will be shared equally among all citizens, beginning with you."
+      ]
+    },
+    {
+      "title": "What we collect",
+      "paragraphs": [
+        "The Republic does not collect personal data. For administrative purposes only, it keeps the following:"
+      ],
+      "items": [
+        "Your email address, which we will never look at, and which admins can see.",
+        "If you enter with Google: the name and picture Google has on file for you. We did not ask Google for them. Google insisted.",
+        "Your username, rank and coin balance, together with every coin you have ever received or spent, the reason, and who authorised it.",
+        "Every roll you make on the ATZAR machine: the number, the score and the exact moment. Chance is not monitored. The results of chance are.",
+        "Your friendships and the citizen who sponsored you, so that loyalty can be traced back to its source.",
+        "The date you accepted this policy, which is the only item on this list you gave us on purpose."
+      ]
+    },
+    {
+      "title": "Why we collect it",
+      "paragraphs": [
+        "Your data is used exclusively to let you log in, to keep your coins and scores, and to show the leaderboard. It is used for nothing else.",
+        "It may also be used to settle arguments about who rolled what. This is not a separate purpose; it is the same purpose, viewed with suspicion."
+      ]
+    },
+    {
+      "title": "Who can see it",
+      "paragraphs": [
+        "Your data is confidential. Other logged-in citizens can see your username, picture, rank and scores, because a citizen with nothing to hide hides nothing. Your friends can see your play history. Admins can see everything, including your email.",
+        "We never share your data with third parties. CASA is not a third party. You are."
+      ]
+    },
+    {
+      "title": "Cookies",
+      "paragraphs": [
+        "This site uses only the cookies strictly necessary to remember that you are logged in and which language you obey in. We do not use tracking or advertising cookies. We have never needed to follow you around the internet; you come here on your own.",
+        "You may refuse these cookies in your browser. The site will then forget you at every click, which some citizens find restful."
+      ]
+    },
+    {
+      "title": "How long we keep it",
+      "paragraphs": [
+        "Your data is kept for as long as you have an account, and not one day longer than forever.",
+        "On request, the Party will delete your account and everything attached to it, promptly and permanently, and will afterwards maintain that you were never here."
+      ]
+    },
+    {
+      "title": "Your rights",
+      "paragraphs": [
+        "You have the right to see your data, to correct it and to have it erased. You also have the right to object. Objections are welcome, and are carefully recorded.",
+        "To exercise any right, write to the Commissariat at the address below. No reason is required, though one will be assumed."
+      ]
+    },
+    {
+      "title": "Consent",
+      "paragraphs": [
+        "Acceptance of this policy is entirely voluntary. It is also required to use an account. The Party sees no contradiction.",
+        "Citizens who already had an account when this policy was introduced were found to have accepted it in advance."
+      ]
+    },
+    {
+      "title": "Changes to this policy",
+      "paragraphs": [
+        "This policy may be amended at any time. Whenever it is, the previous version will turn out to have said the same thing."
+      ]
+    }
+  ],
+  "plain": {
+    "eyebrow": "Annex for inspectors",
+    "title": "The part that means what it says",
+    "intro": "CASA regulations oblige us to include one section without irony. Everything above is a joke about a true list; this is the true list.",
+    "items": [
+      "This is a non-commercial student project. There are no ads, no analytics and no tracking, and your data is never sold or handed to anyone for marketing.",
+      "We store: your email; your Google name and profile picture if you sign in with Google; your username, rank and coin balance; your coin history; your ATZAR plays; your friend list and who invited you; and when you accepted this policy.",
+      "Passwords are handled by our login provider and stored only in hashed form. We cannot read them.",
+      "The data lives in Supabase (database and login) and the site is served by Vercel. Google is involved only if you choose to sign in with Google.",
+      "Other logged-in users can see your username, picture, rank and scores. Accepted friends can see your play history. The project's admins can see your email and the rest of your account.",
+      "The only cookies are the ones that keep you logged in and remember your language.",
+      "You can change your username from your profile. To see, correct or delete your data, or to delete your account, email us and we will do it."
+    ],
+    "contact": "Contact:"
+  },
+  "consent": {
+    "eyebrow": "Mandatory formality",
+    "title": "One signature, citizen",
+    "body": "Before you continue, the Republic needs you to accept its Privacy Policy.",
+    "voluntary": "Acceptance is voluntary. So is having an account.",
+    "read": "Read the policy first",
+    "accept": "I accept, of my own free will",
+    "pending": "Recording your free will…",
+    "decline": "I decline (log me out)",
+    "error": "Your acceptance could not be recorded. Try again."
+  }
+}

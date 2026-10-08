@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { UserMenu } from "./UserMenu";
 import { DpraLogo } from "@/components/ui/DpraLogo";
+import { PrivacyConsent } from "@/components/privacy/PrivacyConsent";
 import type { Profile } from "@/types/database";
 
 export async function Header() {
@@ -31,6 +32,8 @@ export async function Header() {
 
   return (
     <header className="border-b border-party-cream/15 bg-party-black">
+      {/* `=== null`, not falsy: before migration 0009 the column does not exist. */}
+      {profile && profile.privacy_accepted_at === null && <PrivacyConsent />}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-8">
         <Link href="/" className="flex items-center gap-3">
           <DpraLogo size={40} />

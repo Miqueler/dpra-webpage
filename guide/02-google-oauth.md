@@ -13,6 +13,10 @@ This needs a Google Cloud OAuth client, registered in Supabase.
    - User type: **External** (unless everyone logging in has a Google
      Workspace account under one organization, then Internal works too).
    - Fill in app name ("DPRA"), support email, developer contact.
+   - **Application privacy policy link**: `https://<your-domain>/en/privacy`.
+     Google asks for one before an app can be published "In production";
+     the page is `src/app/[locale]/privacy/page.tsx`, with its text in
+     `src/messages/*/privacy.json`.
    - Scopes: the defaults (`email`, `profile`, `openid`) are enough — Supabase
      requests these automatically.
    - You can leave the app in "Testing" mode while developing, but then only

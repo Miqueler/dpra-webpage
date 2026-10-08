@@ -46,6 +46,7 @@ const profile: Profile = {
   machine_code: "ABC123",
   invited_by: null,
   last_daily_bonus_at: null,
+  privacy_accepted_at: "2026-01-01T00:00:00Z",
   created_at: "2026-01-01T00:00:00Z",
 };
 

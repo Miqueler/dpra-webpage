@@ -16,6 +16,8 @@ export type Profile = {
   machine_code: string;
   invited_by: string | null;
   last_daily_bonus_at: string | null;
+  /** Null until the citizen accepts the privacy policy. */
+  privacy_accepted_at: string | null;
   created_at: string;
 };
 
@@ -190,6 +192,10 @@ export type Database = {
           play_payload: Record<string, unknown>;
         };
         Returns: "free" | "paid" | "disabled" | "no_rolls";
+      };
+      accept_privacy_policy: {
+        Args: Record<string, never>;
+        Returns: undefined;
       };
       claim_daily_bonus: {
         Args: Record<string, never>;

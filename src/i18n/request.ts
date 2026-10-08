@@ -10,6 +10,7 @@ import caRecruitment from "../messages/ca/recruitment.json";
 import caPropaganda from "../messages/ca/propaganda.json";
 import caAtzar from "../messages/ca/atzar.json";
 import caAdmin from "../messages/ca/admin.json";
+import caPrivacy from "../messages/ca/privacy.json";
 
 import esCommon from "../messages/es/common.json";
 import esAuth from "../messages/es/auth.json";
@@ -19,6 +20,7 @@ import esRecruitment from "../messages/es/recruitment.json";
 import esPropaganda from "../messages/es/propaganda.json";
 import esAtzar from "../messages/es/atzar.json";
 import esAdmin from "../messages/es/admin.json";
+import esPrivacy from "../messages/es/privacy.json";
 
 import enCommon from "../messages/en/common.json";
 import enAuth from "../messages/en/auth.json";
@@ -28,6 +30,7 @@ import enRecruitment from "../messages/en/recruitment.json";
 import enPropaganda from "../messages/en/propaganda.json";
 import enAtzar from "../messages/en/atzar.json";
 import enAdmin from "../messages/en/admin.json";
+import enPrivacy from "../messages/en/privacy.json";
 
 const messagesByLocale = {
   ca: {
@@ -39,6 +42,7 @@ const messagesByLocale = {
     propaganda: caPropaganda,
     atzar: caAtzar,
     admin: caAdmin,
+    privacy: caPrivacy,
   },
   es: {
     common: esCommon,
@@ -49,6 +53,7 @@ const messagesByLocale = {
     propaganda: esPropaganda,
     atzar: esAtzar,
     admin: esAdmin,
+    privacy: esPrivacy,
   },
   en: {
     common: enCommon,
@@ -59,6 +64,7 @@ const messagesByLocale = {
     propaganda: enPropaganda,
     atzar: enAtzar,
     admin: enAdmin,
+    privacy: enPrivacy,
   },
 } as const;
 

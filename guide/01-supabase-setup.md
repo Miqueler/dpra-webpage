@@ -48,7 +48,10 @@ Easiest path (no CLI install needed):
    and its on/off switch — see
    [08-online-machine-and-badges.md](./08-online-machine-and-badges.md)), then
    `supabase/migrations/0008_online_machine_switch_fix.sql` (without it the
-   on/off switch fails with "UPDATE requires a WHERE clause").
+   on/off switch fails with "UPDATE requires a WHERE clause"), then
+   `supabase/migrations/0009_privacy_acceptance.sql` (records who accepted
+   the privacy policy; everyone who already has an account is marked as
+   having accepted).
    Run the files in number order.
 
 ### Alternative: Supabase CLI

@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createDatabase, type TestDatabase } from "./helpers/database";
 
@@ -789,6 +791,63 @@ describe("the online machine", () => {
       db.as(me.id, "select record_online_play($1, 999999, '{}')", [me.id]),
     ).rejects.toThrow(/permission denied/);
     expect(await plays(me.id)).toEqual([]);
+  });
+});
+
+describe("accepting the privacy policy", () => {
+  async function acceptedAt(userId: string) {
+    const [row] = await db.admin<{ privacy_accepted_at: Date | null }>(
+      "select privacy_accepted_at from profiles where id = $1",
+      [userId],
+    );
+    return row.privacy_accepted_at;
+  }
+
+  it("has not happened yet for a new citizen", async () => {
+    const me = await citizen();
+    expect(await acceptedAt(me.id)).toBeNull();
+  });
+
+  it("is recorded for the citizen who accepts, and nobody else", async () => {
+    const me = await citizen();
+    const other = await citizen();
+
+    await db.as(me.id, "select accept_privacy_policy()");
+
+    expect(await acceptedAt(me.id)).toBeInstanceOf(Date);
+    expect(await acceptedAt(other.id)).toBeNull();
+  });
+
+  it("keeps the first date when accepted again", async () => {
+    const me = await citizen();
+    await db.admin("update profiles set privacy_accepted_at = '2026-01-01T00:00:00Z' where id = $1", [
+      me.id,
+    ]);
+
+    await db.as(me.id, "select accept_privacy_policy()");
+
+    expect(await acceptedAt(me.id)).toEqual(new Date("2026-01-01T00:00:00Z"));
+  });
+
+  it("refuses a visitor", async () => {
+    await expect(db.as(null, "select accept_privacy_policy()")).rejects.toThrow();
+  });
+
+  it("was granted in advance to everyone who already had an account", async () => {
+    // The migration's own statement, run again over citizens who signed up
+    // "before" it.
+    const veteran = await citizen("veteran");
+    expect(await acceptedAt(veteran.id)).toBeNull();
+
+    const migration = readFileSync(
+      join(process.cwd(), "supabase/migrations/0009_privacy_acceptance.sql"),
+      "utf8",
+    );
+    const backfill = migration.match(/update public\.profiles[^;]+;/)?.[0];
+    expect(backfill).toBeDefined();
+    await db.admin(backfill!);
+
+    expect(await acceptedAt(veteran.id)).toBeInstanceOf(Date);
   });
 });
 
