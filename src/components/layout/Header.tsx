@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { UserMenu } from "./UserMenu";
-import { WatchingEye } from "@/components/ui/WatchingEye";
+import { DpraLogo } from "@/components/ui/DpraLogo";
 import type { Profile } from "@/types/database";
 
 export async function Header() {
@@ -33,7 +33,7 @@ export async function Header() {
     <header className="border-b border-party-cream/15 bg-party-black">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-8">
         <Link href="/" className="flex items-center gap-3">
-          <WatchingEye className="h-7 w-12" />
+          <DpraLogo size={40} />
           <span className="font-display text-xl uppercase tracking-[0.2em] text-party-cream">
             {t("brand")}
           </span>
