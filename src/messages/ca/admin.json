@@ -8,6 +8,16 @@
     "coins": "Monedes en circulació",
     "plays": "Partides d'ATZAR"
   },
+  "onlineMachine": {
+    "title": "Màquina ATZAR en línia",
+    "on": "Encesa",
+    "off": "Apagada",
+    "onHint": "Els ciutadans poden tirar des del web.",
+    "offHint": "Els ciutadans no poden tirar des del web.",
+    "switchOn": "Encén",
+    "switchOff": "Apaga",
+    "pending": "Processant…"
+  },
   "register": {
     "title": "Registre",
     "hint": "Obre l'expedient d'un ciutadà per veure'n les dades, assignar-li un rang o concedir-li monedes.",

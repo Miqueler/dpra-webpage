@@ -8,6 +8,16 @@
     "coins": "Coins in circulation",
     "plays": "ATZAR plays"
   },
+  "onlineMachine": {
+    "title": "Online ATZAR machine",
+    "on": "On",
+    "off": "Off",
+    "onHint": "Citizens can roll from the website.",
+    "offHint": "Citizens cannot roll from the website.",
+    "switchOn": "Switch on",
+    "switchOff": "Switch off",
+    "pending": "Processing…"
+  },
   "register": {
     "title": "Register",
     "hint": "Open a citizen's file to see their details, assign a rank or grant coins.",

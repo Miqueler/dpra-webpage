@@ -8,6 +8,16 @@
     "coins": "Monedas en circulación",
     "plays": "Partidas de ATZAR"
   },
+  "onlineMachine": {
+    "title": "Máquina ATZAR en línea",
+    "on": "Encendida",
+    "off": "Apagada",
+    "onHint": "Los ciudadanos pueden tirar desde la web.",
+    "offHint": "Los ciudadanos no pueden tirar desde la web.",
+    "switchOn": "Encender",
+    "switchOff": "Apagar",
+    "pending": "Procesando…"
+  },
   "register": {
     "title": "Registro",
     "hint": "Abre el expediente de un ciudadano para ver sus datos, asignarle un rango o concederle monedas.",

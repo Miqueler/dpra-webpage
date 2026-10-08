@@ -52,6 +52,11 @@ export default async function AtzarDashboardPage({
     .eq("roll_date", today)
     .maybeSingle();
 
+  const { data: settings } = await supabase
+    .from("atzar_settings")
+    .select("online_enabled")
+    .maybeSingle();
+
   const { data: sessions } = await supabase
     .from("rng_sessions")
     .select("*")
@@ -87,6 +92,25 @@ export default async function AtzarDashboardPage({
           </p>
         </div>
       </PosterCard>
+
+      {settings?.online_enabled && (
+        <PosterCard className="mb-6 flex flex-col gap-4 border-atzar-gold bg-atzar-black/60 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-display mb-1 text-sm uppercase tracking-widest text-atzar-gold-bright">
+              {t("online.title")}
+            </p>
+            <p className="max-w-sm text-sm text-party-cream/60">
+              {t("online.body")}
+            </p>
+          </div>
+          <LinkButton
+            href="/atzar/play"
+            className="border-atzar-gold bg-atzar-gold text-atzar-black hover:bg-atzar-gold-bright"
+          >
+            {t("online.cta")}
+          </LinkButton>
+        </PosterCard>
+      )}
 
       <PosterCard className="mb-6 border-atzar-gold/25 bg-atzar-black/60">
         <p className="mb-3 text-xs uppercase tracking-widest text-party-cream/50">
@@ -125,11 +149,16 @@ export default async function AtzarDashboardPage({
             {sessions.map((session) => (
               <li
                 key={session.id}
-                className="flex items-center justify-between py-3 text-sm"
+                className="flex items-center justify-between gap-4 py-3 text-sm"
               >
                 <span className="text-party-cream/60">
                   {new Date(session.played_at).toLocaleString(locale)}
                 </span>
+                {typeof session.payload?.number === "number" && (
+                  <span className="font-display tracking-widest text-party-cream/80">
+                    {session.payload.number}
+                  </span>
+                )}
                 <span className="font-display text-lg text-atzar-gold-bright">
                   {session.score !== null ? session.score : t("history.pending")}
                 </span>

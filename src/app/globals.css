@@ -57,6 +57,23 @@ body {
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .atzar-badge {
+    animation: atzar-badge-in 0.3s ease-out both;
+  }
+}
+
+@keyframes atzar-badge-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes eye-watch-pulse {
   0%,
   100% {

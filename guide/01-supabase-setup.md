@@ -43,7 +43,10 @@ Easiest path (no CLI install needed):
    "Security Definer View" error Supabase reports for `leaderboard`), then
    `supabase/migrations/0006_machine_sessions.sql` (the codes the ATZAR
    machine shows when someone presses play — see
-   [06-atzar-machine-integration.md](./06-atzar-machine-integration.md)).
+   [06-atzar-machine-integration.md](./06-atzar-machine-integration.md)), then
+   `supabase/migrations/0007_online_machine.sql` (the online ATZAR machine
+   and its on/off switch — see
+   [08-online-machine-and-badges.md](./08-online-machine-and-badges.md)).
    Run the files in number order.
 
 ### Alternative: Supabase CLI

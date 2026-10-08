@@ -25,6 +25,11 @@
       "success": "Machine linked. Turn to the machine, citizen.",
       "genericError": "The code could not be linked. Please try again."
     },
+    "online": {
+      "title": "The online machine is open",
+      "body": "While the physical machine is being built, the Republic lets you roll from here. Same daily roll, same purchased rolls.",
+      "cta": "Play online"
+    },
     "coins": "ATZAR coins",
     "today": {
       "title": "Today's roll",
@@ -46,6 +51,47 @@
       "playedAt": "Date",
       "source": "Source",
       "pending": "No score"
+    }
+  },
+  "play": {
+    "eyebrow": "Provisional installation",
+    "title": "Online machine",
+    "roll": "Roll",
+    "rollAgain": "Roll again",
+    "rolling": "Rolling…",
+    "freeRoll": "Your free daily roll is available",
+    "paidRolls": "{count, plural, one {# purchased roll left} other {# purchased rolls left}}",
+    "noRolls": "No rolls left today. Buy one below.",
+    "score": "Score",
+    "percentile": "Better than {percent}% of all possible rolls",
+    "noBadges": "No badges. The Republic thanks you for your contribution anyway.",
+    "outranked": "Outranked by a better badge",
+    "announce": "You rolled {number}. Score: {score}.",
+    "back": "Back to ATZAR",
+    "offline": {
+      "title": "Machine switched off",
+      "body": "The Commissariat has switched the online machine off. Come back when it is announced."
+    },
+    "errors": {
+      "unauthorized": "Identify yourself to roll.",
+      "disabled": "The Commissariat has just switched the online machine off.",
+      "no_rolls": "You have no rolls left today.",
+      "failed": "The roll could not be completed. No roll was spent; try again."
+    },
+    "rarities": {
+      "common": "Common",
+      "uncommon": "Uncommon",
+      "rare": "Rare",
+      "epic": "Epic",
+      "legendary": "Legendary"
+    },
+    "tiers": {
+      "poor": "Poor roll",
+      "common": "Common roll",
+      "uncommon": "Uncommon roll",
+      "rare": "Rare roll",
+      "epic": "Epic roll",
+      "legendary": "Legendary roll"
     }
   },
   "leaderboard": {

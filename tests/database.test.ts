@@ -658,6 +658,115 @@ describe("linking a play to the machine", () => {
   });
 });
 
+describe("the online machine", () => {
+  async function switchMachine(on: boolean) {
+    await db.admin("update atzar_settings set online_enabled = $1", [on]);
+  }
+
+  /** What the roll route does once it has rolled and scored a number. */
+  async function play(userId: string, score = 123) {
+    const [{ outcome }] = await db.admin<{ outcome: string }>(
+      "select record_online_play($1, $2, $3) as outcome",
+      [userId, score, JSON.stringify({ number: 4096 })],
+    );
+    return outcome;
+  }
+
+  async function plays(userId: string) {
+    return db.admin<{ score: number; source: string; payload: unknown }>(
+      "select score, source, payload from rng_sessions where user_id = $1 order by played_at",
+      [userId],
+    );
+  }
+
+  it("starts switched off, and only an admin can switch it", async () => {
+    await switchMachine(false);
+    const admin = await commissar();
+    const me = await citizen();
+
+    await expect(db.as(me.id, "select set_online_machine(true)")).rejects.toThrow(
+      /Only the Commissariat/,
+    );
+    await expect(db.as(null, "select set_online_machine(true)")).rejects.toThrow();
+    await expect(
+      db.as(me.id, "update atzar_settings set online_enabled = true returning id"),
+    ).resolves.toEqual([]);
+    expect(await db.as(me.id, "select online_enabled from atzar_settings")).toEqual([
+      { online_enabled: false },
+    ]);
+
+    await db.as(admin.id, "select set_online_machine(true)");
+    const [settings] = await db.admin("select online_enabled, updated_by from atzar_settings");
+    expect(settings).toEqual({ online_enabled: true, updated_by: admin.id });
+
+    await db.as(admin.id, "select set_online_machine(false)");
+    expect(await db.as(me.id, "select online_enabled from atzar_settings")).toEqual([
+      { online_enabled: false },
+    ]);
+  });
+
+  it("never holds more than one row of settings", async () => {
+    await expect(db.admin("insert into atzar_settings (id) values (false)")).rejects.toThrow();
+    await expect(db.admin("insert into atzar_settings default values")).rejects.toThrow();
+  });
+
+  it("records nothing and spends nothing while switched off", async () => {
+    await switchMachine(false);
+    const me = await citizen();
+
+    expect(await play(me.id)).toBe("disabled");
+    expect(await plays(me.id)).toEqual([]);
+    expect(await db.admin("select * from daily_rolls where user_id = $1", [me.id])).toEqual([]);
+  });
+
+  it("spends the free roll first, then purchased rolls, then refuses", async () => {
+    await switchMachine(true);
+    const me = await citizen();
+    await db.as(me.id, "select buy_roll()");
+
+    expect(await play(me.id, 10)).toBe("free");
+    expect(await play(me.id, 20)).toBe("paid");
+    expect(await play(me.id, 30)).toBe("no_rolls");
+
+    expect(await plays(me.id)).toEqual([
+      { score: 10, source: "online", payload: { number: 4096 } },
+      { score: 20, source: "online", payload: { number: 4096 } },
+    ]);
+    const [roll] = await db.admin(
+      "select free_roll_used, extra_rolls from daily_rolls where user_id = $1",
+      [me.id],
+    );
+    expect(roll).toEqual({ free_roll_used: true, extra_rolls: 0 });
+  });
+
+  it("shares the daily roll with the physical machine", async () => {
+    await switchMachine(true);
+    const me = await citizen();
+    await db.admin("insert into daily_rolls (user_id, free_roll_used) values ($1, true)", [me.id]);
+    expect(await play(me.id)).toBe("no_rolls");
+  });
+
+  it("puts online plays on the leaderboard", async () => {
+    await switchMachine(true);
+    const me = await citizen("online_player");
+    await play(me.id, 777);
+
+    const [row] = await db.as(me.id, "select best_score from leaderboard where user_id = $1", [
+      me.id,
+    ]);
+    expect(row).toEqual({ best_score: 777 });
+  });
+
+  it("cannot be called by citizens to record a score of their choosing", async () => {
+    await switchMachine(true);
+    const me = await citizen();
+    await expect(
+      db.as(me.id, "select record_online_play($1, 999999, '{}')", [me.id]),
+    ).rejects.toThrow(/permission denied/);
+    expect(await plays(me.id)).toEqual([]);
+  });
+});
+
 describe("who can see what", () => {
   it("lets citizens look each other up, but shows visitors nothing", async () => {
     const me = await citizen();

@@ -25,6 +25,11 @@
       "success": "Màquina vinculada. Torna a la màquina, ciutadà.",
       "genericError": "No s'ha pogut vincular el codi. Torna-ho a provar."
     },
+    "online": {
+      "title": "La màquina en línia està oberta",
+      "body": "Mentre es construeix la màquina física, la República et permet tirar des d'aquí. La mateixa tirada diària, les mateixes tirades comprades.",
+      "cta": "Juga en línia"
+    },
     "coins": "Monedes ATZAR",
     "today": {
       "title": "Tirada d'avui",
@@ -46,6 +51,47 @@
       "playedAt": "Data",
       "source": "Origen",
       "pending": "Sense puntuació"
+    }
+  },
+  "play": {
+    "eyebrow": "Instal·lació provisional",
+    "title": "Màquina en línia",
+    "roll": "Tira",
+    "rollAgain": "Torna a tirar",
+    "rolling": "Tirant…",
+    "freeRoll": "La teva tirada gratuïta diària està disponible",
+    "paidRolls": "{count, plural, one {# tirada comprada restant} other {# tirades comprades restants}}",
+    "noRolls": "No et queden tirades avui. Compra'n una aquí sota.",
+    "score": "Puntuació",
+    "percentile": "Millor que el {percent}% de totes les tirades possibles",
+    "noBadges": "Cap insígnia. La República t'agraeix igualment la contribució.",
+    "outranked": "Superada per una insígnia millor",
+    "announce": "Has tret {number}. Puntuació: {score}.",
+    "back": "Torna a ATZAR",
+    "offline": {
+      "title": "Màquina apagada",
+      "body": "El Comissariat ha apagat la màquina en línia. Torna quan s'anunciï."
+    },
+    "errors": {
+      "unauthorized": "Identifica't per tirar.",
+      "disabled": "El Comissariat acaba d'apagar la màquina en línia.",
+      "no_rolls": "No et queden tirades avui.",
+      "failed": "No s'ha pogut completar la tirada. No se n'ha gastat cap; torna-ho a provar."
+    },
+    "rarities": {
+      "common": "Comuna",
+      "uncommon": "Poc comuna",
+      "rare": "Rara",
+      "epic": "Èpica",
+      "legendary": "Llegendària"
+    },
+    "tiers": {
+      "poor": "Tirada pobra",
+      "common": "Tirada comuna",
+      "uncommon": "Tirada poc comuna",
+      "rare": "Tirada rara",
+      "epic": "Tirada èpica",
+      "legendary": "Tirada llegendària"
     }
   },
   "leaderboard": {

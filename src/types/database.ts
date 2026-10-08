@@ -56,6 +56,13 @@ export type MachineSession = {
   used_at: string | null;
 };
 
+export type AtzarSettings = {
+  id: boolean;
+  online_enabled: boolean;
+  updated_at: string;
+  updated_by: string | null;
+};
+
 export type Friendship = {
   id: string;
   user_id: string;
@@ -127,6 +134,12 @@ export type Database = {
         Update: Partial<MachineSession>;
         Relationships: [];
       };
+      atzar_settings: {
+        Row: AtzarSettings;
+        Insert: Partial<AtzarSettings>;
+        Update: Partial<AtzarSettings>;
+        Relationships: [];
+      };
       friendships: {
         Row: Friendship;
         Insert: Partial<Friendship> & { user_id: string; friend_id: string };
@@ -165,6 +178,18 @@ export type Database = {
       claim_machine_session: {
         Args: { session_code: string };
         Returns: undefined;
+      };
+      set_online_machine: {
+        Args: { enabled: boolean };
+        Returns: undefined;
+      };
+      record_online_play: {
+        Args: {
+          target_user: string;
+          play_score: number;
+          play_payload: Record<string, unknown>;
+        };
+        Returns: "free" | "paid" | "disabled" | "no_rolls";
       };
       claim_daily_bonus: {
         Args: Record<string, never>;

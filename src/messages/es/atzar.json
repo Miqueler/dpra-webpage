@@ -25,6 +25,11 @@
       "success": "Máquina vinculada. Vuelve a la máquina, ciudadano.",
       "genericError": "No se ha podido vincular el código. Inténtalo de nuevo."
     },
+    "online": {
+      "title": "La máquina en línea está abierta",
+      "body": "Mientras se construye la máquina física, la República te permite tirar desde aquí. La misma tirada diaria, las mismas tiradas compradas.",
+      "cta": "Jugar en línea"
+    },
     "coins": "Monedas ATZAR",
     "today": {
       "title": "Tirada de hoy",
@@ -46,6 +51,47 @@
       "playedAt": "Fecha",
       "source": "Origen",
       "pending": "Sin puntuación"
+    }
+  },
+  "play": {
+    "eyebrow": "Instalación provisional",
+    "title": "Máquina en línea",
+    "roll": "Tirar",
+    "rollAgain": "Tirar otra vez",
+    "rolling": "Tirando…",
+    "freeRoll": "Tu tirada gratuita diaria está disponible",
+    "paidRolls": "{count, plural, one {# tirada comprada restante} other {# tiradas compradas restantes}}",
+    "noRolls": "No te quedan tiradas hoy. Compra una aquí abajo.",
+    "score": "Puntuación",
+    "percentile": "Mejor que el {percent}% de todas las tiradas posibles",
+    "noBadges": "Ninguna insignia. La República te agradece igualmente tu contribución.",
+    "outranked": "Superada por una insignia mejor",
+    "announce": "Has sacado {number}. Puntuación: {score}.",
+    "back": "Volver a ATZAR",
+    "offline": {
+      "title": "Máquina apagada",
+      "body": "El Comisariado ha apagado la máquina en línea. Vuelve cuando se anuncie."
+    },
+    "errors": {
+      "unauthorized": "Identifícate para tirar.",
+      "disabled": "El Comisariado acaba de apagar la máquina en línea.",
+      "no_rolls": "No te quedan tiradas hoy.",
+      "failed": "No se ha podido completar la tirada. No se ha gastado ninguna; inténtalo de nuevo."
+    },
+    "rarities": {
+      "common": "Común",
+      "uncommon": "Poco común",
+      "rare": "Rara",
+      "epic": "Épica",
+      "legendary": "Legendaria"
+    },
+    "tiers": {
+      "poor": "Tirada pobre",
+      "common": "Tirada común",
+      "uncommon": "Tirada poco común",
+      "rare": "Tirada rara",
+      "epic": "Tirada épica",
+      "legendary": "Tirada legendaria"
     }
   },
   "leaderboard": {
