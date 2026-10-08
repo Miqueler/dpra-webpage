@@ -64,7 +64,7 @@ Still under **Authentication**:
    redirects to the `next` param (the citizen's profile page).
 4. On first login, the `on_auth_user_created` Postgres trigger (from the
    migration) fires and creates their `profiles` row — username derived from
-   their email (they can change it from their profile page), a random machine
-   code, and a 50-coin signup bonus.
+   their email (they can change it from their profile page) and a 50-coin
+   signup bonus.
 
 Next: [Email + password login](./02b-email-login.md).

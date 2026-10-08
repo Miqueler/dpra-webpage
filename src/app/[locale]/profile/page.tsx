@@ -68,16 +68,6 @@ export default async function ProfilePage({
       </PosterCard>
 
       <PosterCard className="mb-6">
-        <p className="mb-1 text-xs uppercase tracking-widest text-party-cream/50">
-          {t("machineCode")}
-        </p>
-        <p className="font-display mb-2 text-4xl tracking-[0.3em] text-atzar-gold-bright">
-          {profile!.machine_code}
-        </p>
-        <p className="text-sm text-party-cream/60">{t("machineCodeHint")}</p>
-      </PosterCard>
-
-      <PosterCard className="mb-6">
         <DailyBonusButton alreadyClaimed={profile!.last_daily_bonus_at === today} />
       </PosterCard>
 

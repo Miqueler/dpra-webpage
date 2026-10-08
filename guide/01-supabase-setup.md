@@ -40,8 +40,11 @@ Easiest path (no CLI install needed):
    `supabase/migrations/0004_admin_panel.sql` (lets admins assign ranks and
    see each citizen's full file on `/admin`), then
    `supabase/migrations/0005_leaderboard_security_invoker.sql` (clears the
-   "Security Definer View" error Supabase reports for `leaderboard`). Run
-   the files in number order.
+   "Security Definer View" error Supabase reports for `leaderboard`), then
+   `supabase/migrations/0006_machine_sessions.sql` (the codes the ATZAR
+   machine shows when someone presses play — see
+   [06-atzar-machine-integration.md](./06-atzar-machine-integration.md)).
+   Run the files in number order.
 
 ### Alternative: Supabase CLI
 
@@ -66,7 +69,7 @@ supabase db push
 
 The service role key bypasses every RLS policy — never commit it, never
 expose it to the browser. It's only read server-side, in
-`src/lib/supabase/admin.ts`, used by the two `/api/machine/*` routes that the
+`src/lib/supabase/admin.ts`, used by the `/api/machine/*` routes that the
 physical ATZAR machine calls.
 
 Next: [Google OAuth login](./02-google-oauth.md).

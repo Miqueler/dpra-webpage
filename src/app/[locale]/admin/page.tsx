@@ -165,11 +165,6 @@ export default async function AdminPage({
                     <Field label={t("fields.lastSignIn")}>
                       {moment(citizen.last_sign_in_at)}
                     </Field>
-                    <Field label={t("fields.machineCode")}>
-                      <span className="font-mono tracking-widest">
-                        {citizen.machine_code}
-                      </span>
-                    </Field>
                     <Field label={t("fields.sponsor")}>
                       {citizen.invited_by_username ?? "—"}
                     </Field>

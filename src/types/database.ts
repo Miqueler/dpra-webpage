@@ -46,6 +46,16 @@ export type RngSession = {
   played_at: string;
 };
 
+export type MachineSession = {
+  id: string;
+  code: string;
+  user_id: string | null;
+  created_at: string;
+  expires_at: string;
+  claimed_at: string | null;
+  used_at: string | null;
+};
+
 export type Friendship = {
   id: string;
   user_id: string;
@@ -111,6 +121,12 @@ export type Database = {
         Update: Partial<RngSession>;
         Relationships: [];
       };
+      machine_sessions: {
+        Row: MachineSession;
+        Insert: Partial<MachineSession> & { code: string; expires_at: string };
+        Update: Partial<MachineSession>;
+        Relationships: [];
+      };
       friendships: {
         Row: Friendship;
         Insert: Partial<Friendship> & { user_id: string; friend_id: string };
@@ -141,6 +157,14 @@ export type Database = {
       admin_citizens: {
         Args: Record<string, never>;
         Returns: AdminCitizen[];
+      };
+      create_machine_session: {
+        Args: Record<string, never>;
+        Returns: { code: string; expires_at: string }[];
+      };
+      claim_machine_session: {
+        Args: { session_code: string };
+        Returns: undefined;
       };
       claim_daily_bonus: {
         Args: Record<string, never>;

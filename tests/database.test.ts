@@ -534,6 +534,130 @@ describe("admin_citizens", () => {
   });
 });
 
+describe("linking a play to the machine", () => {
+  /** What the machine route does when someone presses play. */
+  async function pressPlay() {
+    const [session] = await db.admin<{ code: string; expires_at: Date }>(
+      "select * from create_machine_session()",
+    );
+    return session;
+  }
+
+  async function session(code: string) {
+    const [row] = await db.admin<{
+      user_id: string | null;
+      claimed_at: Date | null;
+      expires_at: Date;
+    }>("select user_id, claimed_at, expires_at from machine_sessions where code = $1", [code]);
+    return row;
+  }
+
+  it("gives the machine a different, typeable code for each play", async () => {
+    const first = await pressPlay();
+    const second = await pressPlay();
+
+    expect(first.code).toMatch(/^[A-HJ-NP-Z2-9]{6}$/);
+    expect(second.code).not.toBe(first.code);
+    expect(first.expires_at.getTime()).toBeGreaterThan(Date.now());
+    expect((await session(first.code)).user_id).toBeNull();
+  });
+
+  it("links the code to the citizen who types it in, however they type it", async () => {
+    const me = await citizen();
+    const { code } = await pressPlay();
+
+    await db.as(me.id, "select claim_machine_session($1)", [` ${code.toLowerCase()} `]);
+
+    const linked = await session(code);
+    expect(linked.user_id).toBe(me.id);
+    expect(linked.claimed_at).not.toBeNull();
+  });
+
+  it("lets the same citizen enter their code twice", async () => {
+    const me = await citizen();
+    const { code } = await pressPlay();
+    await db.as(me.id, "select claim_machine_session($1)", [code]);
+    await db.as(me.id, "select claim_machine_session($1)", [code]);
+    expect((await session(code)).user_id).toBe(me.id);
+  });
+
+  it("does not let a second citizen take over a claimed code", async () => {
+    const me = await citizen();
+    const other = await citizen();
+    const { code } = await pressPlay();
+    await db.as(me.id, "select claim_machine_session($1)", [code]);
+
+    await expect(db.as(other.id, "select claim_machine_session($1)", [code])).rejects.toThrow(
+      /already been claimed/,
+    );
+    expect((await session(code)).user_id).toBe(me.id);
+  });
+
+  it("refuses a code the machine never showed", async () => {
+    const me = await citizen();
+    await expect(db.as(me.id, "select claim_machine_session('NOPE99')")).rejects.toThrow(
+      /unknown or has expired/,
+    );
+  });
+
+  it("refuses a code that has run out of time", async () => {
+    const me = await citizen();
+    const { code } = await pressPlay();
+    await db.admin("update machine_sessions set expires_at = now() - interval '1 second' where code = $1", [
+      code,
+    ]);
+
+    await expect(db.as(me.id, "select claim_machine_session($1)", [code])).rejects.toThrow(
+      /unknown or has expired/,
+    );
+    expect((await session(code)).user_id).toBeNull();
+  });
+
+  it("refuses a code that was already played", async () => {
+    const me = await citizen();
+    const { code } = await pressPlay();
+    await db.admin("update machine_sessions set used_at = now() where code = $1", [code]);
+
+    await expect(db.as(me.id, "select claim_machine_session($1)", [code])).rejects.toThrow(
+      /unknown or has expired/,
+    );
+  });
+
+  it("refuses a visitor", async () => {
+    const { code } = await pressPlay();
+    await expect(db.as(null, "select claim_machine_session($1)", [code])).rejects.toThrow();
+    expect((await session(code)).user_id).toBeNull();
+  });
+
+  it("keeps codes out of citizens' reach", async () => {
+    const me = await citizen();
+    await pressPlay();
+
+    await expect(db.as(me.id, "select * from machine_sessions")).rejects.toThrow(
+      /permission denied/,
+    );
+    await expect(db.as(me.id, "select * from create_machine_session()")).rejects.toThrow(
+      /permission denied/,
+    );
+  });
+
+  it("clears out codes that expired more than a day ago", async () => {
+    const stale = await pressPlay();
+    const recent = await pressPlay();
+    await db.admin("update machine_sessions set expires_at = now() - interval '2 days' where code = $1", [
+      stale.code,
+    ]);
+    await db.admin("update machine_sessions set expires_at = now() - interval '1 hour' where code = $1", [
+      recent.code,
+    ]);
+
+    await pressPlay();
+
+    expect(await session(stale.code)).toBeUndefined();
+    expect(await session(recent.code)).toBeDefined();
+  });
+});
+
 describe("who can see what", () => {
   it("lets citizens look each other up, but shows visitors nothing", async () => {
     const me = await citizen();

@@ -8,15 +8,23 @@
       "eyebrow": "Accés restringit",
       "title": "La màquina de l'atzar",
       "body1": "ATZAR — de l'atzar, la sort que l'Estat administra en nom teu — és el mecanisme oficial de finançament de la República. Una màquina física, instal·lada a la Facultat de Matemàtiques i Estadística, on cada ciutadà identificat té dret a una tirada diària.",
-      "body2": "La puntuació es decideix a la pròpia màquina, mai en aquest portal. Aquí només es registra el que la màquina reporta. Identifica't per consultar el teu codi de màquina.",
+      "body2": "La puntuació es decideix a la pròpia màquina, mai en aquest portal. Aquí només es registra el que la màquina reporta. Identifica't per vincular les teves partides al teu expedient.",
       "cta": "Identifica't per jugar"
     },
     "lore": {
       "title": "Com funciona",
-      "body": "Cada ciutadà identificat rep una tirada gratuïta diària a la màquina ATZAR, instal·lada físicament a la Facultat de Matemàtiques i Estadística. Introdueix el teu codi de màquina a l'aparell per vincular la partida: la puntuació es calcula allà, no en aquest lloc web. El portal només mostra l'historial que la màquina decideix reportar."
+      "body": "Cada ciutadà identificat rep una tirada gratuïta diària a la màquina ATZAR, instal·lada físicament a la Facultat de Matemàtiques i Estadística. Prem jugar a l'aparell i et mostrarà un codi; introdueix-lo aquí per vincular la partida al teu expedient. La puntuació es calcula allà, no en aquest lloc web. El portal només mostra l'historial que la màquina decideix reportar."
     },
-    "machineCode": "Codi de màquina",
-    "machineCodeHint": "Introdueix aquest codi a la màquina ATZAR per vincular la teva propera tirada.",
+    "link": {
+      "title": "Vincula la màquina",
+      "hint": "Prem jugar a la màquina ATZAR i introdueix el codi que et mostri. Cada codi serveix per a una partida.",
+      "label": "Codi mostrat per la màquina",
+      "placeholder": "CODI",
+      "button": "Vincula",
+      "pending": "Vinculant…",
+      "success": "Màquina vinculada. Torna a la màquina, ciutadà.",
+      "genericError": "No s'ha pogut vincular el codi. Torna-ho a provar."
+    },
     "coins": "Monedes ATZAR",
     "today": {
       "title": "Tirada d'avui",

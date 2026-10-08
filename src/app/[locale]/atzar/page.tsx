@@ -4,6 +4,7 @@ import { PosterCard, SectionHeading } from "@/components/ui/PosterCard";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { AtzarMark } from "@/components/atzar/AtzarMark";
 import { BuyRollButton } from "@/components/atzar/BuyRollButton";
+import { LinkMachineForm } from "@/components/atzar/LinkMachineForm";
 
 export default async function AtzarDashboardPage({
   params,
@@ -69,19 +70,17 @@ export default async function AtzarDashboardPage({
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-8">
       <SectionHeading eyebrow={profile.rank} title={profile.username} />
 
-      <PosterCard className="mb-6 flex flex-col gap-4 border-atzar-gold/25 bg-atzar-black/60 sm:flex-row sm:items-center sm:justify-between">
+      <PosterCard className="mb-6 flex flex-col gap-4 border-atzar-gold/25 bg-atzar-black/60 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="mb-1 text-xs uppercase tracking-widest text-party-cream/50">
-            {t("machineCode")}
+            {t("link.title")}
           </p>
-          <p className="font-display text-4xl tracking-[0.3em] text-atzar-gold-bright">
-            {profile.machine_code}
+          <p className="mb-3 max-w-sm text-sm text-party-cream/60">
+            {t("link.hint")}
           </p>
-          <p className="mt-2 max-w-sm text-sm text-party-cream/60">
-            {t("machineCodeHint")}
-          </p>
+          <LinkMachineForm />
         </div>
-        <div className="text-right">
+        <div className="sm:text-right">
           <p className="font-display text-3xl text-atzar-gold">{profile.coins}¤</p>
           <p className="text-xs uppercase tracking-widest text-party-cream/50">
             {t("coins")}

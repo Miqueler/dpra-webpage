@@ -8,15 +8,23 @@
       "eyebrow": "Acceso restringido",
       "title": "La máquina del azar",
       "body1": "ATZAR — del catalán atzar, el azar que el Estado administra en tu nombre — es el mecanismo oficial de financiación de la República. Una máquina física, instalada en la Facultad de Matemáticas y Estadística, donde todo ciudadano identificado tiene derecho a una tirada diaria.",
-      "body2": "La puntuación se decide en la propia máquina, nunca en este portal. Aquí solo se registra lo que la máquina reporta. Identifícate para consultar tu código de máquina.",
+      "body2": "La puntuación se decide en la propia máquina, nunca en este portal. Aquí solo se registra lo que la máquina reporta. Identifícate para vincular tus partidas a tu expediente.",
       "cta": "Identifícate para jugar"
     },
     "lore": {
       "title": "Cómo funciona",
-      "body": "Cada ciudadano identificado recibe una tirada gratuita diaria en la máquina ATZAR, instalada físicamente en la Facultad de Matemáticas y Estadística. Introduce tu código de máquina en el aparato para vincular la partida: la puntuación se calcula allí, no en este sitio web. El portal solo muestra el historial que la máquina decide reportar."
+      "body": "Cada ciudadano identificado recibe una tirada gratuita diaria en la máquina ATZAR, instalada físicamente en la Facultad de Matemáticas y Estadística. Pulsa jugar en el aparato y te mostrará un código; introdúcelo aquí para vincular la partida a tu expediente. La puntuación se calcula allí, no en este sitio web. El portal solo muestra el historial que la máquina decide reportar."
     },
-    "machineCode": "Código de máquina",
-    "machineCodeHint": "Introduce este código en la máquina ATZAR para vincular tu próxima tirada.",
+    "link": {
+      "title": "Vincula la máquina",
+      "hint": "Pulsa jugar en la máquina ATZAR e introduce el código que te muestre. Cada código sirve para una partida.",
+      "label": "Código mostrado por la máquina",
+      "placeholder": "CÓDIGO",
+      "button": "Vincular",
+      "pending": "Vinculando…",
+      "success": "Máquina vinculada. Vuelve a la máquina, ciudadano.",
+      "genericError": "No se ha podido vincular el código. Inténtalo de nuevo."
+    },
     "coins": "Monedas ATZAR",
     "today": {
       "title": "Tirada de hoy",

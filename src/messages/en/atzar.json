@@ -8,15 +8,23 @@
       "eyebrow": "Restricted access",
       "title": "The machine of chance",
       "body1": "ATZAR — from the Catalan atzar, the chance the State administers on your behalf — is the Republic's official funding mechanism. A physical machine, installed at the Faculty of Mathematics and Statistics, where every identified citizen is entitled to one roll a day.",
-      "body2": "The score is decided on the machine itself, never on this portal. Here we only record what the machine reports. Identify yourself to view your machine code.",
+      "body2": "The score is decided on the machine itself, never on this portal. Here we only record what the machine reports. Identify yourself to link your plays to your file.",
       "cta": "Identify yourself to play"
     },
     "lore": {
       "title": "How it works",
-      "body": "Every identified citizen receives one free daily roll on the ATZAR machine, physically installed at the Faculty of Mathematics and Statistics. Enter your machine code on the device to link your play: the score is computed there, not on this website. The portal only shows the history the machine chooses to report."
+      "body": "Every identified citizen receives one free daily roll on the ATZAR machine, physically installed at the Faculty of Mathematics and Statistics. Press play on the device and it will show a code; enter that code here to link the play to your file. The score is computed there, not on this website. The portal only shows the history the machine chooses to report."
     },
-    "machineCode": "Machine code",
-    "machineCodeHint": "Enter this code at the ATZAR machine to link your next roll.",
+    "link": {
+      "title": "Link the machine",
+      "hint": "Press play on the ATZAR machine and enter the code it shows. Each code is good for one play.",
+      "label": "Code shown by the machine",
+      "placeholder": "CODE",
+      "button": "Link",
+      "pending": "Linking…",
+      "success": "Machine linked. Turn to the machine, citizen.",
+      "genericError": "The code could not be linked. Please try again."
+    },
     "coins": "ATZAR coins",
     "today": {
       "title": "Today's roll",
