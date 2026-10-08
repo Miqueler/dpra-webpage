@@ -64,8 +64,13 @@ describe("page title", () => {
 describe("tab icon", () => {
   it("is the DPRA seal, from a file that exists", async () => {
     const metadata = await generateMetadata({ params: Promise.resolve({ locale: "en" }) });
-    expect(metadata.icons).toMatchObject({ icon: "/icon.png" });
-    expect(existsSync(join(process.cwd(), "public/icon.png"))).toBe(true);
+    expect(metadata.icons).toMatchObject({
+      icon: { url: "/dpra-logo.svg" },
+      apple: "/icon.png",
+    });
+    for (const file of ["public/dpra-logo.svg", "public/icon.png"]) {
+      expect(existsSync(join(process.cwd(), file))).toBe(true);
+    }
   });
 });
 

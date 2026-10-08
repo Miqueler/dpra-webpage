@@ -12,7 +12,8 @@ export function DpraLogo({
 }) {
   return (
     <Image
-      src="/dpra-logo.png"
+      src="/dpra-logo.svg"
+      unoptimized
       alt=""
       width={size}
       height={size}
