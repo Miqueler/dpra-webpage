@@ -20,6 +20,13 @@ async function citizen(base = "citizen") {
   return { id, username };
 }
 
+/** A citizen promoted to admin, the way the guide says to do it by hand. */
+async function commissar() {
+  const admin = await citizen("commissar");
+  await db.admin("update profiles set is_admin = true where id = $1", [admin.id]);
+  return admin;
+}
+
 beforeAll(async () => {
   db = await createDatabase();
 }, 60_000);
@@ -353,12 +360,6 @@ describe("redeem_invite", () => {
 });
 
 describe("grant_coins", () => {
-  async function commissar() {
-    const admin = await citizen("commissar");
-    await db.admin("update profiles set is_admin = true where id = $1", [admin.id]);
-    return admin;
-  }
-
   it("lets an admin grant coins, recording who and why", async () => {
     const admin = await commissar();
     const target = await citizen();
@@ -414,6 +415,123 @@ describe("grant_coins", () => {
       expect((await db.profile(target.id)).coins).toBe(50);
     },
   );
+});
+
+describe("set_rank", () => {
+  it("lets an admin assign a rank, trimmed", async () => {
+    const admin = await commissar();
+    const target = await citizen();
+
+    await db.as(admin.id, "select set_rank($1, '  Hero of Labour ')", [target.id]);
+
+    expect((await db.profile(target.id)).rank).toBe("Hero of Labour");
+  });
+
+  it("refuses a citizen who is not an admin", async () => {
+    const me = await citizen();
+    await expect(db.as(me.id, "select set_rank($1, 'Supreme Leader')", [me.id])).rejects.toThrow(
+      /Only the Commissariat/,
+    );
+    expect((await db.profile(me.id)).rank).toBe("Citizen");
+  });
+
+  it("refuses a visitor", async () => {
+    const target = await citizen();
+    await expect(db.as(null, "select set_rank($1, 'Supreme Leader')", [target.id])).rejects.toThrow();
+    expect((await db.profile(target.id)).rank).toBe("Citizen");
+  });
+
+  it.each(["", "   ", "x".repeat(41)])("refuses the rank %j", async (rank) => {
+    const admin = await commissar();
+    const target = await citizen();
+    await expect(db.as(admin.id, "select set_rank($1, $2)", [target.id, rank])).rejects.toThrow(
+      /between 1 and 40/,
+    );
+    expect((await db.profile(target.id)).rank).toBe("Citizen");
+  });
+
+  it("refuses a citizen who does not exist", async () => {
+    const admin = await commissar();
+    await expect(
+      db.as(admin.id, "select set_rank('00000000-0000-0000-0000-000000000000', 'Ghost')"),
+    ).rejects.toThrow(/Unknown citizen/);
+  });
+});
+
+describe("admin_citizens", () => {
+  it("shows an admin each citizen's file", async () => {
+    const admin = await commissar();
+    const sponsor = await citizen("sponsor");
+    const local = unique("recruit");
+    const recruit = await db.signUp({ email: `${local}@upc.edu`, confirmed: false });
+    await db.confirmEmail(recruit);
+    await db.as(recruit, "select redeem_invite($1)", [sponsor.username]);
+    await db.admin(
+      "insert into friendships (user_id, friend_id, status) values ($1, $2, 'accepted')",
+      [recruit, sponsor.id],
+    );
+    await db.admin("insert into rng_sessions (user_id, score) values ($1, 7), ($1, 42)", [recruit]);
+    await db.admin("update auth.users set last_sign_in_at = '2026-05-01T10:00:00Z' where id = $1", [
+      recruit,
+    ]);
+
+    const rows = await db.as(admin.id, "select * from admin_citizens()");
+    const file = (id: string) => rows.find((row) => row.id === id);
+
+    expect(file(recruit)).toMatchObject({
+      username: local,
+      rank: "Citizen",
+      coins: 75,
+      is_admin: false,
+      email: `${local}@upc.edu`,
+      email_confirmed: true,
+      invited_by_username: sponsor.username,
+      invited_count: 0,
+      friend_count: 1,
+      plays: 2,
+      best_score: 42,
+    });
+    expect(file(recruit)!.last_sign_in_at).toEqual(new Date("2026-05-01T10:00:00Z"));
+    expect(file(recruit)!.last_played_at).not.toBeNull();
+    expect(file(sponsor.id)).toMatchObject({
+      invited_by_username: null,
+      invited_count: 1,
+      friend_count: 1,
+      plays: 0,
+      best_score: null,
+      last_played_at: null,
+    });
+    expect(file(admin.id)).toMatchObject({ is_admin: true });
+  });
+
+  it("marks an email that has not been confirmed", async () => {
+    const admin = await commissar();
+    const pending = await db.signUp({ confirmed: false });
+
+    const [row] = await db.as(admin.id, "select * from admin_citizens() where id = $1", [pending]);
+    expect(row).toMatchObject({ email_confirmed: false, coins: 0 });
+  });
+
+  it("lists citizens by username", async () => {
+    const admin = await commissar();
+    const rows = await db.as<{ username: string }>(
+      admin.id,
+      "select username from admin_citizens()",
+    );
+    const names = rows.map((row) => row.username);
+    expect(names).toEqual([...names].sort());
+  });
+
+  it("refuses a citizen who is not an admin", async () => {
+    const me = await citizen();
+    await expect(db.as(me.id, "select * from admin_citizens()")).rejects.toThrow(
+      /Only the Commissariat/,
+    );
+  });
+
+  it("refuses a visitor", async () => {
+    await expect(db.as(null, "select * from admin_citizens()")).rejects.toThrow();
+  });
 });
 
 describe("who can see what", () => {

@@ -20,9 +20,12 @@ requires `is_admin = true` to even load.
 3. Refresh the site — the header nav should now show a "Commissariat" link,
    and `/admin` should load.
 
-From then on, that admin can grant coins to anyone from the `/admin` page —
-but promoting *other* citizens to admin still has to be done the same way
-(directly in the database), since there's no "make this person an admin" UI.
+From then on, that admin can open any citizen's file on the `/admin` page
+(email, sign-up date, sponsor, machine code, ATZAR activity), assign them a
+rank and grant them coins — this needs
+`supabase/migrations/0004_admin_panel.sql` to have been run. Promoting
+*other* citizens to admin still has to be done the same way (directly in
+the database), since there's no "make this person an admin" UI.
 That's intentional for v1: it's a rare, high-trust action.
 
 ### Why a citizen can't just set `is_admin` themselves

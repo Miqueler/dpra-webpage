@@ -3,6 +3,7 @@ import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { GrantCoinsForm } from "@/components/admin/GrantCoinsForm";
+import { RankForm } from "@/components/admin/RankForm";
 import { BuyRollButton } from "@/components/atzar/BuyRollButton";
 import { DailyBonusButton } from "@/components/profile/DailyBonusButton";
 import { InviteForm } from "@/components/profile/InviteForm";
@@ -179,6 +180,53 @@ describe("GrantCoinsForm", () => {
     await userEvent.click(grant());
 
     expect(await screen.findByText("Only the Commissariat may grant coins.")).toBeVisible();
+    expect(router.refresh).not.toHaveBeenCalled();
+  });
+});
+
+describe("RankForm", () => {
+  const rank = () => screen.getByRole("textbox", { name: text("en", "admin.rankForm.label") });
+  const assign = () =>
+    screen.getByRole("button", { name: text("en", "admin.rankForm.submit") });
+
+  it("starts from the current rank, with nothing to save", () => {
+    renderWithIntl(<RankForm userId="u1" currentRank="Citizen" />);
+    expect(rank()).toHaveValue("Citizen");
+    expect(assign()).toBeDisabled();
+  });
+
+  it("assigns the trimmed rank and refreshes the register", async () => {
+    renderWithIntl(<RankForm userId="u1" currentRank="Citizen" />);
+    await userEvent.clear(rank());
+    await userEvent.type(rank(), "  Hero of Labour ");
+    await userEvent.click(assign());
+
+    expect(await screen.findByText(text("en", "admin.rankForm.success"))).toBeVisible();
+    expect(supabase.rpc).toHaveBeenCalledWith("set_rank", {
+      target_user: "u1",
+      new_rank: "Hero of Labour",
+    });
+    expect(rank()).toHaveValue("Hero of Labour");
+    expect(router.refresh).toHaveBeenCalledTimes(1);
+  });
+
+  it("cannot be sent empty", async () => {
+    renderWithIntl(<RankForm userId="u1" currentRank="Citizen" />);
+    await userEvent.clear(rank());
+    await userEvent.type(rank(), "   ");
+    expect(assign()).toBeDisabled();
+  });
+
+  it("shows the error and does not refresh when the rank is refused", async () => {
+    supabase.rpc.mockResolvedValue({
+      error: { message: "Only the Commissariat may assign ranks." },
+    });
+    renderWithIntl(<RankForm userId="u1" currentRank="Citizen" />);
+    await userEvent.clear(rank());
+    await userEvent.type(rank(), "Supreme Leader");
+    await userEvent.click(assign());
+
+    expect(await screen.findByText("Only the Commissariat may assign ranks.")).toBeVisible();
     expect(router.refresh).not.toHaveBeenCalled();
   });
 });

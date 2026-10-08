@@ -63,6 +63,27 @@ export type LeaderboardRow = {
   plays: number;
 };
 
+export type AdminCitizen = {
+  id: string;
+  username: string;
+  avatar_url: string | null;
+  rank: string;
+  coins: number;
+  is_admin: boolean;
+  machine_code: string;
+  created_at: string;
+  last_daily_bonus_at: string | null;
+  email: string | null;
+  email_confirmed: boolean;
+  last_sign_in_at: string | null;
+  invited_by_username: string | null;
+  invited_count: number;
+  friend_count: number;
+  plays: number;
+  best_score: number | null;
+  last_played_at: string | null;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -112,6 +133,14 @@ export type Database = {
           grant_note?: string | null;
         };
         Returns: undefined;
+      };
+      set_rank: {
+        Args: { target_user: string; new_rank: string };
+        Returns: undefined;
+      };
+      admin_citizens: {
+        Args: Record<string, never>;
+        Returns: AdminCitizen[];
       };
       claim_daily_bonus: {
         Args: Record<string, never>;

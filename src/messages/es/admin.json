@@ -1,14 +1,45 @@
 {
   "eyebrow": "Acceso restringido",
   "title": "Comisariado",
-  "description": "Registro completo de los ciudadanos de la República. Desde aquí el Comisariado puede conceder monedas ATZAR como recompensa por méritos o lealtad demostrada.",
-  "tableHeaders": {
-    "username": "Ciudadano",
-    "rank": "Rango",
-    "coins": "Monedas",
-    "action": "Concesión"
+  "description": "Registro completo de los ciudadanos de la República. Desde aquí el Comisariado puede consultar el expediente de cada ciudadano, asignar rangos y conceder monedas ATZAR como recompensa por méritos o lealtad demostrada.",
+  "stats": {
+    "citizens": "Ciudadanos",
+    "admins": "Comisarios",
+    "coins": "Monedas en circulación",
+    "plays": "Partidas de ATZAR"
+  },
+  "register": {
+    "title": "Registro",
+    "hint": "Abre el expediente de un ciudadano para ver sus datos, asignarle un rango o concederle monedas.",
+    "loadError": "No se ha podido cargar el registro."
+  },
+  "adminBadge": "Comisario",
+  "unconfirmed": "Sin confirmar",
+  "never": "Nunca",
+  "playsCount": "{count, plural, one {# partida} other {# partidas}}",
+  "fields": {
+    "email": "Correo",
+    "joined": "Alta",
+    "lastSignIn": "Último acceso",
+    "machineCode": "Código de máquina",
+    "sponsor": "Padrino",
+    "recruits": "Ciudadanos reclutados",
+    "friends": "Amigos",
+    "lastDailyBonus": "Último bono diario",
+    "bestScore": "Mejor puntuación",
+    "lastPlayed": "Última partida"
+  },
+  "actions": {
+    "rank": "Asignar rango",
+    "coins": "Conceder monedas"
   },
   "empty": "No se ha encontrado ningún ciudadano en el registro.",
+  "rankForm": {
+    "label": "Rango",
+    "submit": "Asignar",
+    "pending": "Procesando…",
+    "success": "Rango asignado."
+  },
   "grantForm": {
     "amountPlaceholder": "Cantidad",
     "reasonAdminGrant": "Asignación estándar",
@@ -18,5 +49,23 @@
     "pending": "Procesando…",
     "success": "Monedas concedidas.",
     "invalidAmount": "Introduce una cantidad válida distinta de cero."
+  },
+  "ledger": {
+    "title": "Movimientos recientes de monedas",
+    "when": "Cuándo",
+    "citizen": "Ciudadano",
+    "amount": "Cantidad",
+    "reason": "Motivo",
+    "by": "Concedido por",
+    "note": "Nota",
+    "empty": "Todavía no hay movimientos de monedas."
+  },
+  "reasons": {
+    "signup_bonus": "Bono de alta",
+    "daily_bonus": "Bono diario",
+    "invite_bonus": "Bono de invitación",
+    "admin_grant": "Asignación estándar",
+    "event_grant": "Asignación de evento especial",
+    "roll_purchase": "Compra de tirada"
   }
 }

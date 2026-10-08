@@ -36,7 +36,9 @@ Easiest path (no CLI install needed):
    support, plus a fix that lets the coin functions above actually move
    coins), then `supabase/migrations/0003_choose_username.sql` (lets
    citizens pick their username at email sign-up, and checks the format when
-   they change it from their profile). Run the files in number order.
+   they change it from their profile), then
+   `supabase/migrations/0004_admin_panel.sql` (lets admins assign ranks and
+   see each citizen's full file on `/admin`). Run the files in number order.
 
 ### Alternative: Supabase CLI
 
