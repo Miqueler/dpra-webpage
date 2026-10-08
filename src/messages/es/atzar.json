@@ -83,15 +83,17 @@
       "uncommon": "Poco común",
       "rare": "Rara",
       "epic": "Épica",
-      "legendary": "Legendaria"
+      "anomaly": "Anomalía",
+      "mythic": "Mítica"
     },
     "tiers": {
-      "poor": "Tirada pobre",
+      "trash": "Tirada basura",
       "common": "Tirada común",
       "uncommon": "Tirada poco común",
       "rare": "Tirada rara",
       "epic": "Tirada épica",
-      "legendary": "Tirada legendaria"
+      "anomaly": "Tirada anómala",
+      "mythic": "Tirada mítica"
     }
   },
   "leaderboard": {

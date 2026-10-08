@@ -83,7 +83,7 @@ describe("OnlineMachine", () => {
     expect(screen.getByText(play("freeRoll"))).toBeVisible();
     await userEvent.click(rollButton());
 
-    expect(await screen.findByText("1001")).toBeVisible();
+    expect(await screen.findByText("1,001")).toBeVisible();
     expect(fetchMock).toHaveBeenCalledWith(
       "/api/atzar/roll",
       expect.objectContaining({ method: "POST", body: JSON.stringify({ locale: "en" }) }),
@@ -102,7 +102,7 @@ describe("OnlineMachine", () => {
   });
 
   it("says so when a roll earns no badges", async () => {
-    server(200, { ...ROLL, badges: [], score: 0, percentile: 0, tier: "poor" });
+    server(200, { ...ROLL, badges: [], score: 0, percentile: 0, tier: "trash" });
     renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} />);
     await userEvent.click(rollButton());
     expect(await screen.findByText(play("noBadges"))).toBeVisible();

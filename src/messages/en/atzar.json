@@ -83,15 +83,17 @@
       "uncommon": "Uncommon",
       "rare": "Rare",
       "epic": "Epic",
-      "legendary": "Legendary"
+      "anomaly": "Anomaly",
+      "mythic": "Mythic"
     },
     "tiers": {
-      "poor": "Poor roll",
+      "trash": "Trash roll",
       "common": "Common roll",
       "uncommon": "Uncommon roll",
       "rare": "Rare roll",
       "epic": "Epic roll",
-      "legendary": "Legendary roll"
+      "anomaly": "Anomalous roll",
+      "mythic": "Mythic roll"
     }
   },
   "leaderboard": {

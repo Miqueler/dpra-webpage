@@ -18,7 +18,7 @@ export type RollResult = {
     description: string;
     points: number;
     rarity: BadgeRarity;
-    /** False when a better badge of the same group took its place in the score. */
+    /** False when a better badge of the same family took its place in the score. */
     counts: boolean;
   }[];
   score: number;

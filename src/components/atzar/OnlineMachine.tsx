@@ -21,7 +21,8 @@ const RARITY_STYLE: Record<RollResult["badges"][number]["rarity"], string> = {
   uncommon: "border-party-cream/50 text-party-cream",
   rare: "border-atzar-gold/60 text-atzar-gold",
   epic: "border-atzar-gold-bright text-atzar-gold-bright",
-  legendary: "border-atzar-red bg-atzar-red/20 text-atzar-gold-bright",
+  anomaly: "border-atzar-red text-atzar-gold-bright",
+  mythic: "border-atzar-red bg-atzar-red/25 text-atzar-gold-bright",
 };
 
 function randomDigits(length: number) {
@@ -209,7 +210,7 @@ export function OnlineMachine({
                   !badge.counts && "line-through",
                 )}
               >
-                +{badge.points}
+                +{badge.points.toLocaleString(locale)}
               </span>
             </li>
           ))}
@@ -222,7 +223,7 @@ export function OnlineMachine({
             {t("score")}
           </p>
           <p className="font-display text-5xl text-atzar-gold-bright">
-            {result.score}
+            {result.score.toLocaleString(locale)}
           </p>
           <p className="font-display mt-3 text-sm uppercase tracking-[0.3em] text-atzar-gold">
             {t(`tiers.${result.tier}`)}

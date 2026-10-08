@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   BADGES,
@@ -64,27 +66,69 @@ describe("badge-stats.json", () => {
   });
 });
 
+describe("rngdle-badges.md", () => {
+  // The file lists what each badge is worth on rngdle, where the roll goes up
+  // to 1,000,000. Our counts stop at MAX_ROLL, so the numbers above it are
+  // added back before comparing.
+  const listed = new Map<string, number>();
+  const file = readFileSync(join(process.cwd(), "rngdle-badges.md"), "utf8");
+  for (const line of file.split("\n")) {
+    const row = line.match(/^(.+?) \t([\d,]+) \t(?:Common|Uncommon|Rare|Epic|Anomaly|Mythic) \t/);
+    if (row) listed.set(row[1].trim(), Number(row[2].replaceAll(",", "")));
+  }
+  const RNGDLE_MAX = 1_000_000;
+
+  it("lists 233 badges", () => {
+    expect(listed.size).toBe(233);
+  });
+
+  it("gives every badge of ours the same value our rules do", () => {
+    const wrong: string[] = [];
+    for (const badge of BADGES) {
+      const expected = listed.get(String(badge.name));
+      if (expected === undefined) continue;
+      let count = badgeStats.counts[badge.id];
+      for (let n = MAX_ROLL + 1; n <= RNGDLE_MAX; n++) {
+        if (ids(n).includes(badge.id)) count += 1;
+      }
+      const ours = pointsFor(count, RNGDLE_MAX + 1);
+      if (ours !== expected) wrong.push(`${badge.id}: ${ours} instead of ${expected}`);
+    }
+    expect(wrong).toEqual([]);
+  });
+
+  it("has every listed badge that can be rolled here", () => {
+    const names = new Set(BADGES.map((badge) => badge.name));
+    const missing = [...listed.keys()].filter((name) => !names.has(name));
+    // "One Million" needs a roll of 1,000,000, above MAX_ROLL.
+    expect(missing).toEqual(MAX_ROLL >= RNGDLE_MAX ? [] : ["One Million"]);
+  });
+});
+
 describe("points and rarity", () => {
-  it("is worth the number of rolls it takes to see the badge once", () => {
-    expect(pointsFor((MAX_ROLL + 1) / 2)).toBe(2);
-    expect(pointsFor(1)).toBe(MAX_ROLL + 1);
-    expect(pointsFor(MAX_ROLL + 1)).toBe(1);
-    expect(pointsFor(0)).toBe(0);
+  it("is worth 100 points divided by the chance of rolling the badge", () => {
+    expect(pointsFor(500_000, 1_000_000)).toBe(200);
+    expect(pointsFor(1, 1_000_000)).toBe(100_000_000);
+    expect(pointsFor(1_000_000, 1_000_000)).toBe(100);
+    expect(pointsFor(3, 1_000_000)).toBe(33_333_333);
+    expect(pointsFor(0, 1_000_000)).toBe(0);
   });
 
   it("names rarer badges accordingly", () => {
-    expect([2, 10, 100, 1_000, 10_000].map(badgeRarity)).toEqual([
+    expect([200, 1_000, 10_000, 100_000, 1_000_000, 10_000_000].map(badgeRarity)).toEqual([
       "common",
       "uncommon",
       "rare",
       "epic",
-      "legendary",
+      "anomaly",
+      "mythic",
     ]);
   });
 
   it("ranks a score against every possible roll", () => {
     const stats: BadgeStats = {
       fingerprint: "",
+      rolls: 10,
       counts: {},
       scoreQuantiles: [1, 1, 5, 5, 5, 5, 5, 5, 9, 20],
       maxScore: 20,
@@ -93,13 +137,14 @@ describe("points and rarity", () => {
     expect(scorePercentile(5, stats)).toBe(20);
     expect(scorePercentile(20, stats)).toBe(90);
     expect(scorePercentile(21, stats)).toBe(100);
-    expect([0, 10, 50, 75, 90, 99].map(rollTier)).toEqual([
-      "poor",
+    expect([0, 1, 50, 75, 90, 95, 99].map(rollTier)).toEqual([
+      "trash",
       "common",
       "uncommon",
       "rare",
       "epic",
-      "legendary",
+      "anomaly",
+      "mythic",
     ]);
   });
 });
@@ -107,6 +152,7 @@ describe("points and rarity", () => {
 describe("scoring a roll", () => {
   const stats = (counts: Record<string, number>): BadgeStats => ({
     fingerprint: "",
+    rolls: MAX_ROLL + 1,
     counts,
     scoreQuantiles: [0],
     maxScore: 0,
@@ -122,13 +168,13 @@ describe("scoring a roll", () => {
     expect(roll.badges.map((b) => b.badge.id).sort()).toEqual([...earned].sort());
   });
 
-  it("counts only the best badge of a group", () => {
-    const grouped = BADGES.filter((badge) => badge.group === "ROUND").map((b) => b.id);
-    const earned = ids(1000).filter((id) => grouped.includes(id));
+  it("counts only the best badge of a family", () => {
+    const family = BADGES.filter((badge) => badge.family === "VOID_DEPTH").map((b) => b.id);
+    const earned = ids(1000).filter((id) => family.includes(id));
     expect(earned.length).toBeGreaterThan(1);
 
     const roll = scoreRoll(1000, badgeStats);
-    const inGroup = roll.badges.filter((b) => b.badge.group === "ROUND");
+    const inGroup = roll.badges.filter((b) => b.badge.family === "VOID_DEPTH");
     const counted = inGroup.filter((b) => b.counts);
     expect(counted).toHaveLength(1);
     expect(counted[0].points).toBe(Math.max(...inGroup.map((b) => b.points)));
@@ -141,6 +187,12 @@ describe("scoring a roll", () => {
 
   it("scores a roll with no badges as zero", () => {
     expect(scoreRoll(7, stats({})).score).toBe(0);
+  });
+
+  it("counts every badge that has no family", () => {
+    const loose = scoreRoll(123456, badgeStats).badges.filter((b) => !b.badge.family);
+    expect(loose.length).toBeGreaterThan(5);
+    expect(loose.every((b) => b.counts)).toBe(true);
   });
 
   it("handles both ends of the range", () => {
