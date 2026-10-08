@@ -14,7 +14,8 @@ cheapest first.
 
 ## Switching it on and off
 
-Run `supabase/migrations/0007_online_machine.sql` once (see
+Run `supabase/migrations/0007_online_machine.sql` and then
+`0008_online_machine_switch_fix.sql` once (see
 [01-supabase-setup.md](./01-supabase-setup.md)). The machine starts **off**.
 
 An admin switches it from the **Online ATZAR machine** card at the top of

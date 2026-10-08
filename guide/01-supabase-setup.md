@@ -46,7 +46,9 @@ Easiest path (no CLI install needed):
    [06-atzar-machine-integration.md](./06-atzar-machine-integration.md)), then
    `supabase/migrations/0007_online_machine.sql` (the online ATZAR machine
    and its on/off switch — see
-   [08-online-machine-and-badges.md](./08-online-machine-and-badges.md)).
+   [08-online-machine-and-badges.md](./08-online-machine-and-badges.md)), then
+   `supabase/migrations/0008_online_machine_switch_fix.sql` (without it the
+   on/off switch fails with "UPDATE requires a WHERE clause").
    Run the files in number order.
 
 ### Alternative: Supabase CLI

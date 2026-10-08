@@ -35,6 +35,31 @@ afterAll(async () => {
   await db?.close();
 });
 
+describe("the functions the site calls", () => {
+  // Supabase rejects an UPDATE or DELETE with no WHERE clause at run time
+  // ("UPDATE requires a WHERE clause"). The in-memory Postgres does not, so
+  // this reads the functions as they stand after every migration.
+  it("never update or delete without a WHERE clause", async () => {
+    const functions = await db.admin<{ name: string; body: string }>(
+      `select p.proname as name, p.prosrc as body
+       from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+       where n.nspname = 'public'`,
+    );
+    expect(functions.length).toBeGreaterThan(5);
+
+    const offenders: string[] = [];
+    for (const { name, body } of functions) {
+      const code = body.replace(/--.*$/gm, "");
+      for (const statement of code.split(";")) {
+        const write = /\b(update\s+[\w.]+\s+set|delete\s+from)\b/i.test(statement);
+        const upsert = /\bdo\s+update\s+set\b/i.test(statement);
+        if (write && !upsert && !/\bwhere\b/i.test(statement)) offenders.push(name);
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
+});
+
 describe("signing up", () => {
   it("creates a profile with a machine code and the sign-up bonus", async () => {
     const id = await db.signUp({ email: "newcomer@upc.edu" });
@@ -660,7 +685,7 @@ describe("linking a play to the machine", () => {
 
 describe("the online machine", () => {
   async function switchMachine(on: boolean) {
-    await db.admin("update atzar_settings set online_enabled = $1", [on]);
+    await db.admin("update atzar_settings set online_enabled = $1 where id", [on]);
   }
 
   /** What the roll route does once it has rolled and scored a number. */
