@@ -12,6 +12,7 @@ const CHAIN_METHODS = [
   "upsert",
   "eq",
   "order",
+  "limit",
   "single",
   "maybeSingle",
 ] as const;

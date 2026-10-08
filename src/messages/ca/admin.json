@@ -1,14 +1,45 @@
 {
   "eyebrow": "Accés restringit",
   "title": "Comissariat",
-  "description": "Registre complet dels ciutadans de la República. Des d'aquí el Comissariat pot concedir monedes ATZAR com a recompensa per mèrits o lleialtat demostrada.",
-  "tableHeaders": {
-    "username": "Ciutadà",
-    "rank": "Rang",
-    "coins": "Monedes",
-    "action": "Concessió"
+  "description": "Registre complet dels ciutadans de la República. Des d'aquí el Comissariat pot consultar l'expedient de cada ciutadà, assignar rangs i concedir monedes ATZAR com a recompensa per mèrits o lleialtat demostrada.",
+  "stats": {
+    "citizens": "Ciutadans",
+    "admins": "Comissaris",
+    "coins": "Monedes en circulació",
+    "plays": "Partides d'ATZAR"
+  },
+  "register": {
+    "title": "Registre",
+    "hint": "Obre l'expedient d'un ciutadà per veure'n les dades, assignar-li un rang o concedir-li monedes.",
+    "loadError": "No s'ha pogut carregar el registre."
+  },
+  "adminBadge": "Comissari",
+  "unconfirmed": "Sense confirmar",
+  "never": "Mai",
+  "playsCount": "{count, plural, one {# partida} other {# partides}}",
+  "fields": {
+    "email": "Correu",
+    "joined": "Alta",
+    "lastSignIn": "Últim accés",
+    "machineCode": "Codi de màquina",
+    "sponsor": "Padrí",
+    "recruits": "Ciutadans reclutats",
+    "friends": "Amics",
+    "lastDailyBonus": "Últim bo diari",
+    "bestScore": "Millor puntuació",
+    "lastPlayed": "Última partida"
+  },
+  "actions": {
+    "rank": "Assigna un rang",
+    "coins": "Concedeix monedes"
   },
   "empty": "No s'ha trobat cap ciutadà al registre.",
+  "rankForm": {
+    "label": "Rang",
+    "submit": "Assigna",
+    "pending": "Processant…",
+    "success": "Rang assignat."
+  },
   "grantForm": {
     "amountPlaceholder": "Quantitat",
     "reasonAdminGrant": "Assignació estàndard",
@@ -18,5 +49,23 @@
     "pending": "Processant…",
     "success": "Monedes concedides.",
     "invalidAmount": "Introdueix una quantitat vàlida diferent de zero."
+  },
+  "ledger": {
+    "title": "Moviments recents de monedes",
+    "when": "Quan",
+    "citizen": "Ciutadà",
+    "amount": "Quantitat",
+    "reason": "Motiu",
+    "by": "Concedit per",
+    "note": "Nota",
+    "empty": "Encara no hi ha moviments de monedes."
+  },
+  "reasons": {
+    "signup_bonus": "Bo d'alta",
+    "daily_bonus": "Bo diari",
+    "invite_bonus": "Bo d'invitació",
+    "admin_grant": "Assignació estàndard",
+    "event_grant": "Assignació d'esdeveniment especial",
+    "roll_purchase": "Compra de tirada"
   }
 }

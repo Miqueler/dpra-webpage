@@ -1,14 +1,45 @@
 {
   "eyebrow": "Restricted access",
   "title": "Commissariat",
-  "description": "Full register of the Republic's citizens. From here the Commissariat may grant ATZAR coins as reward for merit or demonstrated loyalty.",
-  "tableHeaders": {
-    "username": "Citizen",
-    "rank": "Rank",
-    "coins": "Coins",
-    "action": "Grant"
+  "description": "Full register of the Republic's citizens. From here the Commissariat may inspect each citizen's file, assign ranks, and grant ATZAR coins as reward for merit or demonstrated loyalty.",
+  "stats": {
+    "citizens": "Citizens",
+    "admins": "Commissars",
+    "coins": "Coins in circulation",
+    "plays": "ATZAR plays"
+  },
+  "register": {
+    "title": "Register",
+    "hint": "Open a citizen's file to see their details, assign a rank or grant coins.",
+    "loadError": "The register could not be loaded."
+  },
+  "adminBadge": "Commissar",
+  "unconfirmed": "Unconfirmed",
+  "never": "Never",
+  "playsCount": "{count, plural, one {# play} other {# plays}}",
+  "fields": {
+    "email": "Email",
+    "joined": "Joined",
+    "lastSignIn": "Last sign-in",
+    "machineCode": "Machine code",
+    "sponsor": "Sponsor",
+    "recruits": "Citizens recruited",
+    "friends": "Friends",
+    "lastDailyBonus": "Last daily bonus",
+    "bestScore": "Best score",
+    "lastPlayed": "Last played"
+  },
+  "actions": {
+    "rank": "Assign rank",
+    "coins": "Grant coins"
   },
   "empty": "No citizens found in the register.",
+  "rankForm": {
+    "label": "Rank",
+    "submit": "Assign",
+    "pending": "Processing…",
+    "success": "Rank assigned."
+  },
   "grantForm": {
     "amountPlaceholder": "Amount",
     "reasonAdminGrant": "Standard grant",
@@ -18,5 +49,23 @@
     "pending": "Processing…",
     "success": "Coins granted.",
     "invalidAmount": "Enter a valid, non-zero amount."
+  },
+  "ledger": {
+    "title": "Recent coin movements",
+    "when": "When",
+    "citizen": "Citizen",
+    "amount": "Amount",
+    "reason": "Reason",
+    "by": "Granted by",
+    "note": "Note",
+    "empty": "No coin movements recorded yet."
+  },
+  "reasons": {
+    "signup_bonus": "Sign-up bonus",
+    "daily_bonus": "Daily bonus",
+    "invite_bonus": "Invite bonus",
+    "admin_grant": "Standard grant",
+    "event_grant": "Special event grant",
+    "roll_purchase": "Roll purchase"
   }
 }
