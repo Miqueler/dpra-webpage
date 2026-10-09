@@ -21,9 +21,20 @@ requires `is_admin = true` to even load.
    and `/admin` should load.
 
 From then on, that admin can open any citizen's file on the `/admin` page
-(email, sign-up date, sponsor, machine code, ATZAR activity), assign them a
-rank and grant them coins — this needs
-`supabase/migrations/0004_admin_panel.sql` to have been run. Promoting
+(email, sign-up date, sponsor, machine code, ATZAR activity and rolls),
+assign them a rank, grant them coins and delete them — this needs
+`supabase/migrations/0004_admin_panel.sql` and
+`supabase/migrations/0011_admin_rolls_ranks_deletion.sql` to have been run.
+Deleting a citizen is permanent and takes their coins, rolls and friendships
+with them. Admins cannot be deleted from the page: set `is_admin = false` in
+the database first.
+
+Ranks are a fixed list. To add or rename one, change `RANKS` in
+`src/lib/ranks.ts`, the `ranks` names in each `src/messages/*/common.json`,
+and the `profiles_rank_check` constraint in a new migration; the tests fail
+if the three disagree.
+
+Promoting
 *other* citizens to admin still has to be done the same way (directly in
 the database), since there's no "make this person an admin" UI.
 That's intentional for v1: it's a rare, high-trust action.

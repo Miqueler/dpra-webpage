@@ -27,5 +27,13 @@
     "loading": "Carregant...",
     "comingSoon": "Pròximament",
     "backHome": "Torna a la pàtria"
+  },
+  "ranks": {
+    "citizen": "Ciutadà",
+    "comrade": "Camarada",
+    "militant": "Militant",
+    "party_cadre": "Quadre del Partit",
+    "hero_of_labour": "Heroi del Treball",
+    "supreme_leader": "Líder Suprem"
   }
 }

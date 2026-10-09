@@ -19,6 +19,7 @@ export default async function AtzarDashboardPage({
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   const t = await getTranslations("atzar.dashboard");
+  const tRanks = await getTranslations("common.ranks");
 
   if (!auth.user) {
     return (
@@ -78,7 +79,7 @@ export default async function AtzarDashboardPage({
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-8">
       <div className="flex flex-wrap items-start justify-between gap-4">
-        <SectionHeading eyebrow={profile.rank} title={profile.username} />
+        <SectionHeading eyebrow={tRanks(profile.rank)} title={profile.username} />
         <StreakBadge streak={stats.streak} />
       </div>
 

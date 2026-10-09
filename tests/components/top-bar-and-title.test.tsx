@@ -40,7 +40,7 @@ const profile: Profile = {
   id: "u1",
   username: "great_abril",
   avatar_url: null,
-  rank: "Citizen",
+  rank: "citizen",
   coins: 135,
   is_admin: false,
   machine_code: "ABC123",

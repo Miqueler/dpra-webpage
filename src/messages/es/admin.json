@@ -30,7 +30,7 @@
   },
   "register": {
     "title": "Registro",
-    "hint": "Abre el expediente de un ciudadano para ver sus datos, asignarle un rango o concederle monedas.",
+    "hint": "Abre el expediente de un ciudadano para ver sus datos y tiradas, asignarle un rango, concederle monedas o eliminarlo.",
     "loadError": "No se ha podido cargar el registro."
   },
   "adminBadge": "Comisario",
@@ -50,7 +50,9 @@
   },
   "actions": {
     "rank": "Asignar rango",
-    "coins": "Conceder monedas"
+    "coins": "Conceder monedas",
+    "rolls": "Tiradas",
+    "delete": "Eliminar ciudadano"
   },
   "empty": "No se ha encontrado ningún ciudadano en el registro.",
   "rankForm": {
@@ -69,6 +71,14 @@
     "success": "Monedas concedidas.",
     "invalidAmount": "Introduce una cantidad válida distinta de cero."
   },
+  "deleteForm": {
+    "button": "Eliminar ciudadano",
+    "confirm": "¿Eliminar a {username} para siempre? Su expediente, monedas, tiradas y amistades se borran y no se pueden recuperar.",
+    "confirmButton": "Eliminar para siempre",
+    "cancel": "Cancelar",
+    "pending": "Procesando…",
+    "protected": "Los comisarios no se pueden eliminar desde aquí."
+  },
   "ledger": {
     "title": "Movimientos recientes de monedas",
     "when": "Cuándo",
@@ -78,6 +88,23 @@
     "by": "Concedido por",
     "note": "Nota",
     "empty": "Todavía no hay movimientos de monedas."
+  },
+  "rolls": {
+    "title": "Tiradas recientes",
+    "when": "Cuándo",
+    "citizen": "Ciudadano",
+    "number": "Número",
+    "score": "Puntuación",
+    "source": "Máquina",
+    "sources": {
+      "online": "En línea",
+      "machine": "Física"
+    },
+    "empty": "Todavía no hay tiradas.",
+    "show": "Ver tiradas",
+    "loading": "Cargando…",
+    "citizenEmpty": "Este ciudadano todavía no ha tirado.",
+    "loadError": "No se han podido cargar las tiradas."
   },
   "reasons": {
     "signup_bonus": "Bono de alta",
