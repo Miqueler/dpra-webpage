@@ -27,5 +27,13 @@
     "loading": "Cargando...",
     "comingSoon": "Próximamente",
     "backHome": "Volver a la patria"
+  },
+  "ranks": {
+    "citizen": "Ciudadano",
+    "comrade": "Camarada",
+    "militant": "Militante",
+    "party_cadre": "Cuadro del Partido",
+    "hero_of_labour": "Héroe del Trabajo",
+    "supreme_leader": "Líder Supremo"
   }
 }

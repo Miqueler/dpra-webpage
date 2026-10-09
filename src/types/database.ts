@@ -1,3 +1,5 @@
+import type { Rank } from "@/lib/ranks";
+
 export type CoinReason =
   | "signup_bonus"
   | "daily_bonus"
@@ -10,7 +12,7 @@ export type Profile = {
   id: string;
   username: string;
   avatar_url: string | null;
-  rank: string;
+  rank: Rank;
   coins: number;
   is_admin: boolean;
   machine_code: string;
@@ -84,7 +86,7 @@ export type LeaderboardRow = {
   user_id: string;
   username: string;
   avatar_url: string | null;
-  rank: string;
+  rank: Rank;
   best_score: number | null;
   plays: number;
 };
@@ -93,7 +95,7 @@ export type AdminCitizen = {
   id: string;
   username: string;
   avatar_url: string | null;
-  rank: string;
+  rank: Rank;
   coins: number;
   is_admin: boolean;
   machine_code: string;
@@ -179,7 +181,11 @@ export type Database = {
         Returns: undefined;
       };
       set_rank: {
-        Args: { target_user: string; new_rank: string };
+        Args: { target_user: string; new_rank: Rank };
+        Returns: undefined;
+      };
+      delete_citizen: {
+        Args: { target_user: string };
         Returns: undefined;
       };
       admin_citizens: {

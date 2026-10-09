@@ -30,7 +30,7 @@
   },
   "register": {
     "title": "Registre",
-    "hint": "Obre l'expedient d'un ciutadà per veure'n les dades, assignar-li un rang o concedir-li monedes.",
+    "hint": "Obre l'expedient d'un ciutadà per veure'n les dades i les tirades, assignar-li un rang, concedir-li monedes o eliminar-lo.",
     "loadError": "No s'ha pogut carregar el registre."
   },
   "adminBadge": "Comissari",
@@ -50,7 +50,9 @@
   },
   "actions": {
     "rank": "Assigna un rang",
-    "coins": "Concedeix monedes"
+    "coins": "Concedeix monedes",
+    "rolls": "Tirades",
+    "delete": "Elimina el ciutadà"
   },
   "empty": "No s'ha trobat cap ciutadà al registre.",
   "rankForm": {
@@ -69,6 +71,14 @@
     "success": "Monedes concedides.",
     "invalidAmount": "Introdueix una quantitat vàlida diferent de zero."
   },
+  "deleteForm": {
+    "button": "Elimina el ciutadà",
+    "confirm": "Vols eliminar {username} per sempre? El seu expedient, les monedes, les tirades i les amistats s'esborren i no es poden recuperar.",
+    "confirmButton": "Elimina per sempre",
+    "cancel": "Cancel·la",
+    "pending": "Processant…",
+    "protected": "Els comissaris no es poden eliminar des d'aquí."
+  },
   "ledger": {
     "title": "Moviments recents de monedes",
     "when": "Quan",
@@ -78,6 +88,23 @@
     "by": "Concedit per",
     "note": "Nota",
     "empty": "Encara no hi ha moviments de monedes."
+  },
+  "rolls": {
+    "title": "Tirades recents",
+    "when": "Quan",
+    "citizen": "Ciutadà",
+    "number": "Número",
+    "score": "Puntuació",
+    "source": "Màquina",
+    "sources": {
+      "online": "En línia",
+      "machine": "Física"
+    },
+    "empty": "Encara no hi ha tirades.",
+    "show": "Mostra les tirades",
+    "loading": "Carregant…",
+    "citizenEmpty": "Aquest ciutadà encara no ha tirat.",
+    "loadError": "No s'han pogut carregar les tirades."
   },
   "reasons": {
     "signup_bonus": "Bo d'alta",

@@ -30,7 +30,7 @@
   },
   "register": {
     "title": "Register",
-    "hint": "Open a citizen's file to see their details, assign a rank or grant coins.",
+    "hint": "Open a citizen's file to see their details and rolls, assign a rank, grant coins or delete them.",
     "loadError": "The register could not be loaded."
   },
   "adminBadge": "Commissar",
@@ -50,7 +50,9 @@
   },
   "actions": {
     "rank": "Assign rank",
-    "coins": "Grant coins"
+    "coins": "Grant coins",
+    "rolls": "Rolls",
+    "delete": "Delete citizen"
   },
   "empty": "No citizens found in the register.",
   "rankForm": {
@@ -69,6 +71,14 @@
     "success": "Coins granted.",
     "invalidAmount": "Enter a valid, non-zero amount."
   },
+  "deleteForm": {
+    "button": "Delete citizen",
+    "confirm": "Delete {username} for good? Their file, coins, rolls and friendships are erased and cannot be recovered.",
+    "confirmButton": "Delete for good",
+    "cancel": "Cancel",
+    "pending": "Processing…",
+    "protected": "Commissars cannot be deleted from here."
+  },
   "ledger": {
     "title": "Recent coin movements",
     "when": "When",
@@ -78,6 +88,23 @@
     "by": "Granted by",
     "note": "Note",
     "empty": "No coin movements recorded yet."
+  },
+  "rolls": {
+    "title": "Recent rolls",
+    "when": "When",
+    "citizen": "Citizen",
+    "number": "Number",
+    "score": "Score",
+    "source": "Machine",
+    "sources": {
+      "online": "Online",
+      "machine": "Physical"
+    },
+    "empty": "No rolls recorded yet.",
+    "show": "Show rolls",
+    "loading": "Loading…",
+    "citizenEmpty": "This citizen has not rolled yet.",
+    "loadError": "The rolls could not be loaded."
   },
   "reasons": {
     "signup_bonus": "Sign-up bonus",

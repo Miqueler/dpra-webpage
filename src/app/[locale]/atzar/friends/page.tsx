@@ -5,8 +5,9 @@ import { createClient } from "@/lib/supabase/server";
 import { PosterCard, SectionHeading } from "@/components/ui/PosterCard";
 import { AddFriendForm } from "@/components/atzar/AddFriendForm";
 import { AcceptFriendButton } from "@/components/atzar/AcceptFriendButton";
+import type { Rank } from "@/lib/ranks";
 
-type MiniProfile = { id: string; username: string; avatar_url: string | null; rank: string };
+type MiniProfile = { id: string; username: string; avatar_url: string | null; rank: Rank };
 
 export default async function AtzarFriendsPage({
   params,
@@ -24,6 +25,7 @@ export default async function AtzarFriendsPage({
   const me = auth.user!.id;
 
   const t = await getTranslations("atzar.friends");
+  const tRanks = await getTranslations("common.ranks");
 
   const { data: friendshipRows } = await supabase
     .from("friendships")
@@ -65,7 +67,7 @@ export default async function AtzarFriendsPage({
           <p className="text-sm text-party-cream">{p?.username ?? "—"}</p>
           {p?.rank && (
             <p className="text-xs uppercase tracking-widest text-party-cream/40">
-              {p.rank}
+              {tRanks(p.rank)}
             </p>
           )}
         </div>

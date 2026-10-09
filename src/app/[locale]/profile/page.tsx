@@ -33,6 +33,7 @@ export default async function ProfilePage({
   }
 
   const t = await getTranslations("auth.profile");
+  const tRanks = await getTranslations("common.ranks");
   const today = new Date().toISOString().slice(0, 10);
 
   return (
@@ -52,7 +53,7 @@ export default async function ProfilePage({
         <div className="flex-1">
           <p className="font-display text-2xl">{profile!.username}</p>
           <p className="text-sm uppercase tracking-widest text-party-red">
-            {profile!.rank}
+            {tRanks(profile!.rank)}
           </p>
         </div>
         <div className="text-right">

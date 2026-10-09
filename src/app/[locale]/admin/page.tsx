@@ -7,9 +7,12 @@ import { GrantCoinsForm } from "@/components/admin/GrantCoinsForm";
 import { RankForm } from "@/components/admin/RankForm";
 import { OnlineMachineToggle } from "@/components/admin/OnlineMachineToggle";
 import { EmailLoginToggle } from "@/components/admin/EmailLoginToggle";
+import { CitizenRolls } from "@/components/admin/CitizenRolls";
+import { DeleteCitizenButton } from "@/components/admin/DeleteCitizenButton";
+import { RollsTable } from "@/components/admin/RollsTable";
 
-const RANK_SUGGESTIONS_ID = "rank-suggestions";
 const LEDGER_LIMIT = 25;
+const ROLLS_LIMIT = 25;
 
 function Stat({ label, value }: { label: string; value: ReactNode }) {
   return (
@@ -60,6 +63,7 @@ export default async function AdminPage({
   const [
     { data: citizenRows, error: citizensError },
     { data: ledgerRows },
+    { data: rollRows },
     { data: settings },
     { data: authSettings },
   ] = await Promise.all([
@@ -69,16 +73,22 @@ export default async function AdminPage({
         .select("*")
         .order("created_at", { ascending: false })
         .limit(LEDGER_LIMIT),
+      supabase
+        .from("rng_sessions")
+        .select("*")
+        .order("played_at", { ascending: false })
+        .limit(ROLLS_LIMIT),
       supabase.from("atzar_settings").select("online_enabled").maybeSingle(),
       supabase.from("auth_settings").select("email_login_enabled").maybeSingle(),
     ]);
 
   const citizens = citizenRows ?? [];
   const ledger = ledgerRows ?? [];
+  const rolls = rollRows ?? [];
   const usernames = new Map(citizens.map((c) => [c.id, c.username]));
-  const ranksInUse = [...new Set(citizens.map((c) => c.rank))].sort();
 
   const t = await getTranslations("admin");
+  const tRanks = await getTranslations("common.ranks");
 
   const day = (value: string | null) =>
     value ? new Date(value).toLocaleDateString(locale) : t("never");
@@ -126,12 +136,6 @@ export default async function AdminPage({
         <EmailLoginToggle enabled={authSettings?.email_login_enabled ?? true} />
       </PosterCard>
 
-      <datalist id={RANK_SUGGESTIONS_ID}>
-        {ranksInUse.map((rank) => (
-          <option key={rank} value={rank} />
-        ))}
-      </datalist>
-
       <PosterCard className="mb-8">
         <h3 className="font-display mb-1 text-xl uppercase tracking-wide text-party-cream">
           {t("register.title")}
@@ -161,7 +165,7 @@ export default async function AdminPage({
                     )}
                   </span>
                   <span className="basis-32 text-xs uppercase tracking-widest text-party-red">
-                    {citizen.rank}
+                    {tRanks(citizen.rank)}
                   </span>
                   <span className="font-display basis-20 text-atzar-gold sm:text-right">
                     {citizen.coins}¤
@@ -212,17 +216,34 @@ export default async function AdminPage({
                       <p className="mb-2 text-xs uppercase tracking-widest text-party-cream/50">
                         {t("actions.rank")}
                       </p>
-                      <RankForm
-                        userId={citizen.id}
-                        currentRank={citizen.rank}
-                        suggestionsId={RANK_SUGGESTIONS_ID}
-                      />
+                      <RankForm userId={citizen.id} currentRank={citizen.rank} />
                     </div>
                     <div>
                       <p className="mb-2 text-xs uppercase tracking-widest text-party-cream/50">
                         {t("actions.coins")}
                       </p>
                       <GrantCoinsForm userId={citizen.id} />
+                    </div>
+                    <div className="min-w-0 lg:col-span-2">
+                      <p className="mb-2 text-xs uppercase tracking-widest text-party-cream/50">
+                        {t("actions.rolls")}
+                      </p>
+                      <CitizenRolls userId={citizen.id} />
+                    </div>
+                    <div className="lg:col-span-2">
+                      <p className="mb-2 text-xs uppercase tracking-widest text-party-cream/50">
+                        {t("actions.delete")}
+                      </p>
+                      {citizen.is_admin ? (
+                        <p className="text-sm text-party-cream/50">
+                          {t("deleteForm.protected")}
+                        </p>
+                      ) : (
+                        <DeleteCitizenButton
+                          userId={citizen.id}
+                          username={citizen.username}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -232,6 +253,17 @@ export default async function AdminPage({
         </ul>
         {!citizensError && citizens.length === 0 && (
           <p className="py-6 text-sm text-party-cream/50">{t("empty")}</p>
+        )}
+      </PosterCard>
+
+      <PosterCard className="mb-8">
+        <h3 className="font-display mb-4 text-xl uppercase tracking-wide text-party-cream">
+          {t("rolls.title")}
+        </h3>
+        {rolls.length === 0 ? (
+          <p className="py-6 text-sm text-party-cream/50">{t("rolls.empty")}</p>
+        ) : (
+          <RollsTable rolls={rolls} usernames={usernames} />
         )}
       </PosterCard>
 

@@ -27,5 +27,13 @@
     "loading": "Loading...",
     "comingSoon": "Coming Soon",
     "backHome": "Return to the Homeland"
+  },
+  "ranks": {
+    "citizen": "Citizen",
+    "comrade": "Comrade",
+    "militant": "Militant",
+    "party_cadre": "Party Cadre",
+    "hero_of_labour": "Hero of Labour",
+    "supreme_leader": "Supreme Leader"
   }
 }

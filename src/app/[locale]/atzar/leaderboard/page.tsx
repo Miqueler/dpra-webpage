@@ -12,6 +12,7 @@ export default async function AtzarLeaderboardPage({
   setRequestLocale(locale);
 
   const t = await getTranslations("atzar.leaderboard");
+  const tRanks = await getTranslations("common.ranks");
   const supabase = await createClient();
   const { data: rows } = await supabase
     .from("leaderboard")
@@ -61,7 +62,7 @@ export default async function AtzarLeaderboardPage({
                       <div>
                         <p className="text-party-cream">{row.username}</p>
                         <p className="text-xs uppercase tracking-widest text-party-cream/40">
-                          {row.rank}
+                          {tRanks(row.rank)}
                         </p>
                       </div>
                     </div>

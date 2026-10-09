@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { RANKS } from "@/lib/ranks";
 import { createDatabase, type TestDatabase } from "./helpers/database";
 
 // Runs the real SQL in supabase/migrations against an in-memory Postgres.
@@ -70,7 +71,7 @@ describe("signing up", () => {
     expect(profile).toMatchObject({
       username: "newcomer",
       coins: 50,
-      rank: "Citizen",
+      rank: "citizen",
       is_admin: false,
       invited_by: null,
     });
@@ -445,42 +446,136 @@ describe("grant_coins", () => {
 });
 
 describe("set_rank", () => {
-  it("lets an admin assign a rank, trimmed", async () => {
+  it.each(RANKS)("lets an admin assign the rank %j", async (rank) => {
     const admin = await commissar();
     const target = await citizen();
 
-    await db.as(admin.id, "select set_rank($1, '  Hero of Labour ')", [target.id]);
+    await db.as(admin.id, "select set_rank($1, $2)", [target.id, rank]);
 
-    expect((await db.profile(target.id)).rank).toBe("Hero of Labour");
+    expect((await db.profile(target.id)).rank).toBe(rank);
+  });
+
+  it("knows exactly the ranks the site translates", async () => {
+    const [{ definition }] = await db.admin<{ definition: string }>(
+      `select pg_get_constraintdef(oid) as definition
+       from pg_constraint where conname = 'profiles_rank_check'`,
+    );
+    const allowed = [...definition.matchAll(/'([^']+)'/g)].map((match) => match[1]);
+    expect(allowed.sort()).toEqual([...RANKS].sort());
   });
 
   it("refuses a citizen who is not an admin", async () => {
     const me = await citizen();
-    await expect(db.as(me.id, "select set_rank($1, 'Supreme Leader')", [me.id])).rejects.toThrow(
+    await expect(db.as(me.id, "select set_rank($1, 'supreme_leader')", [me.id])).rejects.toThrow(
       /Only the Commissariat/,
     );
-    expect((await db.profile(me.id)).rank).toBe("Citizen");
+    expect((await db.profile(me.id)).rank).toBe("citizen");
   });
 
   it("refuses a visitor", async () => {
     const target = await citizen();
-    await expect(db.as(null, "select set_rank($1, 'Supreme Leader')", [target.id])).rejects.toThrow();
-    expect((await db.profile(target.id)).rank).toBe("Citizen");
+    await expect(db.as(null, "select set_rank($1, 'supreme_leader')", [target.id])).rejects.toThrow();
+    expect((await db.profile(target.id)).rank).toBe("citizen");
   });
 
-  it.each(["", "   ", "x".repeat(41)])("refuses the rank %j", async (rank) => {
+  it.each(["", "Citizen", "Hero of Labour", "emperor", null])(
+    "refuses the rank %j",
+    async (rank) => {
+      const admin = await commissar();
+      const target = await citizen();
+      await expect(
+        db.as(admin.id, "select set_rank($1, $2)", [target.id, rank]),
+      ).rejects.toThrow(/Unknown rank/);
+      expect((await db.profile(target.id)).rank).toBe("citizen");
+    },
+  );
+
+  it("refuses a citizen who does not exist", async () => {
     const admin = await commissar();
-    const target = await citizen();
-    await expect(db.as(admin.id, "select set_rank($1, $2)", [target.id, rank])).rejects.toThrow(
-      /between 1 and 40/,
+    await expect(
+      db.as(admin.id, "select set_rank('00000000-0000-0000-0000-000000000000', 'comrade')"),
+    ).rejects.toThrow(/Unknown citizen/);
+  });
+});
+
+describe("delete_citizen", () => {
+  const exists = async (id: string) =>
+    (await db.admin("select 1 from auth.users where id = $1", [id])).length === 1;
+
+  it("removes the citizen and everything attached to them", async () => {
+    const admin = await commissar();
+    const target = await citizen("doomed");
+    const friend = await citizen("friend");
+    await db.as(friend.id, "select redeem_invite($1)", [target.username]);
+    await db.admin(
+      "insert into friendships (user_id, friend_id, status) values ($1, $2, 'accepted')",
+      [target.id, friend.id],
     );
-    expect((await db.profile(target.id)).rank).toBe("Citizen");
+    await db.admin("insert into rng_sessions (user_id, score) values ($1, 7)", [target.id]);
+
+    await db.as(admin.id, "select delete_citizen($1)", [target.id]);
+
+    expect(await exists(target.id)).toBe(false);
+    expect(await db.profile(target.id)).toBeUndefined();
+    for (const table of ["coin_transactions", "rng_sessions"]) {
+      expect(await db.admin(`select 1 from ${table} where user_id = $1`, [target.id])).toEqual([]);
+    }
+    expect(
+      await db.admin("select 1 from friendships where user_id = $1 or friend_id = $1", [target.id]),
+    ).toEqual([]);
+    // The people they knew stay, without a sponsor.
+    expect(await db.profile(friend.id)).toMatchObject({ invited_by: null, coins: 75 });
+  });
+
+  it("keeps the coins a deleted former admin granted", async () => {
+    const admin = await commissar();
+    const former = await commissar();
+    const target = await citizen();
+    await db.as(former.id, "select grant_coins($1, 10, 'admin_grant')", [target.id]);
+    await db.admin("update profiles set is_admin = false where id = $1", [former.id]);
+
+    await db.as(admin.id, "select delete_citizen($1)", [former.id]);
+
+    expect(await exists(former.id)).toBe(false);
+    expect(
+      await db.admin(
+        "select created_by from coin_transactions where user_id = $1 and reason = 'admin_grant'",
+        [target.id],
+      ),
+    ).toEqual([{ created_by: null }]);
+    expect((await db.profile(target.id)).coins).toBe(60);
+  });
+
+  it("refuses to delete an admin, including oneself", async () => {
+    const admin = await commissar();
+    const other = await commissar();
+    for (const id of [admin.id, other.id]) {
+      await expect(db.as(admin.id, "select delete_citizen($1)", [id])).rejects.toThrow(
+        /commissar cannot be deleted/,
+      );
+      expect(await exists(id)).toBe(true);
+    }
+  });
+
+  it("refuses a citizen who is not an admin", async () => {
+    const me = await citizen();
+    const target = await citizen();
+    await expect(db.as(me.id, "select delete_citizen($1)", [target.id])).rejects.toThrow(
+      /Only the Commissariat/,
+    );
+    expect(await exists(target.id)).toBe(true);
+  });
+
+  it("refuses a visitor", async () => {
+    const target = await citizen();
+    await expect(db.as(null, "select delete_citizen($1)", [target.id])).rejects.toThrow();
+    expect(await exists(target.id)).toBe(true);
   });
 
   it("refuses a citizen who does not exist", async () => {
     const admin = await commissar();
     await expect(
-      db.as(admin.id, "select set_rank('00000000-0000-0000-0000-000000000000', 'Ghost')"),
+      db.as(admin.id, "select delete_citizen('00000000-0000-0000-0000-000000000000')"),
     ).rejects.toThrow(/Unknown citizen/);
   });
 });
@@ -507,7 +602,7 @@ describe("admin_citizens", () => {
 
     expect(file(recruit)).toMatchObject({
       username: local,
-      rank: "Citizen",
+      rank: "citizen",
       coins: 75,
       is_admin: false,
       email: `${local}@upc.edu`,
@@ -1086,5 +1181,30 @@ describe("leaderboard", () => {
     expect(
       await db.as(stranger.id, "select * from rng_sessions where user_id = $1", [player.id]),
     ).toEqual([]);
+  });
+});
+
+describe("the rolls an admin sees", () => {
+  it("are everyone's", async () => {
+    const admin = await commissar();
+    const player = await citizen("roller");
+    await db.admin("insert into rng_sessions (user_id, score) values ($1, 80)", [player.id]);
+
+    expect(
+      await db.as(admin.id, "select score from rng_sessions where user_id = $1", [player.id]),
+    ).toEqual([{ score: 80 }]);
+  });
+
+  it("cannot be changed by them", async () => {
+    const admin = await commissar();
+    const player = await citizen("roller");
+    await db.admin("insert into rng_sessions (user_id, score) values ($1, 80)", [player.id]);
+
+    await db.as(admin.id, "update rng_sessions set score = 1 where user_id = $1", [player.id]);
+    await db.as(admin.id, "delete from rng_sessions where user_id = $1", [player.id]);
+
+    expect(await db.admin("select score from rng_sessions where user_id = $1", [player.id])).toEqual(
+      [{ score: 80 }],
+    );
   });
 });

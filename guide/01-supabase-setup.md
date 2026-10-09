@@ -54,7 +54,11 @@ Easiest path (no CLI install needed):
    having accepted), then
    `supabase/migrations/0010_email_login_toggle.sql` (lets admins hide the
    email/password login form from `/admin` — see
-   [02b-email-login.md](./02b-email-login.md#turning-it-off)).
+   [02b-email-login.md](./02b-email-login.md#turning-it-off)), then
+   `supabase/migrations/0011_admin_rolls_ranks_deletion.sql` (admins see
+   everyone's rolls and can delete citizens, and ranks become a fixed list —
+   a rank typed in by hand before this that matches none of the new ones is
+   reset to `citizen`).
    Run the files in number order.
 
 ### Alternative: Supabase CLI
