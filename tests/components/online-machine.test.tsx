@@ -92,13 +92,31 @@ describe("OnlineMachine", () => {
       expect(screen.getByText(badge.name)).toBeVisible();
       expect(screen.getByText(`+${badge.points}`)).toBeVisible();
     }
-    expect(screen.getByText(play("tiers.epic"))).toBeVisible();
-    expect(screen.getByText("Better than 97% of all possible rolls")).toBeVisible();
+    expect(await screen.findByText(play("tiers.epic"))).toBeVisible();
+    expect(screen.getByText("Top 2.6%")).toBeVisible();
     expect(screen.getByRole("status")).toHaveTextContent("You rolled 4096. Score: 1001.");
     expect(screen.getByText(play("outranked"))).toBeVisible();
     // The roll counts are rendered on the server.
     await waitFor(() => expect(router.refresh).toHaveBeenCalledTimes(1));
     expect(screen.getByRole("button", { name: play("rollAgain") })).toBeEnabled();
+  });
+
+  it("lists the best badge first and the cheapest last", async () => {
+    server(200, ROLL);
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
+    await userEvent.click(rollButton());
+    await screen.findByText("1,001");
+    expect(screen.getAllByRole("listitem").map((item) => item.textContent)).toEqual(
+      [...ROLL.badges].reverse().map((badge) => expect.stringContaining(badge.name)),
+    );
+  });
+
+  it("puts a poor roll in the bottom share, in its tier's colour", async () => {
+    server(200, { ...ROLL, percentile: 12.3, tier: "common" });
+    renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
+    await userEvent.click(rollButton());
+    const standing = await screen.findByText("Bottom 12%");
+    expect(standing.closest(".atzar-result")).toHaveClass("atzar-tier-common");
   });
 
   it("says so when a roll earns no badges", async () => {
@@ -199,9 +217,8 @@ describe("OnlineMachine", () => {
     server(200, ROLL);
     renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
     await userEvent.click(rollButton());
-    await screen.findByText("1,001");
-
-    await userEvent.click(screen.getByRole("button", { name: play("share.button") }));
+    // The running score is on screen before the reveal ends; the share button is not.
+    await userEvent.click(await screen.findByRole("button", { name: play("share.button") }));
 
     expect(writeText).toHaveBeenCalledWith(
       [
@@ -222,9 +239,8 @@ describe("OnlineMachine", () => {
     server(200, ROLL);
     renderWithIntl(<OnlineMachine freeRollAvailable extraRolls={0} personalBest={null} />);
     await userEvent.click(rollButton());
-    await screen.findByText("1,001");
-
-    await userEvent.click(screen.getByRole("button", { name: play("share.button") }));
+    // The running score is on screen before the reveal ends; the share button is not.
+    await userEvent.click(await screen.findByRole("button", { name: play("share.button") }));
     expect(await screen.findByText(play("share.error"))).toBeVisible();
   });
 });

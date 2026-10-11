@@ -57,16 +57,186 @@ body {
   }
 }
 
+/* ATZAR machine: the cabinet, its lights, the reel window and the roll button. */
+.atzar-cabinet {
+  position: relative;
+  border: 2px solid var(--color-atzar-gold);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #2a1c10 0%, #15100a 45%, #0c0b09 100%);
+  box-shadow:
+    inset 0 0 0 4px #0c0b09,
+    inset 0 0 0 5px rgb(217 164 65 / 0.35),
+    0 18px 40px rgb(0 0 0 / 0.55);
+}
+
+.atzar-light {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-atzar-gold);
+  opacity: 0.35;
+}
+
+.atzar-window {
+  position: relative;
+  border: 1px solid rgb(217 164 65 / 0.5);
+  border-radius: 8px;
+  background: #050403;
+  box-shadow: inset 0 10px 24px #000, inset 0 -10px 24px #000;
+}
+/* The payline. */
+.atzar-window::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--color-atzar-red);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.atzar-reel {
+  position: relative;
+  border-radius: 6px;
+  border: 1px solid rgb(217 164 65 / 0.3);
+  /* Darker at the top and bottom, like the curve of a drum. */
+  background: linear-gradient(180deg, #000 0%, #2b241a 28%, #3a3124 50%, #2b241a 72%, #000 100%);
+  color: rgb(217 164 65 / 0.45);
+}
+.atzar-reel-locked {
+  z-index: 1;
+  border-color: var(--color-atzar-gold-bright);
+  background: linear-gradient(180deg, #1c1509 0%, #5a4313 50%, #1c1509 100%);
+  color: #fff7df;
+  text-shadow:
+    0 0 10px var(--color-atzar-gold-bright),
+    0 0 26px rgb(242 193 78 / 0.7);
+  box-shadow: 0 0 18px rgb(242 193 78 / 0.45);
+}
+
+.atzar-roll-button {
+  border: 1px solid var(--color-atzar-gold-bright);
+  border-radius: 9999px;
+  background: linear-gradient(180deg, var(--color-atzar-gold-bright), var(--color-atzar-gold));
+  color: var(--color-atzar-black);
+  box-shadow:
+    0 5px 0 #7a5a1c,
+    0 10px 18px rgb(0 0 0 / 0.5);
+  transition:
+    transform 0.08s ease-out,
+    box-shadow 0.08s ease-out,
+    filter 0.15s;
+}
+.atzar-roll-button:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+.atzar-roll-button:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow:
+    0 1px 0 #7a5a1c,
+    0 3px 8px rgb(0 0 0 / 0.5);
+}
+.atzar-roll-button:disabled {
+  cursor: not-allowed;
+  border-color: rgb(217 164 65 / 0.3);
+  background: transparent;
+  color: rgb(217 164 65 / 0.5);
+  box-shadow: none;
+}
+
+/* Rarity colours, shared by the badges and the result box. */
+.atzar-tier-pending {
+  --tier: var(--color-atzar-gold);
+}
+.atzar-tier-trash {
+  --tier: #8d8679;
+}
+.atzar-tier-common {
+  --tier: #f6f2e8;
+}
+.atzar-tier-uncommon {
+  --tier: #5fd16f;
+}
+.atzar-tier-rare {
+  --tier: #4f9fff;
+}
+.atzar-tier-epic {
+  --tier: #b672ff;
+}
+.atzar-tier-anomaly {
+  --tier: #ff5647;
+}
+.atzar-tier-mythic {
+  --tier: #ffc93c;
+}
+
+.atzar-badge-card {
+  border-color: color-mix(in srgb, var(--tier) 55%, transparent);
+  background: color-mix(in srgb, var(--tier) 7%, transparent);
+}
+.atzar-tier-name {
+  color: var(--tier);
+}
+
+.atzar-result {
+  border-color: var(--tier);
+  background: color-mix(in srgb, var(--tier) 12%, var(--color-atzar-black));
+  box-shadow:
+    0 0 28px color-mix(in srgb, var(--tier) 35%, transparent),
+    inset 0 0 40px color-mix(in srgb, var(--tier) 10%, transparent);
+}
+.atzar-result.atzar-tier-pending {
+  border-color: rgb(217 164 65 / 0.4);
+  background: var(--color-atzar-black);
+  box-shadow: none;
+}
+.atzar-score {
+  color: var(--tier);
+  text-shadow: 0 0 22px color-mix(in srgb, var(--tier) 55%, transparent);
+}
+.atzar-share {
+  border-color: color-mix(in srgb, var(--tier) 50%, transparent);
+  color: var(--tier);
+}
+.atzar-share:hover {
+  border-color: var(--tier);
+  background: color-mix(in srgb, var(--tier) 12%, transparent);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .atzar-badge {
-    animation: atzar-badge-in 0.3s ease-out both;
+    animation: atzar-badge-in 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  }
+  .atzar-light-chase {
+    animation: atzar-light-blink 0.44s steps(1) infinite;
+  }
+  .atzar-light-party {
+    animation: atzar-light-blink 0.3s steps(1) 8;
+  }
+  .atzar-digit-spin {
+    animation: atzar-digit-spin 70ms linear both;
+  }
+  .atzar-digit-lock {
+    animation: atzar-digit-lock 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+  }
+  .atzar-reel-locked {
+    animation: atzar-reel-flash 0.5s ease-out both;
+  }
+  .atzar-result-in {
+    animation: atzar-result-in 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  }
+  .atzar-score {
+    animation: atzar-score-bump 0.25s ease-out both;
   }
 }
 
+/* A new badge drops in from above and pushes the earlier ones down. */
 @keyframes atzar-badge-in {
   from {
     opacity: 0;
-    transform: translateY(6px) scale(0.97);
+    transform: translateY(-14px) scale(0.96);
   }
   to {
     opacity: 1;
@@ -74,31 +244,92 @@ body {
   }
 }
 
+@keyframes atzar-light-blink {
+  0%,
+  100% {
+    opacity: 0.3;
+    box-shadow: none;
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 8px var(--color-atzar-gold-bright);
+  }
+}
+
+@keyframes atzar-digit-spin {
+  from {
+    transform: translateY(-55%);
+    filter: blur(3px);
+  }
+  to {
+    transform: translateY(55%);
+    filter: blur(3px);
+  }
+}
+
+/* The digit a reel stops on jumps out of its cell before settling. */
+@keyframes atzar-digit-lock {
+  0% {
+    transform: translateY(-40%) scale(0.8);
+    filter: blur(2px);
+  }
+  40% {
+    transform: scale(1.6);
+    filter: none;
+  }
+  70% {
+    transform: scale(0.93);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes atzar-reel-flash {
+  0% {
+    box-shadow: 0 0 0 rgb(242 193 78 / 0);
+  }
+  35% {
+    box-shadow:
+      0 0 36px rgb(242 193 78 / 0.95),
+      inset 0 0 22px rgb(255 247 223 / 0.5);
+  }
+  100% {
+    box-shadow: 0 0 18px rgb(242 193 78 / 0.45);
+  }
+}
+
+@keyframes atzar-result-in {
+  0% {
+    transform: scale(0.95);
+  }
+  55% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes atzar-score-bump {
+  from {
+    transform: scale(1.18);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
 /* A one-shot flourish for epic/anomaly/mythic rolls. */
 @media (prefers-reduced-motion: no-preference) {
-  .atzar-burst {
-    animation: atzar-burst-pop 0.6s ease-out both;
-  }
   .atzar-burst::before {
     content: "";
     position: absolute;
     inset: -60%;
-    background: radial-gradient(circle, var(--color-atzar-gold-bright) 0%, transparent 65%);
+    background: radial-gradient(circle, var(--tier) 0%, transparent 65%);
     opacity: 0;
     animation: atzar-burst-glow 0.9s ease-out both;
     pointer-events: none;
-  }
-}
-
-@keyframes atzar-burst-pop {
-  0% {
-    transform: scale(0.94);
-  }
-  45% {
-    transform: scale(1.025);
-  }
-  100% {
-    transform: scale(1);
   }
 }
 

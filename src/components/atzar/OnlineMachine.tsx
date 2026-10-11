@@ -19,14 +19,17 @@ const IDLE_REELS = 6;
 
 type RollError = "unauthorized" | "disabled" | "no_rolls" | "failed";
 
-const RARITY_STYLE: Record<RollResult["badges"][number]["rarity"], string> = {
-  common: "border-party-cream/20 text-party-cream/70",
-  uncommon: "border-party-cream/50 text-party-cream",
-  rare: "border-atzar-gold/60 text-atzar-gold",
-  epic: "border-atzar-gold-bright text-atzar-gold-bright",
-  anomaly: "border-atzar-red text-atzar-gold-bright",
-  mythic: "border-atzar-red bg-atzar-red/25 text-atzar-gold-bright",
-};
+const LIGHTS = 13;
+
+/** Where a roll stands among all possible rolls: the top half or the bottom one. */
+function standing(percentile: number, locale: string) {
+  const top = percentile >= 50;
+  const share = Math.max(0.1, top ? 100 - percentile : percentile);
+  return {
+    key: top ? "top" : "bottom",
+    percent: share.toLocaleString(locale, { maximumFractionDigits: share < 10 ? 1 : 0 }),
+  } as const;
+}
 
 function randomDigits(length: number) {
   return Array.from({ length }, () => Math.floor(Math.random() * 10)).join("");
@@ -167,31 +170,80 @@ export function OnlineMachine({
   }
 
   const canRoll = freeRollAvailable || extraRolls > 0;
-  const celebratory = result !== null && CELEBRATORY_TIERS.includes(result.tier);
+  const celebratory = done && result !== null && CELEBRATORY_TIERS.includes(result.tier);
+  const reelsStopped = result !== null && lockedReels === digits.length;
+  // Revealed cheapest first, listed best first: each new badge pushes the rest down.
+  const revealed = result ? result.badges.slice(0, shownBadges).reverse() : [];
+  const runningScore = revealed.reduce(
+    (sum, badge) => sum + (badge.counts ? badge.points : 0),
+    0,
+  );
+  const shownScore = result ? (done ? result.score : runningScore) : 0;
+  const rank = result ? standing(result.percentile, locale) : null;
   const reels = result
     ? [...digits].map((digit, i) => (i < lockedReels ? digit : frame.spin[i] ?? "0"))
     : Array.from({ length: IDLE_REELS }, () => "–");
 
   return (
     <div>
-      <div
-        aria-hidden="true"
-        className="mb-6 flex justify-center gap-1.5 sm:gap-2"
-      >
-        {reels.map((digit, i) => (
-          <span
-            key={i}
-            className={clsx(
-              "font-display flex h-16 w-11 items-center justify-center border text-4xl tabular-nums sm:h-24 sm:w-16 sm:text-6xl",
-              result && i < lockedReels
-                ? "border-atzar-gold bg-atzar-black text-atzar-gold-bright"
-                : "border-atzar-gold/30 bg-atzar-black/60 text-atzar-gold/40",
-              busy && "animate-pulse",
-            )}
+      <div className="atzar-cabinet mx-auto mb-6 max-w-xl p-3 sm:p-5">
+        <div aria-hidden="true" className="mb-3 flex items-center justify-between px-1">
+          {Array.from({ length: LIGHTS }, (_, i) => (
+            <span
+              key={i}
+              className={clsx(
+                "atzar-light",
+                (busy || revealing) && "atzar-light-chase",
+                celebratory && "atzar-light-party",
+              )}
+              style={{ animationDelay: `${(i % 4) * 110}ms` }}
+            />
+          ))}
+        </div>
+
+        <div
+          aria-hidden="true"
+          className="atzar-window flex justify-center gap-1.5 px-2 py-4 sm:gap-2 sm:px-4 sm:py-6"
+        >
+          {reels.map((digit, i) => {
+            const locked = result !== null && i < lockedReels;
+            const spinning = result !== null && !locked;
+            return (
+              <span
+                key={i}
+                className={clsx(
+                  "atzar-reel font-display flex h-20 w-12 items-center justify-center text-5xl tabular-nums sm:h-28 sm:w-[4.5rem] sm:text-7xl",
+                  locked && "atzar-reel-locked",
+                  spinning && "overflow-hidden",
+                  busy && "animate-pulse",
+                )}
+              >
+                <span
+                  key={locked ? "locked" : frame.tick}
+                  className={clsx(
+                    "block",
+                    locked && "atzar-digit-lock",
+                    spinning && "atzar-digit-spin",
+                  )}
+                >
+                  {digit}
+                </span>
+              </span>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 flex justify-center">
+          <button
+            type="button"
+            {...noStateRestore}
+            onClick={roll}
+            disabled={busy || revealing || !canRoll}
+            className="atzar-roll-button font-display w-full px-10 py-4 text-base uppercase tracking-[0.35em] sm:w-auto sm:min-w-64"
           >
-            {digit}
-          </span>
-        ))}
+            {busy || revealing ? t("rolling") : result ? t("rollAgain") : t("roll")}
+          </button>
+        </div>
       </div>
 
       <p className="sr-only" role="status">
@@ -200,16 +252,7 @@ export function OnlineMachine({
           : ""}
       </p>
 
-      <div className="mb-8 flex flex-col items-center gap-3">
-        <button
-          type="button"
-          {...noStateRestore}
-          onClick={roll}
-          disabled={busy || revealing || !canRoll}
-          className="font-display border border-atzar-gold bg-atzar-gold px-10 py-3 text-sm uppercase tracking-[0.3em] text-atzar-black hover:bg-atzar-gold-bright disabled:cursor-not-allowed disabled:bg-transparent disabled:text-atzar-gold/50"
-        >
-          {busy || revealing ? t("rolling") : result ? t("rollAgain") : t("roll")}
-        </button>
+      <div className="mb-8 flex flex-col items-center gap-2">
         <p className="text-xs uppercase tracking-widest text-party-cream/50">
           {freeRollAvailable
             ? t("freeRoll")
@@ -229,14 +272,67 @@ export function OnlineMachine({
         )}
       </div>
 
-      {result && shownBadges > 0 && (
-        <ul className="mb-8 grid gap-2 sm:grid-cols-2">
-          {result.badges.slice(0, shownBadges).map((badge) => (
+      {result && reelsStopped && (
+        <div
+          key={`${result.number}-${done}`}
+          className={clsx(
+            "atzar-result relative mb-6 overflow-hidden border-2 px-4 py-6 text-center",
+            done ? `atzar-tier-${result.tier} atzar-result-in` : "atzar-tier-pending",
+            celebratory && "atzar-burst",
+          )}
+        >
+          {done && newRecord && (
+            <p className="atzar-badge mb-2 text-xs uppercase tracking-[0.3em] text-atzar-gold-bright">
+              {t("newRecord")}
+            </p>
+          )}
+          <p className="mb-1 text-xs uppercase tracking-widest text-party-cream/50">
+            {t("score")}
+          </p>
+          <p
+            key={shownScore}
+            className="atzar-score font-display text-6xl tabular-nums sm:text-7xl"
+          >
+            {shownScore.toLocaleString(locale)}
+          </p>
+          {done && rank && (
+            <>
+              <p className="atzar-tier-name font-display mt-3 text-sm uppercase tracking-[0.3em]">
+                {t(`tiers.${result.tier}`)}
+              </p>
+              {result.badges.length === 0 ? (
+                <p className="mt-2 text-xs text-party-cream/50">{t("noBadges")}</p>
+              ) : (
+                <>
+                  <p className="atzar-tier-name font-display mt-2 text-3xl uppercase tracking-wide">
+                    {t(rank.key, { percent: rank.percent })}
+                  </p>
+                  <p className="text-xs text-party-cream/50">{t("ofAllRolls")}</p>
+                </>
+              )}
+              <button
+                type="button"
+                onClick={share}
+                className="atzar-share font-display mt-4 border px-5 py-2 text-xs uppercase tracking-widest"
+              >
+                {shareState === "copied" ? t("share.copied") : t("share.button")}
+              </button>
+              {shareState === "error" && (
+                <p className="mt-2 text-xs text-atzar-red">{t("share.error")}</p>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
+      {revealed.length > 0 && (
+        <ul className="flex flex-col gap-2">
+          {revealed.map((badge) => (
             <li
               key={badge.id}
               className={clsx(
-                "atzar-badge flex items-start gap-3 border px-3 py-2",
-                RARITY_STYLE[badge.rarity],
+                "atzar-badge atzar-badge-card flex items-start gap-3 border px-3 py-2",
+                `atzar-tier-${badge.rarity}`,
                 !badge.counts && "opacity-50",
               )}
             >
@@ -244,19 +340,19 @@ export function OnlineMachine({
                 {badge.emoji}
               </span>
               <span className="min-w-0 flex-1">
-                <span className="font-display block text-sm uppercase tracking-wide">
+                <span className="atzar-tier-name font-display block text-sm uppercase tracking-wide">
                   {badge.name}
                 </span>
                 <span className="block text-xs text-party-cream/60">
                   {badge.description}
                 </span>
-                <span className="mt-1 block text-[10px] uppercase tracking-widest opacity-70">
+                <span className="atzar-tier-name mt-1 block text-[10px] uppercase tracking-widest opacity-70">
                   {badge.counts ? t(`rarities.${badge.rarity}`) : t("outranked")}
                 </span>
               </span>
               <span
                 className={clsx(
-                  "font-display whitespace-nowrap text-sm",
+                  "atzar-tier-name font-display whitespace-nowrap text-sm",
                   !badge.counts && "line-through",
                 )}
               >
@@ -265,48 +361,6 @@ export function OnlineMachine({
             </li>
           ))}
         </ul>
-      )}
-
-      {done && result && (
-        <div
-          key={result.number}
-          className={clsx(
-            "atzar-badge relative overflow-hidden border px-4 py-6 text-center",
-            celebratory
-              ? "border-atzar-red bg-atzar-red/10 atzar-burst"
-              : "border-atzar-gold/40 bg-atzar-black",
-          )}
-        >
-          {newRecord && (
-            <p className="atzar-badge mb-2 text-xs uppercase tracking-[0.3em] text-atzar-red">
-              {t("newRecord")}
-            </p>
-          )}
-          <p className="mb-1 text-xs uppercase tracking-widest text-party-cream/50">
-            {t("score")}
-          </p>
-          <p className="font-display text-5xl text-atzar-gold-bright">
-            {result.score.toLocaleString(locale)}
-          </p>
-          <p className="font-display mt-3 text-sm uppercase tracking-[0.3em] text-atzar-gold">
-            {t(`tiers.${result.tier}`)}
-          </p>
-          <p className="mt-1 text-xs text-party-cream/50">
-            {result.badges.length === 0
-              ? t("noBadges")
-              : t("percentile", { percent: Math.floor(result.percentile) })}
-          </p>
-          <button
-            type="button"
-            onClick={share}
-            className="font-display mt-4 border border-atzar-gold/40 px-5 py-2 text-xs uppercase tracking-widest text-atzar-gold hover:border-atzar-gold hover:bg-atzar-gold/10"
-          >
-            {shareState === "copied" ? t("share.copied") : t("share.button")}
-          </button>
-          {shareState === "error" && (
-            <p className="mt-2 text-xs text-atzar-red">{t("share.error")}</p>
-          )}
-        </div>
       )}
     </div>
   );
