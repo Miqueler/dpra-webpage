@@ -1,5 +1,3 @@
-import type { Rank } from "@/lib/ranks";
-
 export type CoinReason =
   | "signup_bonus"
   | "daily_bonus"
@@ -12,7 +10,7 @@ export type Profile = {
   id: string;
   username: string;
   avatar_url: string | null;
-  rank: Rank;
+  rank: string;
   coins: number;
   is_admin: boolean;
   machine_code: string;
@@ -20,6 +18,15 @@ export type Profile = {
   last_daily_bonus_at: string | null;
   /** Null until the citizen accepts the privacy policy. */
   privacy_accepted_at: string | null;
+  created_at: string;
+};
+
+/** A rank the Commissariat has created. `profiles.rank` holds its name. */
+export type Rank = {
+  id: string;
+  name: string;
+  /** The rank new citizens start with. Exactly one rank has it. */
+  is_default: boolean;
   created_at: string;
 };
 
@@ -86,7 +93,7 @@ export type LeaderboardRow = {
   user_id: string;
   username: string;
   avatar_url: string | null;
-  rank: Rank;
+  rank: string;
   best_score: number | null;
   plays: number;
 };
@@ -95,7 +102,7 @@ export type AdminCitizen = {
   id: string;
   username: string;
   avatar_url: string | null;
-  rank: Rank;
+  rank: string;
   coins: number;
   is_admin: boolean;
   machine_code: string;
@@ -119,6 +126,12 @@ export type Database = {
         Row: Profile;
         Insert: Partial<Profile> & { id: string; username: string; machine_code: string };
         Update: Partial<Profile>;
+        Relationships: [];
+      };
+      ranks: {
+        Row: Rank;
+        Insert: Partial<Rank> & { name: string };
+        Update: Partial<Rank>;
         Relationships: [];
       };
       coin_transactions: {
@@ -181,7 +194,23 @@ export type Database = {
         Returns: undefined;
       };
       set_rank: {
-        Args: { target_user: string; new_rank: Rank };
+        Args: { target_user: string; new_rank: string };
+        Returns: undefined;
+      };
+      create_rank: {
+        Args: { new_name: string };
+        Returns: undefined;
+      };
+      rename_rank: {
+        Args: { rank_id: string; new_name: string };
+        Returns: undefined;
+      };
+      set_default_rank: {
+        Args: { rank_id: string };
+        Returns: undefined;
+      };
+      delete_rank: {
+        Args: { rank_id: string };
         Returns: undefined;
       };
       delete_citizen: {

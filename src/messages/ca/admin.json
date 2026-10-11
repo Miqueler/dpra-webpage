@@ -55,6 +55,22 @@
     "delete": "Elimina el ciutadà"
   },
   "empty": "No s'ha trobat cap ciutadà al registre.",
+  "ranks": {
+    "title": "Rangs",
+    "hint": "Els nous ciutadans comencen amb el rang per defecte. Fer que un altre rang sigui el rang per defecte hi trasllada tothom qui tenia l'anterior. Reanomenar un rang el reanomena per a tothom qui el té.",
+    "nameLabel": "Nom del rang",
+    "holders": "{count, plural, one {# ciutadà} other {# ciutadans}}",
+    "default": "Per defecte",
+    "rename": "Reanomena",
+    "makeDefault": "Fes-lo per defecte",
+    "delete": "Elimina",
+    "deleteDefault": "El rang per defecte no es pot eliminar.",
+    "deleteInUse": "Un rang que tenen ciutadans no es pot eliminar.",
+    "newPlaceholder": "Nou rang",
+    "create": "Crea el rang",
+    "pending": "Processant…",
+    "empty": "No hi ha rangs. Executa l'última migració de la base de dades."
+  },
   "rankForm": {
     "label": "Rang",
     "submit": "Assigna",

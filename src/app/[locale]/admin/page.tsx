@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PosterCard, SectionHeading } from "@/components/ui/PosterCard";
 import { GrantCoinsForm } from "@/components/admin/GrantCoinsForm";
 import { RankForm } from "@/components/admin/RankForm";
+import { RankManager } from "@/components/admin/RankManager";
 import { OnlineMachineToggle } from "@/components/admin/OnlineMachineToggle";
 import { EmailLoginToggle } from "@/components/admin/EmailLoginToggle";
 import { CitizenRolls } from "@/components/admin/CitizenRolls";
@@ -66,6 +67,7 @@ export default async function AdminPage({
     { data: rollRows },
     { data: settings },
     { data: authSettings },
+    { data: rankRows },
   ] = await Promise.all([
       supabase.rpc("admin_citizens"),
       supabase
@@ -80,15 +82,20 @@ export default async function AdminPage({
         .limit(ROLLS_LIMIT),
       supabase.from("atzar_settings").select("online_enabled").maybeSingle(),
       supabase.from("auth_settings").select("email_login_enabled").maybeSingle(),
+      supabase.from("ranks").select("*").order("created_at"),
     ]);
 
   const citizens = citizenRows ?? [];
   const ledger = ledgerRows ?? [];
   const rolls = rollRows ?? [];
   const usernames = new Map(citizens.map((c) => [c.id, c.username]));
+  const ranks = (rankRows ?? []).map((rank) => ({
+    ...rank,
+    holders: citizens.filter((c) => c.rank === rank.name).length,
+  }));
+  const rankNames = ranks.map((rank) => rank.name);
 
   const t = await getTranslations("admin");
-  const tRanks = await getTranslations("common.ranks");
 
   const day = (value: string | null) =>
     value ? new Date(value).toLocaleDateString(locale) : t("never");
@@ -138,6 +145,14 @@ export default async function AdminPage({
 
       <PosterCard className="mb-8">
         <h3 className="font-display mb-1 text-xl uppercase tracking-wide text-party-cream">
+          {t("ranks.title")}
+        </h3>
+        <p className="mb-4 text-xs text-party-cream/50">{t("ranks.hint")}</p>
+        <RankManager ranks={ranks} />
+      </PosterCard>
+
+      <PosterCard className="mb-8">
+        <h3 className="font-display mb-1 text-xl uppercase tracking-wide text-party-cream">
           {t("register.title")}
         </h3>
         <p className="mb-4 text-xs text-party-cream/50">{t("register.hint")}</p>
@@ -165,7 +180,7 @@ export default async function AdminPage({
                     )}
                   </span>
                   <span className="basis-32 text-xs uppercase tracking-widest text-party-red">
-                    {tRanks(citizen.rank)}
+                    {citizen.rank}
                   </span>
                   <span className="font-display basis-20 text-atzar-gold sm:text-right">
                     {citizen.coins}¤
@@ -216,7 +231,11 @@ export default async function AdminPage({
                       <p className="mb-2 text-xs uppercase tracking-widest text-party-cream/50">
                         {t("actions.rank")}
                       </p>
-                      <RankForm userId={citizen.id} currentRank={citizen.rank} />
+                      <RankForm
+                        userId={citizen.id}
+                        currentRank={citizen.rank}
+                        ranks={rankNames}
+                      />
                     </div>
                     <div>
                       <p className="mb-2 text-xs uppercase tracking-widest text-party-cream/50">

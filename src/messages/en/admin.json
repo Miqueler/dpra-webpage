@@ -55,6 +55,22 @@
     "delete": "Delete citizen"
   },
   "empty": "No citizens found in the register.",
+  "ranks": {
+    "title": "Ranks",
+    "hint": "New citizens start with the default rank. Making another rank the default moves everyone who holds the old default to it. Renaming a rank renames it for everyone who holds it.",
+    "nameLabel": "Rank name",
+    "holders": "{count, plural, one {# citizen} other {# citizens}}",
+    "default": "Default",
+    "rename": "Rename",
+    "makeDefault": "Make default",
+    "delete": "Delete",
+    "deleteDefault": "The default rank cannot be deleted.",
+    "deleteInUse": "A rank that citizens hold cannot be deleted.",
+    "newPlaceholder": "New rank",
+    "create": "Create rank",
+    "pending": "Processing…",
+    "empty": "No ranks found. Run the latest database migration."
+  },
   "rankForm": {
     "label": "Rank",
     "submit": "Assign",

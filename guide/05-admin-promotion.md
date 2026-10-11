@@ -29,10 +29,18 @@ Deleting a citizen is permanent and takes their coins, rolls and friendships
 with them. Admins cannot be deleted from the page: set `is_admin = false` in
 the database first.
 
-Ranks are a fixed list. To add or rename one, change `RANKS` in
-`src/lib/ranks.ts`, the `ranks` names in each `src/messages/*/common.json`,
-and the `profiles_rank_check` constraint in a new migration; the tests fail
-if the three disagree.
+Ranks are kept by the admins, in the "Ranks" box on the `/admin` page — this
+needs `supabase/migrations/0012_admin_ranks.sql` to have been run. There is
+one rank to begin with, Citizen, which is the default: the rank every new
+citizen starts with. From the page an admin can:
+
+- create a rank (1 to 40 characters; "Hero" and "hero" count as the same);
+- rename a rank, which renames it for everyone who holds it;
+- make another rank the default, which moves everyone who holds the old
+  default to the new one (citizens with any other rank keep theirs);
+- delete a rank, as long as it is not the default and nobody holds it.
+
+A rank has one name, shown as typed in all three languages.
 
 Promoting
 *other* citizens to admin still has to be done the same way (directly in

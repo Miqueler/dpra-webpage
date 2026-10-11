@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { RANKS } from "@/lib/ranks";
 import { createDatabase, type TestDatabase } from "./helpers/database";
 
 // Runs the real SQL in supabase/migrations against an in-memory Postgres.
@@ -71,7 +70,7 @@ describe("signing up", () => {
     expect(profile).toMatchObject({
       username: "newcomer",
       coins: 50,
-      rank: "citizen",
+      rank: "Citizen",
       is_admin: false,
       invited_by: null,
     });
@@ -445,56 +444,217 @@ describe("grant_coins", () => {
   );
 });
 
+/** A rank no other test uses, created by an admin. Returns its id. */
+async function rank(adminId: string, name = unique("Rank")) {
+  await db.as(adminId, "select create_rank($1)", [name]);
+  const [{ id }] = await db.admin<{ id: string }>("select id from ranks where name = $1", [name]);
+  return { id, name };
+}
+
+async function rankNames() {
+  const rows = await db.admin<{ name: string }>("select name from ranks");
+  return rows.map((row) => row.name);
+}
+
 describe("set_rank", () => {
-  it.each(RANKS)("lets an admin assign the rank %j", async (rank) => {
+  it("lets an admin assign a rank that exists", async () => {
     const admin = await commissar();
     const target = await citizen();
+    const { name } = await rank(admin.id);
 
-    await db.as(admin.id, "select set_rank($1, $2)", [target.id, rank]);
+    await db.as(admin.id, "select set_rank($1, $2)", [target.id, name]);
 
-    expect((await db.profile(target.id)).rank).toBe(rank);
-  });
-
-  it("knows exactly the ranks the site translates", async () => {
-    const [{ definition }] = await db.admin<{ definition: string }>(
-      `select pg_get_constraintdef(oid) as definition
-       from pg_constraint where conname = 'profiles_rank_check'`,
-    );
-    const allowed = [...definition.matchAll(/'([^']+)'/g)].map((match) => match[1]);
-    expect(allowed.sort()).toEqual([...RANKS].sort());
+    expect((await db.profile(target.id)).rank).toBe(name);
   });
 
   it("refuses a citizen who is not an admin", async () => {
+    const admin = await commissar();
     const me = await citizen();
-    await expect(db.as(me.id, "select set_rank($1, 'supreme_leader')", [me.id])).rejects.toThrow(
+    const { name } = await rank(admin.id);
+    await expect(db.as(me.id, "select set_rank($1, $2)", [me.id, name])).rejects.toThrow(
       /Only the Commissariat/,
     );
-    expect((await db.profile(me.id)).rank).toBe("citizen");
+    expect((await db.profile(me.id)).rank).toBe("Citizen");
   });
 
   it("refuses a visitor", async () => {
     const target = await citizen();
-    await expect(db.as(null, "select set_rank($1, 'supreme_leader')", [target.id])).rejects.toThrow();
-    expect((await db.profile(target.id)).rank).toBe("citizen");
+    await expect(db.as(null, "select set_rank($1, 'Citizen')", [target.id])).rejects.toThrow();
   });
 
-  it.each(["", "Citizen", "Hero of Labour", "emperor", null])(
-    "refuses the rank %j",
-    async (rank) => {
+  it.each(["", "citizen", "Hero of Labour", "emperor", null])(
+    "refuses the rank %j, which does not exist",
+    async (name) => {
       const admin = await commissar();
       const target = await citizen();
       await expect(
-        db.as(admin.id, "select set_rank($1, $2)", [target.id, rank]),
+        db.as(admin.id, "select set_rank($1, $2)", [target.id, name]),
       ).rejects.toThrow(/Unknown rank/);
-      expect((await db.profile(target.id)).rank).toBe("citizen");
+      expect((await db.profile(target.id)).rank).toBe("Citizen");
     },
   );
 
   it("refuses a citizen who does not exist", async () => {
     const admin = await commissar();
     await expect(
-      db.as(admin.id, "select set_rank('00000000-0000-0000-0000-000000000000', 'comrade')"),
+      db.as(admin.id, "select set_rank('00000000-0000-0000-0000-000000000000', 'Citizen')"),
     ).rejects.toThrow(/Unknown citizen/);
+  });
+});
+
+describe("ranks", () => {
+  it("lets anyone read the ranks but nobody write them directly", async () => {
+    const me = await citizen();
+    expect(await db.as(null, "select name from ranks where is_default")).toHaveLength(1);
+    await expect(db.as(me.id, "insert into ranks (name) values ('Emperor')")).rejects.toThrow();
+    await expect(db.as(me.id, "update ranks set name = 'Emperor' where true")).rejects.toThrow();
+    await expect(db.as(me.id, "delete from ranks where true")).rejects.toThrow();
+    expect(await rankNames()).not.toContain("Emperor");
+    expect((await rankNames()).length).toBeGreaterThan(0);
+  });
+
+  it.each([
+    ["create_rank", "select create_rank('Emperor')"],
+    ["rename_rank", "select rename_rank((select id from ranks where is_default), 'Emperor')"],
+    ["set_default_rank", "select set_default_rank((select id from ranks where is_default))"],
+    ["delete_rank", "select delete_rank((select id from ranks where is_default))"],
+  ])("refuses %s from a citizen who is not an admin, and from a visitor", async (_name, sql) => {
+    const me = await citizen();
+    await expect(db.as(me.id, sql)).rejects.toThrow(/Only the Commissariat/);
+    await expect(db.as(null, sql)).rejects.toThrow();
+    expect(await rankNames()).not.toContain("Emperor");
+  });
+
+  it("creates a rank, trimmed, that nobody holds and is not the default", async () => {
+    const admin = await commissar();
+    const name = unique("Hero of Labour");
+    await db.as(admin.id, "select create_rank($1)", [`  ${name} `]);
+    expect(
+      await db.admin("select is_default from ranks where name = $1", [name]),
+    ).toEqual([{ is_default: false }]);
+  });
+
+  it.each(["", "   ", "x".repeat(41), null])("refuses to create the rank %j", async (name) => {
+    const admin = await commissar();
+    await expect(db.as(admin.id, "select create_rank($1)", [name])).rejects.toThrow(
+      /between 1 and 40/,
+    );
+  });
+
+  it("refuses a rank that already exists, whatever its capitals", async () => {
+    const admin = await commissar();
+    const { name } = await rank(admin.id);
+    await expect(
+      db.as(admin.id, "select create_rank($1)", [name.toUpperCase()]),
+    ).rejects.toThrow(/already exists/);
+    const other = await rank(admin.id);
+    await expect(
+      db.as(admin.id, "select rename_rank($1, $2)", [other.id, name.toLowerCase()]),
+    ).rejects.toThrow(/already exists/);
+  });
+
+  it("renames a rank for everyone who holds it", async () => {
+    const admin = await commissar();
+    const holder = await citizen();
+    const bystander = await citizen();
+    const { id, name } = await rank(admin.id);
+    await db.as(admin.id, "select set_rank($1, $2)", [holder.id, name]);
+
+    const renamed = unique("Renamed");
+    await db.as(admin.id, "select rename_rank($1, $2)", [id, renamed]);
+
+    expect((await db.profile(holder.id)).rank).toBe(renamed);
+    expect((await db.profile(bystander.id)).rank).toBe("Citizen");
+    expect(await rankNames()).not.toContain(name);
+    // Only its capitals may change, too.
+    await db.as(admin.id, "select rename_rank($1, $2)", [id, renamed.toUpperCase()]);
+    expect((await db.profile(holder.id)).rank).toBe(renamed.toUpperCase());
+  });
+
+  it("refuses to rename a rank that does not exist", async () => {
+    const admin = await commissar();
+    await expect(
+      db.as(admin.id, "select rename_rank('00000000-0000-0000-0000-000000000000', $1)", [
+        unique("Ghost"),
+      ]),
+    ).rejects.toThrow(/Unknown rank/);
+  });
+
+  it("deletes a rank nobody holds, and only that", async () => {
+    const admin = await commissar();
+    const holder = await citizen();
+    const held = await rank(admin.id);
+    const unused = await rank(admin.id);
+    await db.as(admin.id, "select set_rank($1, $2)", [holder.id, held.name]);
+
+    await expect(db.as(admin.id, "select delete_rank($1)", [held.id])).rejects.toThrow(
+      /citizens hold/,
+    );
+    await expect(
+      db.as(admin.id, "select delete_rank((select id from ranks where is_default))"),
+    ).rejects.toThrow(/default rank cannot be deleted/);
+    await db.as(admin.id, "select delete_rank($1)", [unused.id]);
+
+    const names = await rankNames();
+    expect(names).toContain(held.name);
+    expect(names).toContain("Citizen");
+    expect(names).not.toContain(unused.name);
+    // Once nobody holds it, it can go.
+    await db.as(admin.id, "select set_rank($1, 'Citizen')", [holder.id]);
+    await db.as(admin.id, "select delete_rank($1)", [held.id]);
+    expect(await rankNames()).not.toContain(held.name);
+  });
+
+  it("moves everyone on the old default rank to the new one, and gives it to newcomers", async () => {
+    const admin = await commissar();
+    const ordinary = await citizen();
+    const decorated = await citizen();
+    const medal = await rank(admin.id);
+    const next = await rank(admin.id);
+    await db.as(admin.id, "select set_rank($1, $2)", [decorated.id, medal.name]);
+
+    await db.as(admin.id, "select set_default_rank($1)", [next.id]);
+    try {
+      expect((await db.profile(ordinary.id)).rank).toBe(next.name);
+      expect((await db.profile(decorated.id)).rank).toBe(medal.name);
+      expect(await db.admin("select name from ranks where is_default")).toEqual([
+        { name: next.name },
+      ]);
+      expect((await db.profile((await citizen()).id)).rank).toBe(next.name);
+      // The old default is an ordinary rank now: unused, so it can be deleted.
+      await expect(
+        db.as(admin.id, "select delete_rank($1)", [next.id]),
+      ).rejects.toThrow(/default rank cannot be deleted/);
+    } finally {
+      // The other tests expect Citizen to be the default.
+      await db.as(admin.id, "select set_default_rank((select id from ranks where name = 'Citizen'))");
+    }
+    expect((await db.profile(ordinary.id)).rank).toBe("Citizen");
+    expect((await db.profile(decorated.id)).rank).toBe(medal.name);
+  });
+
+  it("refuses a default rank that does not exist", async () => {
+    const admin = await commissar();
+    await expect(
+      db.as(admin.id, "select set_default_rank('00000000-0000-0000-0000-000000000000')"),
+    ).rejects.toThrow(/Unknown rank/);
+    expect(await db.admin("select name from ranks where is_default")).toEqual([{ name: "Citizen" }]);
+  });
+
+  it("resets every rank assigned before to Citizen, once", async () => {
+    const migration = readFileSync(
+      join(process.cwd(), "supabase/migrations/0012_admin_ranks.sql"),
+      "utf8",
+    );
+    const admin = await commissar();
+    const holder = await citizen();
+    const { name } = await rank(admin.id);
+    await db.as(admin.id, "select set_rank($1, $2)", [holder.id, name]);
+
+    // Running the file a second time keeps what was assigned since.
+    await db.pg.exec(migration);
+    expect((await db.profile(holder.id)).rank).toBe(name);
+    expect(await rankNames()).toContain(name);
   });
 });
 
@@ -602,7 +762,7 @@ describe("admin_citizens", () => {
 
     expect(file(recruit)).toMatchObject({
       username: local,
-      rank: "citizen",
+      rank: "Citizen",
       coins: 75,
       is_admin: false,
       email: `${local}@upc.edu`,

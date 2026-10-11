@@ -3,18 +3,19 @@
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { RANKS, type Rank } from "@/lib/ranks";
 import { createClient } from "@/lib/supabase/client";
 
 export function RankForm({
   userId,
   currentRank,
+  ranks,
 }: {
   userId: string;
-  currentRank: Rank;
+  currentRank: string;
+  /** The names of every rank the Commissariat has created. */
+  ranks: string[];
 }) {
   const t = useTranslations("admin");
-  const tRanks = useTranslations("common.ranks");
   const router = useRouter();
   const [rank, setRank] = useState(currentRank);
   const [status, setStatus] = useState<"idle" | "done" | "error">("idle");
@@ -54,15 +55,15 @@ export function RankForm({
       <select
         value={rank}
         onChange={(e) => {
-          setRank(e.target.value as Rank);
+          setRank(e.target.value);
           setStatus("idle");
         }}
         aria-label={t("rankForm.label")}
         className="min-w-0 border border-party-cream/30 bg-party-black px-2 py-1.5 text-sm text-party-cream focus:border-party-red focus:outline-none sm:w-52"
       >
-        {RANKS.map((option) => (
+        {ranks.map((option) => (
           <option key={option} value={option}>
-            {tRanks(option)}
+            {option}
           </option>
         ))}
       </select>

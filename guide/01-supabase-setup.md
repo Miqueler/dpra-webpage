@@ -58,7 +58,10 @@ Easiest path (no CLI install needed):
    `supabase/migrations/0011_admin_rolls_ranks_deletion.sql` (admins see
    everyone's rolls and can delete citizens, and ranks become a fixed list —
    a rank typed in by hand before this that matches none of the new ones is
-   reset to `citizen`).
+   reset to `citizen`), then
+   `supabase/migrations/0012_admin_ranks.sql` (admins create, rename and
+   delete ranks from `/admin` and choose the default one — **the first time
+   it runs, every citizen's rank is reset to Citizen**).
    Run the files in number order.
 
 ### Alternative: Supabase CLI

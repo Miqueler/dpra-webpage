@@ -55,6 +55,22 @@
     "delete": "Eliminar ciudadano"
   },
   "empty": "No se ha encontrado ningún ciudadano en el registro.",
+  "ranks": {
+    "title": "Rangos",
+    "hint": "Los nuevos ciudadanos empiezan con el rango por defecto. Hacer que otro rango sea el rango por defecto traslada a él a todos los que tenían el anterior. Renombrar un rango lo renombra para todos los que lo tienen.",
+    "nameLabel": "Nombre del rango",
+    "holders": "{count, plural, one {# ciudadano} other {# ciudadanos}}",
+    "default": "Por defecto",
+    "rename": "Renombrar",
+    "makeDefault": "Hacer por defecto",
+    "delete": "Eliminar",
+    "deleteDefault": "El rango por defecto no se puede eliminar.",
+    "deleteInUse": "Un rango que tienen ciudadanos no se puede eliminar.",
+    "newPlaceholder": "Nuevo rango",
+    "create": "Crear rango",
+    "pending": "Procesando…",
+    "empty": "No hay rangos. Ejecuta la última migración de la base de datos."
+  },
   "rankForm": {
     "label": "Rango",
     "submit": "Asignar",
